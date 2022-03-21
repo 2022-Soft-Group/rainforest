@@ -31,3 +31,6 @@ npm run dev # 运行开发环境
 		"voorjaar.windicss-intellisense"
 
 全部都已经配置好在`.vscode/extensions.json`里面，弹出推荐安装全部安装即可。
+
+Volar推荐开启Take Over Mode去替换Vscode原生的TypeScript and JavaScript Language Features, 开启方法见https://github.com/johnsoncodehk/volar/discussions/471
+
