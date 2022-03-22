@@ -1,11 +1,20 @@
 <template>
-   <div class="flex-y-center h-full">
-     <n-button type="primary" @click="num++">
-       数字是：{{ num }}
-     </n-button>
-     <n-button>
-       数字+1：{{ num + 1 }}
-     </n-button>
+   <div class="flex flex-row">
+     <div class="basis-1/4">
+      <n-button type="primary" @click="num++">
+        数字是：{{ num }}
+      </n-button>
+     </div>
+     <div class="basis-1/4 hover:basis-1/2">
+      <n-button>
+        数字是：{{ num + 1 }}
+      </n-button>
+    </div>
+    <div class="basis-1/2 hover:basic-1/4">
+      <n-button>
+        数字是：{{ num + 1 }}
+      </n-button>
+    </div>
    </div>
 </template>
 
