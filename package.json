@@ -1,6 +1,6 @@
 {
-  "name": "yulin-fronthead",
-  "version": "0.9.3",
+  "name": "rainforest-fronthead",
+  "version": "0.0.1",
   "scripts": {
     "dev": "cross-env VITE_ENV_TYPE=dev vite",
     "dev:test": "cross-env VITE_ENV_TYPE=test vite",
