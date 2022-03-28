@@ -4,10 +4,10 @@ import App from './App.vue';
 
 async function setupApp() {
   // 引入静态资源
-  setupAssets()
+  setupAssets();
   const app = createApp(App);
   // 按需引入naiveUI
-  setupNaiveUI(app)
+  setupNaiveUI(app);
   // 路由准备就绪后挂载 App
   app.mount('#app');
 }
