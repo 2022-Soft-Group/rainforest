@@ -46,12 +46,15 @@ import {
   NTimeline,
   NTimelineItem,
   NTooltip,
+  NPageHeader,
+  NAvatar,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
 export default function setupNaiveUI(app: App) {
   const naive = create({
     components: [
+      NAvatar,
       NBreadcrumb,
       NBreadcrumbItem,
       NButton,
@@ -84,6 +87,7 @@ export default function setupNaiveUI(app: App) {
       NMessageProvider,
       NNotificationProvider,
       NPopover,
+      NPageHeader,
       NScrollbar,
       NSelect,
       NSpace,
