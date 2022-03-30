@@ -1,53 +1,32 @@
 <template>
-   <div class="logo-box">
-    <img style="height:140px;" alt="Vue logo" src="./assets/vue.png" />
-    <span/> 
-    <img style="height:140px;" alt="Vite logo" src="./assets/vite.svg" />
-    <span/>
-    <img style="height:140px;" alt="NaiveUI logo" src="./assets/naiveUI.svg">
-  </div>
-  <HelloWorld msg="Hello Vue 3 + NaiveUI + Vite + TypeScript" />
-  <div class="static-public">
-    Place static files into the <code>src/components</code> folder
-    <img style="width:90px;" src="./assets/node.png" />
+  <div class="global-header flex justify-between px-100 py-1">
+    <img :src="BrandImg" class="h-12 w-24" />
+    <div class="self-end">
+      <n-tabs type="bar" size="large">
+        <n-tab name="文章"> 文章 </n-tab>
+        <n-tab name="板块"> 板块 </n-tab>
+        <n-tab name="社区"> 社区 </n-tab>
+      </n-tabs>
+    </div>
+    <div class="flex justify-around w-50">
+      <hover-container tooltip-content="信息" class="w-40px h-full">
+        <icon-mdi-account-supervisor-circle class="text-30px text-[#666]"></icon-mdi-account-supervisor-circle>
+      </hover-container>
+      <hover-container tooltip-content="个人中心" class="w-40px h-full">
+        <icon-mdi-message-alert class="text-30px text-[#666]"></icon-mdi-message-alert>
+      </hover-container>
+      <n-avatar round :src="IconImg" class="self-center"> </n-avatar>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import HelloWorld from './components/HelloWorld.vue';
+import BrandImg from './assets/svg.svg';
+import IconImg from './assets/icon.jpg';
 </script>
 
 <style scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-.logo-box {
-  display: flex;
-  width: 100%;
-  justify-content: center;
-}
-
-.logo-box span {
-  width: 74px;
-}
-
-.static-public {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.static-public code {
-  background-color: #eee;
-  padding: 2px 4px;
-  margin: 0 4px;
-  border-radius: 4px;
-  color: #304455;
+.global-header {
+  box-shadow: 0 2px 3px rgb(0 21 41 / 8%);
 }
 </style>

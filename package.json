@@ -1,6 +1,6 @@
 {
-  "name": "yulin-fronthead",
-  "version": "0.9.3",
+  "name": "rainforest-fronthead",
+  "version": "0.0.1",
   "scripts": {
     "dev": "cross-env VITE_ENV_TYPE=dev vite",
     "dev:test": "cross-env VITE_ENV_TYPE=test vite",
@@ -46,8 +46,7 @@
     "vditor": "^3.8.12",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
-    "wangeditor": "^4.7.12",
-    "xgplayer": "^2.31.4"
+    "wangeditor": "^4.7.12"
   },
   "devDependencies": {
     "@amap/amap-jsapi-types": "^0.0.8",
