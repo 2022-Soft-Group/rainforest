@@ -1,6 +1,6 @@
 import 'virtual:windi.css';
-import 'swiper/css';
-import 'swiper/css/navigation';
+import 'swiper/css';          // 引入swiper轮播图
+import 'swiper/css/navigation';   
 import 'swiper/css/pagination';
 
 /** 引入静态资源(全局引入css、字体等) */

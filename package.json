@@ -45,8 +45,7 @@
     "vditor": "^3.8.12",
     "vue": "^3.2.31",
     "vue-router": "^4.0.14",
-    "wangeditor": "^4.7.12",
-    "xgplayer": "^2.31.4"
+    "wangeditor": "^4.7.12"
   },
   "devDependencies": {
     "@amap/amap-jsapi-types": "^0.0.8",
