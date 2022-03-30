@@ -4,7 +4,6 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     HoverContainer: typeof import('./src/components/HoverContainer.vue')['default']
     IconMdiAccountSupervisorCircle: typeof import('~icons/mdi/account-supervisor-circle')['default']
     IconMdiMessageAlert: typeof import('~icons/mdi/message-alert')['default']
