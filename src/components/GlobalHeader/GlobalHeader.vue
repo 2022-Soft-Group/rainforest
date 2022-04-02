@@ -28,7 +28,7 @@
           <icon-mdi-chat class="text-25px text-[#666]"></icon-mdi-chat>
         </n-badge>
       </hover-container>
-      <n-avatar round :src="AvatarImg" class="flex self-center"> </n-avatar>
+      <n-avatar round :src="AvatarImg" class="flex self-center" @click="handleAvatarClick"> </n-avatar>
     </div>
   </div>
 </template>
@@ -37,6 +37,12 @@
 import { useRouter, useRoute } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarImg from '@/assets/avatar.png';
+
+const router = useRouter();
+
+const handleAvatarClick = () => {
+  router.push({ name: 'login' });
+};
 </script>
 
 <style scoped>

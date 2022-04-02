@@ -1,11 +1,13 @@
 <template>
   <global-header />
-  <login></login>
+  <router-view />
 </template>
 
 <script setup lang="ts">
 import GlobalHeader from './components/GlobalHeader/GlobalHeader.vue';
-import login from './views/login/login.vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 </script>
 
 <style scoped></style>
