@@ -8,7 +8,6 @@ declare module 'vue' {
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     IconMdiBell: typeof import('~icons/mdi/bell')['default']
     IconMdiChat: typeof import('~icons/mdi/chat')['default']
-    IconMdiChatAlert: typeof import('~icons/mdi/chat-alert')['default']
     IconMdiTextSearch: typeof import('~icons/mdi/text-search')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
   }
