@@ -27,6 +27,6 @@ import IconImg from './assets/icon.jpg';
 
 <style scoped>
 .global-header {
-  box-shadow: 0 2px 3px rgb(0 21 41 / 8%);
+  box-shadow: 0 2px 4px rgb(0 21 41 / 8%);
 }
 </style>
