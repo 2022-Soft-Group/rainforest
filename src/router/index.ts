@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    redirect: { name: 'homepage' },
+    redirect: { name: 'login' },
   },
   {
     path: '/homepage',
@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/login/login.vue'),
+    component: () => import('../views/login/Login.vue'),
   },
 ];
 

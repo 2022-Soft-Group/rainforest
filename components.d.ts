@@ -4,12 +4,14 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    GlobalHeader: typeof import('./src/components/GlobalHeader/GlobalHeader.vue')['default']
+    GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     IconMdiBell: typeof import('~icons/mdi/bell')['default']
     IconMdiChat: typeof import('~icons/mdi/chat')['default']
     IconMdiTextSearch: typeof import('~icons/mdi/text-search')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
+    SignInForm: typeof import('./src/components/common/login/SignInForm.vue')['default']
+    SignUpForm: typeof import('./src/components/common/login/SignUpForm.vue')['default']
   }
 }
 

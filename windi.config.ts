@@ -70,6 +70,9 @@ export default defineConfig({
         dark: '#18181c',
         'dark-base': '#101014',
       },
+      backgroundImage: {
+        'login-pattern': "url('src/assets/bgimg.jpg')",
+      },
       textColor: {
         'black-base': '#333639',
         'white-base': 'rgba(255, 255, 255, 0.82)',
