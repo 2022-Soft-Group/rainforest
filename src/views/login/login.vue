@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-screen my-auto items-center bg-login-pattern bg-cover">
     <div class="relative flex-center wh-full">
-      <n-card :bordered="false" size="large" class="w-100 h-120 rounded-10px shadow-sm">
+      <n-card :bordered="false" size="large" class="w-100 rounded-10px shadow-sm">
         <n-gradient-text type="primary" :size="28">语林</n-gradient-text>
         <main class="pt-24px">
           <n-tabs class="card-tabs" size="large" animate justify-content="space-evenly">
