@@ -1,13 +1,13 @@
 <template>
   <n-form ref="formRef" :model="model" size="large" :show-label="false">
-    <n-form-item path="phone">
-      <n-input v-model:value="model.phone" placeholder="邮箱地址" />
+    <n-form-item path="email">
+      <n-input v-model:value="model.email" placeholder="邮箱地址" />
     </n-form-item>
     <n-form-item path="code">
       <div class="flex-y-center">
         <n-input v-model:value="model.code" placeholder="验证码" />
         <div class="w-18px"></div>
-        <n-button size="large"> 获取验证码 </n-button>
+        <n-button size="large" @click="handleGetCaptcha"> 获取验证码 </n-button>
       </div>
     </n-form-item>
     <n-form-item path="pwd">
@@ -21,13 +21,21 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { getCaptcha, register } from '@/api/user';
+import { modalDark } from 'naive-ui';
+import { reactive, ref } from 'vue';
 const model = reactive({
-  phone: '',
+  email: 'gejingze@163.com',
   code: '',
   pwd: '',
   confirmPwd: '',
 });
 
-const handleSubmit = () => {};
+const handleGetCaptcha = () => {
+  getCaptcha({ uid: model.email });
+};
+
+const handleSubmit = () => {
+  register({ uid: model.email, passwd: model.pwd, code: model.code });
+};
 </script>
