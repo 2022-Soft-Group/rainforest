@@ -1,6 +1,7 @@
 import type { App } from 'vue';
 import {
   create,
+  NBadge,
   NBreadcrumb,
   NBreadcrumbItem,
   NButton,
@@ -56,6 +57,7 @@ export default function setupNaiveUI(app: App) {
   const naive = create({
     components: [
       NAvatar,
+      NBadge,
       NBreadcrumb,
       NBreadcrumbItem,
       NButton,

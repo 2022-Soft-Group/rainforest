@@ -41,6 +41,7 @@
     "soybean-admin-layout": "^1.0.4",
     "soybean-admin-tab": "^1.2.3",
     "swiper": "^8.0.7",
+    "typescript-cookie": "^1.0.3",
     "ua-parser-js": "^1.0.2",
     "vditor": "^3.8.12",
     "vue": "^3.2.31",
