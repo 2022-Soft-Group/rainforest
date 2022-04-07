@@ -1,12 +1,14 @@
 <template>
-  <global-header />
+  <global-header v-if="route.name != 'login'" />
   <router-view />
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
+import { useMessage } from 'naive-ui';
+import { useRoute } from 'vue-router';
 
-const router = useRouter();
+window.$message = useMessage();
+const route = useRoute();
 </script>
 
 <style scoped></style>
