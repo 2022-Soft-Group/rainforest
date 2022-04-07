@@ -28,7 +28,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { backend } from '../../api/utils/request';
+import { backend } from '@/api/utils/request';
 import { useAuthStore } from '@/store/auth';
 const router = useRouter();
 const { signOut } = useAuthStore();
