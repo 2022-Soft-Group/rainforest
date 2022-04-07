@@ -3,10 +3,9 @@
     <img :src="BrandImg" class="flex self-center h-9 w-20 ml-10 mr-5" />
     <div class="flex self-end w-70 mr-5">
       <n-tabs type="bar" size="large">
-        <n-tab name="首页" @click=""> 首页 </n-tab>
-        <n-tab name="文章"> 文章 </n-tab>
-        <n-tab name="板块"> 板块 </n-tab>
-        <n-tab name="社区"> 社区 </n-tab>
+        <n-tab name="首页" @click="router.push({ name: 'homepage' })"> 首页 </n-tab>
+        <n-tab name="板块" @click="router.push({ name: 'sections' })"> 板块 </n-tab>
+        <n-tab name="专栏" @click="router.push({ name: 'columns' })"> 专栏 </n-tab>
       </n-tabs>
     </div>
     <div class="flex self-center w-80 mr-5">
@@ -41,7 +40,7 @@ import AvatarImg from '@/assets/avatar.png';
 const router = useRouter();
 
 const handleAvatarClick = () => {
-  router.push({ name: 'login' });
+  router.push({ name: 'userhome' });
 };
 </script>
 
