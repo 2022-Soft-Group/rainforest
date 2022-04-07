@@ -7,39 +7,33 @@
       <n-input v-model:value="model.passwd" type="password" show-password-on="click" placeholder="请输入密码" />
     </n-form-item>
     <n-space :vertical="true" :size="24">
-      <div class="flex-y-center justify-between">
-        <n-checkbox v-model:checked="rememberMe">记住我</n-checkbox>
-        <n-button :text="true" @click="">忘记密码？</n-button>
-      </div>
+      <n-button :text="true" @click="">忘记密码？</n-button>
       <n-button type="primary" size="large" :block="true" :round="true" @click="handleLogin"> 确定 </n-button>
     </n-space>
   </n-form>
 </template>
 
 <script setup lang="ts">
-import { login, hello } from '@/api/user';
-import { onMounted, reactive, ref } from 'vue';
+import { login } from '@/api/user';
+import { useAuthStore } from '@/store/auth';
+import { reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const { signIn } = useAuthStore();
+const router = useRouter();
 
 const model = reactive({
   email: '',
   passwd: '',
 });
 
-const rememberMe = ref(false);
-
 const handleLogin = () => {
-  if (rememberMe.value) {
-    localStorage.setItem('email', model.email);
-    localStorage.setItem('passwd', model.passwd);
-  } else {
-    localStorage.removeItem('email');
-    localStorage.removeItem('passwd');
-  }
-  login({ uid: model.email, passwd: model.passwd });
+  login({ uid: model.email, passwd: model.passwd }).then((res) => {
+    if (res.data.status == 0) {
+      signIn(res.data.token);
+      window.$message.info('登录成功');
+      router.push({ name: 'homepage' });
+    }
+  });
 };
-
-onMounted(() => {
-  model.email = localStorage.getItem('email') as string;
-  model.passwd = localStorage.getItem('passwd') as string;
-});
 </script>

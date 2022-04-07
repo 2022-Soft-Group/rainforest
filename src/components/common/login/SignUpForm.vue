@@ -10,11 +10,11 @@
         <n-button size="large" @click="handleGetCaptcha"> 获取验证码 </n-button>
       </div>
     </n-form-item>
-    <n-form-item path="pwd">
-      <n-input v-model:value="model.pwd" placeholder="密码" />
+    <n-form-item path="passwd">
+      <n-input v-model:value="model.passwd" placeholder="密码" />
     </n-form-item>
-    <n-form-item path="confirmPwd">
-      <n-input v-model:value="model.confirmPwd" placeholder="确认密码" />
+    <n-form-item path="confirmpasswd">
+      <n-input v-model:value="model.confirmpasswd" placeholder="确认密码" />
     </n-form-item>
     <n-button type="primary" size="large" :block="true" :round="true" @click="handleSubmit">确定</n-button>
   </n-form>
@@ -22,20 +22,30 @@
 
 <script setup lang="ts">
 import { getCaptcha, register } from '@/api/user';
-import { modalDark } from 'naive-ui';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
+const emits = defineEmits(['finish-register']);
+
 const model = reactive({
-  email: 'gejingze@163.com',
+  email: '',
   code: '',
-  pwd: '',
-  confirmPwd: '',
+  passwd: '',
+  confirmpasswd: '',
 });
 
 const handleGetCaptcha = () => {
+  if (model.email == '') window.$message.warning('输入邮箱不能为空');
   getCaptcha({ uid: model.email });
 };
 
 const handleSubmit = () => {
-  register({ uid: model.email, passwd: model.pwd, code: model.code });
+  if (model.passwd != model.confirmpasswd) {
+    window.$message.warning('两次输入密码不同！');
+  }
+  register({ uid: model.email, passwd: model.passwd, code: model.code }).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('注册成功');
+      emits('finish-register');
+    }
+  });
 };
 </script>
