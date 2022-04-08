@@ -1,6 +1,8 @@
 <template>
   <global-header v-if="route.name != 'login'" />
-  <router-view />
+  <global-content>
+    <router-view />
+  </global-content>
 </template>
 
 <script setup lang="ts">
