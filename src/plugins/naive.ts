@@ -1,6 +1,7 @@
 import type { App } from 'vue';
 import {
   create,
+  NBadge,
   NBreadcrumb,
   NBreadcrumbItem,
   NButton,
@@ -22,6 +23,7 @@ import {
   NGradientText,
   NGrid,
   NGridItem,
+  NIcon,
   NInput,
   NInputGroup,
   NInputNumber,
@@ -35,6 +37,7 @@ import {
   NPopover,
   NScrollbar,
   NSelect,
+  NSkeleton,
   NSpace,
   NStatistic,
   NSwitch,
@@ -56,6 +59,7 @@ export default function setupNaiveUI(app: App) {
   const naive = create({
     components: [
       NAvatar,
+      NBadge,
       NBreadcrumb,
       NBreadcrumbItem,
       NButton,
@@ -77,6 +81,7 @@ export default function setupNaiveUI(app: App) {
       NGradientText,
       NGrid,
       NGridItem,
+      NIcon,
       NInput,
       NInputGroup,
       NInputNumber,
@@ -91,6 +96,7 @@ export default function setupNaiveUI(app: App) {
       NPageHeader,
       NScrollbar,
       NSelect,
+      NSkeleton,
       NSpace,
       NStatistic,
       NSwitch,

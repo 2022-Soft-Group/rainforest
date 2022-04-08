@@ -17,6 +17,6 @@
 			"@/*": ["./src/*"],
 			"~/*": ["./*"]
 		},
-		"types": ["node","unplugin-icons/types/vue","naive-ui/volar"]
+		"types": ["node","naive-ui/volar"]
 	}
 }
