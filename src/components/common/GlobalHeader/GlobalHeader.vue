@@ -1,5 +1,5 @@
 <template>
-  <div class="global-header bg-light-200 z-0">
+  <div class="global-header bg-light-200">
     <div class="flex w-300 m-auto justify-between pr-30 py-1">
       <img :src="BrandImg" class="flex self-center h-9 w-20 ml-10 mr-5" @click="router.push({ name: 'homepage' })" />
       <div class="flex self-end mr-5">
