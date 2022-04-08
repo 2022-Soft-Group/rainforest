@@ -1,6 +1,6 @@
 <template>
   <div class="global-header flex justify-around px-20 py-1 bg-light-200">
-    <img :src="BrandImg" class="flex self-center h-9 w-20 ml-10 mr-5" />
+    <img :src="BrandImg" class="flex self-center h-9 w-20 ml-10 mr-5" @click="router.push({ name: 'homepage' })" />
     <div class="flex self-end w-70 mr-5">
       <n-tabs type="bar" size="large">
         <n-tab name="首页" @click="router.push({ name: 'homepage' })"> 首页 </n-tab>
@@ -11,7 +11,7 @@
     <div class="flex self-center w-80 mr-5">
       <n-input round placeholder="请输入搜索的文章" class="mx-4">
         <template #suffix>
-          <icon-mdi-text-search></icon-mdi-text-search>
+          <n-icon><search-icon /></n-icon>
         </template>
       </n-input>
       <n-button round type="primary">写文章</n-button>
@@ -19,29 +19,31 @@
     <div class="flex justify-around w-50">
       <hover-container tooltip-content="通知" class="w-36px h-full">
         <n-badge :value="9">
-          <icon-mdi-bell class="text-25px text-[#666]"></icon-mdi-bell>
+          <n-icon size="25">
+            <mail-icon class="text-25px text-[#666]"></mail-icon>
+          </n-icon>
         </n-badge>
       </hover-container>
       <hover-container tooltip-content="我的私信" class="w-36px h-full">
         <n-badge :value="1">
-          <icon-mdi-chat class="text-25px text-[#666]"></icon-mdi-chat>
+          <n-icon size="25">
+            <chat-icon class="text-25px text-[#666]"></chat-icon>
+          </n-icon>
         </n-badge>
       </hover-container>
-      <n-avatar round :src="AvatarImg" class="flex self-center" @click="handleAvatarClick"> </n-avatar>
+      <div class="w-36px h-full pt-2">
+        <avatar-dropdown />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
-import AvatarImg from '@/assets/avatar.png';
-
+import AvatarDropdown from './AvatarDropdown.vue';
+import { ChatbubbleSharp as ChatIcon, Mail as MailIcon, Search as SearchIcon } from '@vicons/ionicons5';
 const router = useRouter();
-
-const handleAvatarClick = () => {
-  router.push({ name: 'userhome' });
-};
 </script>
 
 <style scoped>
