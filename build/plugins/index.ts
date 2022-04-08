@@ -16,7 +16,7 @@ export function setupVitePlugins(
   srcPath: string,
   viteEnv: ImportMetaEnv
 ): (PluginOption | PluginOption[])[] {
-  const plugins = [vue, html(configEnv), ...autoImport(srcPath), windicss];
+  const plugins = [vue, html(configEnv), ...autoImport(), windicss];
 
   if (configEnv.command === 'build' && viteEnv.VITE_VISUALIZER === 'true') {
     plugins.push(visualizer);

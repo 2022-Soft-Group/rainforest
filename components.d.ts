@@ -4,8 +4,8 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AvatarDropdown: typeof import('./src/components/common/globalheader/AvatarDropdown.vue')['default']
-    GlobalHeader: typeof import('./src/components/common/globalheader/GlobalHeader.vue')['default']
+    AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
+    GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
     SignInForm: typeof import('./src/components/login/SignInForm.vue')['default']
