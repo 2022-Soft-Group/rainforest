@@ -1,5 +1,5 @@
 <template>
-  <div>homepage</div>
+  <articles-list />
 </template>
 
 <script setup lang="ts"></script>
