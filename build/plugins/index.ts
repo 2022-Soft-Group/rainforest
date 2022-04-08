@@ -3,7 +3,6 @@ import vue from './vue';
 import html from './html';
 import autoImport from './auto-import';
 import windicss from './windicss';
-import mock from './mock';
 import visualizer from './visualizer';
 
 /**
@@ -17,7 +16,7 @@ export function setupVitePlugins(
   srcPath: string,
   viteEnv: ImportMetaEnv
 ): (PluginOption | PluginOption[])[] {
-  const plugins = [vue, html(configEnv), ...autoImport(srcPath), windicss, mock];
+  const plugins = [vue, html(configEnv), ...autoImport(), windicss];
 
   if (configEnv.command === 'build' && viteEnv.VITE_VISUALIZER === 'true') {
     plugins.push(visualizer);

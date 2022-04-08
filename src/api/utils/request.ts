@@ -5,8 +5,12 @@ const backend = axios.create({
 });
 
 backend.interceptors.request.use((config) => {
-  config.headers = { 'x-token': localStorage.getItem('token') || '' };
+  config.headers = {
+    'x-token': localStorage.getItem('token') || '',
+    'Content-Type': 'application/x-www-form-urlencoded',
+  };
   config.data = qs.stringify(config.data);
+
   return config;
 });
 

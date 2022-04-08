@@ -30,7 +30,8 @@ const model = reactive({
 const handleLogin = () => {
   login({ uid: model.email, passwd: model.passwd }).then((res) => {
     if (res.data.status == 0) {
-      signIn(res.data.token);
+      localStorage.setItem('token', res.data.data.token);
+      signIn(res.data.data.token);
       window.$message.info('登录成功');
       router.push({ name: 'homepage' });
     }
