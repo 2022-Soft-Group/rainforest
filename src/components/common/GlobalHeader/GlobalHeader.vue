@@ -58,6 +58,6 @@ const showButton = ref(true);
 
 <style scoped>
 .global-header {
-  box-shadow: 0 2px 3px rgb(0 21 41 / 8%);
+  box-shadow: 0 3px 5px rgba(0, 10, 20, 0.08);
 }
 </style>
