@@ -16,7 +16,7 @@
               <sign-in-form />
             </n-tab-pane>
             <n-tab-pane name="signup" tab="账户注册">
-              <sign-up-form @finish-register="tabValue == 'signin'" />
+              <sign-up-form @finish-register="handleFinishRegister" />
             </n-tab-pane>
           </n-tabs>
         </main>
@@ -33,6 +33,10 @@ import { useAuthStore } from '@/store/auth';
 const router = useRouter();
 const { signOut } = useAuthStore();
 const tabValue = ref('signin');
+
+const handleFinishRegister = () => {
+  tabValue.value = 'signin';
+};
 
 const handleUpdateTab = (value: string) => {
   tabValue.value = value;
