@@ -52,6 +52,10 @@ import {
   NTooltip,
   NPageHeader,
   NAvatar,
+  NAnchor,
+  NAnchorLink,
+  NH1,
+  NText,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -109,6 +113,10 @@ export default function setupNaiveUI(app: App) {
       NTimeline,
       NTimelineItem,
       NTooltip,
+      NAnchor,
+      NAnchorLink,
+      NH1,
+      NText,
     ],
   });
   app.use(naive);
