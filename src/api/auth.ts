@@ -11,3 +11,7 @@ export function getCaptcha(data: { email: string }) {
 export function register(data: { email: string; passwd: string; code: string }) {
   return backend.post('auth/register', data);
 }
+
+export function logout() {
+  return backend.post('auth/logout');
+}

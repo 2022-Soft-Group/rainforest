@@ -4,7 +4,7 @@
     <n-skeleton text style="width: 60%" />
   </div>
   <div v-else>
-    <div class="font-bold text-xl m-2 mt-0 hover:text-green-600 cursor-pointer">{{ articleInfo.title }}</div>
+    <a class="font-bold text-xl m-2 mt-0 hover:text-green-600 cursor-pointer">{{ articleInfo.title }}</a>
     <div class="flex justify-between mx-2 my-4">
       <n-image
         v-if="articleInfo.image != ''"
@@ -24,7 +24,7 @@
           <template #icon>
             <n-icon size="18"><like-icon /></n-icon>
           </template>
-          {{ articleInfo.like }} 赞
+          {{ likeNum }} 赞
         </n-button>
         <n-button size="small" :secondary="!disliked" type="primary" @click="handleDislike">
           <template #icon>
@@ -55,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import {
   CaretUpOutline as LikeIcon,
   CaretDownOutline as DislikeIcon,
@@ -64,9 +64,11 @@ import {
   ChatboxEllipses as CommentIcon,
 } from '@vicons/ionicons5';
 const props = defineProps<{ isLoading: boolean; articleInfo: ArticlesListItem }>();
+const likeNum = ref(0);
 const liked = ref(false);
 const disliked = ref(false);
 const handleLike = () => {
+  likeNum.value = liked.value ? likeNum.value - 1 : likeNum.value + 1;
   liked.value = !liked.value;
   if (disliked.value) {
     disliked.value = false;
@@ -76,7 +78,12 @@ const handleLike = () => {
 const handleDislike = () => {
   disliked.value = !disliked.value;
   if (liked.value) {
+    likeNum.value--;
     liked.value = false;
   }
 };
+
+onMounted(() => {
+  likeNum.value = props.articleInfo.like;
+});
 </script>
