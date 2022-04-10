@@ -1,5 +1,5 @@
 <template>
-  <n-menu :options="menuOptions" class="w-70" />
+  <n-menu :options="menuOptions" class="w-48 h-1/1 absolute left-40" />
 </template>
 
 <script setup lang="tsx">
