@@ -5,4 +5,6 @@ type ArticlesListItem = {
   like: number;
   collection: number;
   comments: number;
+  tags: string[];
+  image: string;
 };

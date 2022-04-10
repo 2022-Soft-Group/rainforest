@@ -1,5 +1,5 @@
 <template>
-  <n-card :bordered="false" class="flex-auto m-4 rounded-10px shadow-sm">
+  <n-card :bordered="false" class="flex-auto m-4 w-180 rounded-10px shadow-sm">
     <n-tabs type="line" size="large" class="mb-6">
       <n-tab name="推荐">推荐</n-tab>
       <n-tab name="关注">关注</n-tab>
@@ -12,36 +12,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { getArticleListRecommand } from '@/api/article';
+import { ref, onMounted } from 'vue';
 
 // const props = defineProps<{ articles: Array<ArticlesListItem> }>();
 const isLoading = ref(false);
-const articles: Array<ArticlesListItem> = [
-  {
-    title: '文章标题1',
-    author: '作者1',
-    description: '文章描述',
-    like: 10,
-    collection: 20,
-    comments: 7,
-  },
-  {
-    title: '文章标题2',
-    author: '作者1',
-    description: '文章描述',
-    like: 10,
-    collection: 20,
-    comments: 7,
-  },
-  {
-    title: '文章标题3',
-    author: '作者1',
-    description: '文章描述',
-    like: 10,
-    collection: 20,
-    comments: 7,
-  },
-];
+const articles = ref<Array<ArticlesListItem>>([]);
+
+function reload() {
+  getArticleListRecommand().then((res) => {
+    if (res.data.status == 0) {
+      articles.value = res.data.data.articleInfo as Array<ArticlesListItem>;
+    } else {
+      window.$message.error('获取推荐列表失败');
+    }
+  });
+}
+
+onMounted(reload);
 </script>
 
 <style scoped></style>
