@@ -9,8 +9,8 @@
       <n-image
         v-if="articleInfo.image != ''"
         width="200"
-        object-fit="contain"
-        class="flex-none rounded-md"
+        object-fit="cover"
+        class="h-40 flex-none rounded-md"
         :src="articleInfo.image"
       ></n-image>
       <div class="w-full ml-4 text-base self-center">

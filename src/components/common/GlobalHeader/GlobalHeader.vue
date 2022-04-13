@@ -5,7 +5,7 @@
         <img :src="BrandImg" />
       </router-link>
       <div class="flex self-end mr-5">
-        <n-tabs type="bar" size="large" animated :value="(tabValue as string)">
+        <n-tabs v-model:bar-width="tabBarWidth" type="bar" size="large" animated :value="(tabValue as string)">
           <n-tab name="homepage"><router-link to="/homepage">首页</router-link></n-tab>
           <n-tab name="sections"> <router-link to="/sections">板块</router-link></n-tab>
           <n-tab name="columns"><router-link to="/columns">专栏</router-link> </n-tab>
@@ -42,7 +42,7 @@
             </n-icon>
           </n-badge>
         </div>
-        <div class="w-36px h-full pt-2">
+        <div class="w-9 h-full pt-2">
           <avatar-dropdown />
         </div>
       </div>
@@ -56,16 +56,14 @@ import { useRoute } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { NotificationsSharp as NotificationIcon, Mail as MailIcon, Search as SearchIcon } from '@vicons/ionicons5';
-import { computed } from '@vue/reactivity';
+import { computed, nextTick } from 'vue';
 
 const route = useRoute();
 const showButton = ref(true);
 
-const tabValue = computed(() => {
-  if (route.name == 'userhome') {
-    return '';
-  } else return route.name;
-});
+const tabValue = ref(route.name);
+
+const tabBarWidth = ref(0);
 
 const messages = ref<Array<MessageInfo>>([]);
 
