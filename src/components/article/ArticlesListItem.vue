@@ -4,7 +4,9 @@
     <n-skeleton text style="width: 60%" />
   </div>
   <div v-else>
-    <a class="font-bold text-xl m-2 mt-0 hover:text-green-600 cursor-pointer">{{ articleInfo.title }}</a>
+    <router-link :to="articleDirection" class="font-bold text-xl m-2 mt-0 hover:text-green-600">
+      {{ articleInfo.title }}
+    </router-link>
     <div class="flex justify-between mx-2 my-4">
       <n-image
         v-if="articleInfo.image != ''"
@@ -64,6 +66,7 @@ import {
   ChatboxEllipses as CommentIcon,
 } from '@vicons/ionicons5';
 const props = defineProps<{ isLoading: boolean; articleInfo: ArticlesListItem }>();
+const articleDirection = ref('/article/' + props.articleInfo.articleID);
 const likeNum = ref(0);
 const liked = ref(false);
 const disliked = ref(false);

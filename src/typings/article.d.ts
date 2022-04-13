@@ -7,4 +7,5 @@ type ArticlesListItem = {
   comments: number;
   tags: string[];
   image: string;
+  articleID: number;
 };
