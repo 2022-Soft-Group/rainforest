@@ -1,12 +1,14 @@
 <template>
-  <div class="global-header bg-light-200">
+  <div class="global-header sticky top-0 bg-light-200">
     <div class="flex w-300 m-auto justify-between pr-30 py-1">
-      <img :src="BrandImg" class="flex self-center h-9 w-20 ml-10 mr-5" @click="router.push({ name: 'homepage' })" />
+      <router-link to="/homepage" class="flex self-center h-9 w-20 ml-10 mr-5">
+        <img :src="BrandImg" />
+      </router-link>
       <div class="flex self-end mr-5">
-        <n-tabs type="bar" size="large">
-          <n-tab name="首页" @click="router.push({ name: 'homepage' })"> 首页 </n-tab>
-          <n-tab name="板块" @click="router.push({ name: 'sections' })"> 板块 </n-tab>
-          <n-tab name="专栏" @click="router.push({ name: 'columns' })"> 专栏 </n-tab>
+        <n-tabs v-model:bar-width="tabBarWidth" type="bar" size="large" animated :value="(tabValue as string)">
+          <n-tab name="homepage"><router-link to="/homepage">首页</router-link></n-tab>
+          <n-tab name="sections"> <router-link to="/sections">板块</router-link></n-tab>
+          <n-tab name="columns"><router-link to="/columns">专栏</router-link> </n-tab>
         </n-tabs>
       </div>
       <div class="flex self-center w-100 mr-5">
@@ -24,21 +26,23 @@
         <n-button v-if="showButton" round type="primary">写文章</n-button>
       </div>
       <div class="flex justify-around w-50">
-        <hover-container tooltip-content="通知" class="w-36px h-full">
-          <n-badge :value="9">
-            <n-icon size="25">
-              <mail-icon class="text-25px text-[#666]"></mail-icon>
-            </n-icon>
-          </n-badge>
-        </hover-container>
-        <hover-container tooltip-content="我的私信" class="w-36px h-full">
+        <div class="flex-center h-full cursor-pointer hover:bg-[#f6f6f6] dark:hover:bg-[#333]">
+          <message-dropdown :messages="messages">
+            <n-badge :value="9">
+              <n-icon size="25">
+                <mail-icon class="text-25px text-[#666]"></mail-icon>
+              </n-icon>
+            </n-badge>
+          </message-dropdown>
+        </div>
+        <div class="flex-center h-full cursor-pointer hover:bg-[#f6f6f6] dark:hover:bg-[#333]">
           <n-badge :value="1">
             <n-icon size="25">
-              <chat-icon class="text-25px text-[#666]"></chat-icon>
+              <notification-icon class="text-25px text-[#666]"></notification-icon>
             </n-icon>
           </n-badge>
-        </hover-container>
-        <div class="w-36px h-full pt-2">
+        </div>
+        <div class="w-9 h-full pt-2">
           <avatar-dropdown />
         </div>
       </div>
@@ -47,13 +51,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
-import { ChatbubbleSharp as ChatIcon, Mail as MailIcon, Search as SearchIcon } from '@vicons/ionicons5';
-const router = useRouter();
+import { NotificationsSharp as NotificationIcon, Mail as MailIcon, Search as SearchIcon } from '@vicons/ionicons5';
+import { computed, nextTick } from 'vue';
+
+const route = useRoute();
 const showButton = ref(true);
+
+const tabValue = ref(route.name);
+
+const tabBarWidth = ref(0);
+
+const messages = ref<Array<MessageInfo>>([]);
+
+//TODO: implements get message api
+function getMessages() {}
+
+//TODO: implements get trend api
+function getTrends() {}
+
+onMounted(() => {
+  getMessages();
+  getTrends();
+});
+
+// 每隔30s获取消息和动态
+window.setInterval(() => {
+  setTimeout(getMessages, 0);
+  setTimeout(getTrends, 0);
+}, 30000);
 </script>
 
 <style scoped>

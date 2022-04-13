@@ -10,6 +10,7 @@ declare module 'vue' {
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
+    MessageDropdown: typeof import('./src/components/common/globalheader/MessageDropdown.vue')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
     SignInForm: typeof import('./src/components/login/SignInForm.vue')['default']
     SignUpForm: typeof import('./src/components/login/SignUpForm.vue')['default']
