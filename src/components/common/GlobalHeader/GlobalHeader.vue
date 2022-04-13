@@ -56,7 +56,7 @@ import { useRoute } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { NotificationsSharp as NotificationIcon, Mail as MailIcon, Search as SearchIcon } from '@vicons/ionicons5';
-import { computed, nextTick } from 'vue';
+import { getMessages } from '@/api/user';
 
 const route = useRoute();
 const showButton = ref(true);
@@ -68,20 +68,24 @@ const tabBarWidth = ref(0);
 const messages = ref<Array<MessageInfo>>([]);
 
 //TODO: implements get message api
-function getMessages() {}
+function getUserMessages() {
+  getMessages().then((res) => {
+    messages.value = res.data.data.messages as Array<MessageInfo>;
+  });
+}
 
 //TODO: implements get trend api
-function getTrends() {}
+function getUserTrends() {}
 
 onMounted(() => {
-  getMessages();
-  getTrends();
+  getUserMessages();
+  getUserTrends();
 });
 
 // 每隔30s获取消息和动态
 window.setInterval(() => {
-  setTimeout(getMessages, 0);
-  setTimeout(getTrends, 0);
+  setTimeout(getUserMessages, 0);
+  setTimeout(getUserTrends, 0);
 }, 30000);
 </script>
 
