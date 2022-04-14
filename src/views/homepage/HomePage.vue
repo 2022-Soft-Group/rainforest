@@ -1,11 +1,21 @@
 <template>
-  <n-card :bordered="false" class="flex-auto m-4 w-180 rounded-10px shadow-sm">
-    <n-tabs type="line" size="large" class="mb-6">
-      <n-tab name="推荐">推荐</n-tab>
-      <n-tab name="关注">关注</n-tab>
-    </n-tabs>
-    <articles-list :articles="articles" :is-loading="isLoading" />
-  </n-card>
+  <div class="flex">
+    <n-card :bordered="false" class="basis-5/7 m-4 rounded-md shadow-sm">
+      <n-tabs type="line" size="large" class="mb-6">
+        <n-tab name="推荐">推荐</n-tab>
+        <n-tab name="关注">关注</n-tab>
+      </n-tabs>
+      <articles-list :articles="articles" :is-loading="isLoading" />
+    </n-card>
+    <div class="flex-col basis-2/7">
+      <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
+        <quick-guider />
+      </n-card>
+      <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
+        <ranking-list />
+      </n-card>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
