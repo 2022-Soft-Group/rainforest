@@ -5,7 +5,7 @@
         <img :src="BrandImg" />
       </router-link>
       <div class="flex self-end mr-5">
-        <n-tabs v-model:bar-width="tabBarWidth" type="bar" size="large" animated :value="(tabValue as string)">
+        <n-tabs type="bar" size="large" animated :value="(tabValue as string)">
           <n-tab name="homepage"><router-link to="/homepage">首页</router-link></n-tab>
           <n-tab name="sections"> <router-link to="/sections">板块</router-link></n-tab>
           <n-tab name="columns"><router-link to="/columns">专栏</router-link> </n-tab>
@@ -26,25 +26,9 @@
         <n-button v-if="showButton" round type="primary">写文章</n-button>
       </div>
       <div class="flex justify-around w-50">
-        <div class="flex-center h-full cursor-pointer hover:bg-[#f6f6f6] dark:hover:bg-[#333]">
-          <message-dropdown :messages="messages">
-            <n-badge :value="9">
-              <n-icon size="25">
-                <mail-icon class="text-25px text-[#666]"></mail-icon>
-              </n-icon>
-            </n-badge>
-          </message-dropdown>
-        </div>
-        <div class="flex-center h-full cursor-pointer hover:bg-[#f6f6f6] dark:hover:bg-[#333]">
-          <n-badge :value="1">
-            <n-icon size="25">
-              <notification-icon class="text-25px text-[#666]"></notification-icon>
-            </n-icon>
-          </n-badge>
-        </div>
-        <div class="w-9 h-full pt-2">
-          <avatar-dropdown />
-        </div>
+        <message-dropdown :messages="messages" :count="messagesCount" @mark-read="" />
+        <trend-dropdown :messages="messages" :count="messagesCount" @mark-read="" />
+        <avatar-dropdown />
       </div>
     </div>
   </div>
@@ -55,22 +39,22 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
-import { NotificationsSharp as NotificationIcon, Mail as MailIcon, Search as SearchIcon } from '@vicons/ionicons5';
+import { Search as SearchIcon } from '@vicons/ionicons5';
 import { getMessages } from '@/api/user';
 
 const route = useRoute();
 const showButton = ref(true);
-
 const tabValue = ref(route.name);
 
-const tabBarWidth = ref(0);
-
 const messages = ref<Array<MessageInfo>>([]);
+const messagesCount = ref(0);
 
-//TODO: implements get message api
+const handleMardRead = () => {};
+
 function getUserMessages() {
   getMessages().then((res) => {
     messages.value = res.data.data.messages as Array<MessageInfo>;
+    messagesCount.value = messages.value.length;
   });
 }
 
