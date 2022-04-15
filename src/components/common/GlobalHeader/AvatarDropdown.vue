@@ -1,6 +1,6 @@
 <template>
   <n-dropdown trigger="hover" :options="options" show-arrow @select="handleDropdownSelect">
-    <router-link to="/user"> <n-avatar round :src="AvatarImg"> </n-avatar></router-link>
+    <router-link class="flex-center" to="/user"> <n-avatar round :src="AvatarImg"> </n-avatar></router-link>
   </n-dropdown>
 </template>
 

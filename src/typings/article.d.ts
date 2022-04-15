@@ -1,6 +1,7 @@
 type ArticlesListItem = {
   title: string;
   author: string;
+  authorID: number;
   description: string;
   like: number;
   collection: number;
