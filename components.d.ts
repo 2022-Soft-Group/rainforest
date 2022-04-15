@@ -17,6 +17,7 @@ declare module 'vue' {
     SignInForm: typeof import('./src/components/login/SignInForm.vue')['default']
     SignUpForm: typeof import('./src/components/login/SignUpForm.vue')['default']
     TrendDropdown: typeof import('./src/components/common/globalheader/TrendDropdown.vue')['default']
+    UploadButton: typeof import('./src/components/common/UploadButton.vue')['default']
   }
 }
 

@@ -6,6 +6,11 @@ const routes: RouteRecordRaw[] = [
     redirect: { name: 'homepage' },
   },
   {
+    path: '/article/:id',
+    name: 'article',
+    component: () => import('../views/article/ArticleOverview.vue'),
+  },
+  {
     path: '/homepage',
     name: 'homepage',
     component: () => import('../views/homepage/HomePage.vue'),
