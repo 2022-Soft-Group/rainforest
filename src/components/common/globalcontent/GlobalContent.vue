@@ -1,4 +1,5 @@
 <template>
+  <!-- <div class="flex h-screen w-screen bg-light-800"></div> -->
   <div class="flex h-full w-full bg-light-800">
     <div :class="{ 'w-260': showPadding, 'w-full': !showPadding }" class="h-full m-auto">
       <slot></slot>
