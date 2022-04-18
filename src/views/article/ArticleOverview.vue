@@ -1,6 +1,6 @@
 <template>
   <n-card class="font-mono m-auto rounded-md">
-    <Markdown :source="source" :linkify="true"></Markdown>
+    <Markdown :source="source" :linkify="true" class="markdown font-serif"></Markdown>
   </n-card>
   <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
     上传Markdown
@@ -24,3 +24,12 @@ const clickUpload = () => {
   upload.value?.clearFile();
 };
 </script>
+<style scoped>
+@media only screen and (min-width: 1800px) {
+  .markdown :deep(nav) {
+    position: fixed;
+    top: 60px;
+    left: 12px;
+  }
+}
+</style>
