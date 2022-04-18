@@ -1,7 +1,8 @@
 type MessageInfo = {
   userName: string;
   userID: number;
-  actions: string;
+  userAvatar: string;
+  actions: number;
   articleTitle: string;
   articleID: string;
 };
