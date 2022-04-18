@@ -1,6 +1,6 @@
 <template>
   <n-card class="font-mono m-auto rounded-md">
-    <Markdown :source="source" :linkify="true" class="markdown font-serif"></Markdown>
+    <Markdown :source="source" :linkify="true" class="markdown"></Markdown>
   </n-card>
   <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
     上传Markdown
@@ -25,6 +25,22 @@ const clickUpload = () => {
 };
 </script>
 <style scoped>
+.markdown {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*未知原因导致h2的属性被父类属性覆盖，使用deep强制深度覆盖*/
+.markdown :deep(h2) {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 40px;
+}
+
+.markdown :deep(code) {
+  border-radius: 8px;
+  max-height: 800px;
+}
+
 @media only screen and (min-width: 1800px) {
   .markdown :deep(nav) {
     position: fixed;
