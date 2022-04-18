@@ -1,5 +1,5 @@
 <template>
-  <n-card class="font-mono m-auto rounded-md">
+  <n-card class="m-auto rounded-md w-200">
     <Markdown :source="source" :linkify="true" class="markdown"></Markdown>
   </n-card>
   <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
@@ -41,11 +41,14 @@ const clickUpload = () => {
   max-height: 800px;
 }
 
-@media only screen and (min-width: 1800px) {
+@media only screen and (min-width: 1200px) {
   .markdown :deep(nav) {
     position: fixed;
     top: 60px;
-    left: 12px;
+    left: 0px;
+  }
+  .markdown :deep(nav) ol {
+    max-width: 300px;
   }
 }
 </style>
