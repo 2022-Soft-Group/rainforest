@@ -4,102 +4,7 @@
       <n-menu :options="menuOptions" class="Menu" />
     </div>
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm">
-      <n-grid :x-gap="12" :y-gap="8" :cols="3">
-        <n-grid-item> </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="light-green" />
-        </n-grid-item>
-        <n-grid-item>
-          <div class="green" />
-        </n-grid-item>
-      </n-grid>
+      <grid-list :grids="grids" />
     </n-card>
 
     <!-- <articles-list /> -->
@@ -122,24 +27,7 @@ import {
 import { getSections } from '@/api/sections';
 import type { defineComponent } from 'vue';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
-
-function renderIcon(icon: Component) {
-  return () => h(NIcon, null, { default: () => h(icon) });
-}
-
-const articles = ref<Array<ArticlesListItem>>([]);
-onMounted(reload);
-function reload() {
-  isLoading.value = true;
-  getArticleListRecommand().then((res) => {
-    if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfo as Array<ArticlesListItem>;
-      isLoading.value = false;
-    } else {
-      window.$message.error('获取推荐列表失败');
-    }
-  });
-}
+import { getGrids } from '@/api/sections';
 
 const avatar = ref(true);
 const header = ref(true);
@@ -147,7 +35,22 @@ const headerExtra = ref(true);
 const description = ref(true);
 const footer = ref(true);
 const action = ref(true);
+const grids = ref<Array<GridListItem>>([]);
 
+onMounted(reload);
+function reload() {
+  getGrids().then((res) => {
+    if (res.data.status == 0) {
+      grids.value = res.data.data.grids as Array<GridListItem>;
+    } else {
+      window.$message.error('获取二级列表失败');
+    }
+  });
+}
+
+function renderIcon(icon: Component) {
+  return () => h(NIcon, null, { default: () => h(icon) });
+}
 const menuOptions: MenuOption[] = [
   {
     label: '前端',
