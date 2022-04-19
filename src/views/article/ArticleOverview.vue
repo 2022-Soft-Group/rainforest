@@ -1,0 +1,54 @@
+<template>
+  <n-card class="m-auto rounded-md w-200">
+    <Markdown :source="source" :linkify="true" class="markdown"></Markdown>
+  </n-card>
+  <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
+    上传Markdown
+  </upload-button>
+</template>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import Markdown from 'vue3-markdown-it';
+import type UploadButton from '@/components/common/UploadButton.vue';
+
+const upload = ref<InstanceType<typeof UploadButton> | null>(null);
+const source = ref('');
+
+const clickUpload = () => {
+  const file = upload.value?.file as File;
+  console.log(file.name);
+  file.text().then((res) => {
+    source.value = res;
+  });
+  upload.value?.clearFile();
+};
+</script>
+<style scoped>
+.markdown {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/*未知原因导致h2的属性被父类属性覆盖，使用deep强制深度覆盖*/
+.markdown :deep(h2) {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 40px;
+}
+
+.markdown :deep(code) {
+  border-radius: 8px;
+  max-height: 800px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .markdown :deep(nav) {
+    position: fixed;
+    top: 60px;
+    left: 0px;
+  }
+  .markdown :deep(nav) ol {
+    max-width: 300px;
+  }
+}
+</style>

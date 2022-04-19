@@ -3,7 +3,7 @@
     <div class="flex-center h-full cursor-pointer hover:bg-[#f6f6f6] dark:hover:bg-[#333]" @click="handleClickLoad">
       <n-badge :value="count">
         <n-icon size="25">
-          <notification-icon class="text-gray-600 hover:text-gray-700"></notification-icon>
+          <trend-icon class="text-gray-600 hover:text-gray-700"></trend-icon>
         </n-icon>
       </n-badge>
     </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="tsx">
-import { MailOpen as MarkReadIcon, NotificationsSharp as NotificationIcon } from '@vicons/ionicons5';
+import { MailOpen as MarkReadIcon, Compass as TrendIcon } from '@vicons/ionicons5';
 import { ref } from 'vue';
 const props = defineProps<{ messages: Array<MessageInfo>; count: number }>();
 const emits = defineEmits(['mark-read']);

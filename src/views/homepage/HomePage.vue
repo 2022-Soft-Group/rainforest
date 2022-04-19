@@ -26,7 +26,7 @@ function reload() {
   isLoading.value = true;
   getArticleListRecommand().then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfo as Array<ArticlesListItem>;
+      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
       isLoading.value = false;
     } else {
       window.$message.error('获取推荐列表失败');
