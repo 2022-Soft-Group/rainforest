@@ -6,21 +6,21 @@
       </router-link>
       <div class="text-base font-medium text-center">
         <router-link
-          class="inline-block p-4 border-b-2 hover:bg-gray-100"
+          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
           :class="{ 'text-[#18a058]': homepageSelected, 'border-[#18a058]': homepageSelected }"
           to="/homepage"
         >
           首页
         </router-link>
         <router-link
-          class="inline-block p-4 border-b-2 hover:bg-gray-100"
+          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
           :class="{ 'text-[#18a058]': sectionSelected, 'border-[#18a058]': sectionSelected }"
           to="/sections"
         >
           板块
         </router-link>
         <router-link
-          class="inline-block p-4 border-b-2 hover:bg-gray-100"
+          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
           :class="{ 'text-[#18a058]': columnSelected, 'border-[#18a058]': columnSelected }"
           to="/columns"
         >
@@ -80,8 +80,6 @@ const columnSelected = computed(() => {
 
 const messages = ref<Array<MessageInfo>>([]);
 const messagesCount = ref(0);
-
-const handleMardRead = () => {};
 
 function getUserMessages() {
   getMessages().then((res) => {
