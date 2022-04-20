@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';

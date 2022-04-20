@@ -5,7 +5,4 @@ type SectionInfo = {
 
 type GridListItem = {
   title: string;
-  intro: string;
-  image: string;
-  gridId: number;
 };
