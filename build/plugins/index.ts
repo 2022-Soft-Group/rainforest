@@ -4,6 +4,7 @@ import html from './html';
 import autoImport from './auto-import';
 import windicss from './windicss';
 import visualizer from './visualizer';
+import vueJsx from '@vitejs/plugin-vue-jsx';
 
 /**
  *	vite插件
@@ -16,7 +17,7 @@ export function setupVitePlugins(
   srcPath: string,
   viteEnv: ImportMetaEnv
 ): (PluginOption | PluginOption[])[] {
-  const plugins = [vue, html(configEnv), ...autoImport(), windicss];
+  const plugins = [vue, html(configEnv), ...autoImport(), windicss, vueJsx()];
 
   if (configEnv.command === 'build' && viteEnv.VITE_VISUALIZER === 'true') {
     plugins.push(visualizer);

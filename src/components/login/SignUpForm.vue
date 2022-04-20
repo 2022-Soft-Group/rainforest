@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { getCaptcha, register } from '@/api/user';
+import { getCaptcha, register } from '@/api/auth';
 import { reactive } from 'vue';
 const emits = defineEmits(['finish-register']);
 
@@ -34,14 +34,14 @@ const model = reactive({
 
 const handleGetCaptcha = () => {
   if (model.email == '') window.$message.warning('输入邮箱不能为空');
-  getCaptcha({ uid: model.email });
+  getCaptcha({ email: model.email });
 };
 
 const handleSubmit = () => {
   if (model.passwd != model.confirmpasswd) {
     window.$message.warning('两次输入密码不同！');
   }
-  register({ uid: model.email, passwd: model.passwd, code: model.code }).then((res) => {
+  register({ email: model.email, passwd: model.passwd, code: model.code }).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('注册成功');
       emits('finish-register');

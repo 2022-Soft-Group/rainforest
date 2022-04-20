@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { login } from '@/api/user';
+import { login } from '@/api/auth';
 import { useAuthStore } from '@/store/auth';
-import { reactive, ref } from 'vue';
+import { reactive } from 'vue';
 import { useRouter } from 'vue-router';
 
 const { signIn } = useAuthStore();
@@ -28,7 +28,7 @@ const model = reactive({
 });
 
 const handleLogin = () => {
-  login({ uid: model.email, passwd: model.passwd }).then((res) => {
+  login({ email: model.email, passwd: model.passwd }).then((res) => {
     if (res.data.status == 0) {
       localStorage.setItem('token', res.data.data.token);
       signIn(res.data.data.token);
