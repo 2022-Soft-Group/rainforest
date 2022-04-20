@@ -23,19 +23,19 @@
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { useRouter } from 'vue-router';
 const route = useRouter();
-//const props = defineProps<{ grids: Array<GridListItem> }>();
+const props = defineProps<{ grids: Array<GridListItem> }>();
 const gridDirection = '/homepage';
-const grids: GridListItem[] = [
-  {
-    title: '【学习 HTML】',
-  },
-  {
-    title: '【学习 HTML5】',
-  },
-  {
-    title: '【学习 CSS】',
-  },
-];
+// const grids: GridListItem[] = [
+//   {
+//     title: '【学习 HTML】',
+//   },
+//   {
+//     title: '【学习 HTML5】',
+//   },
+//   {
+//     title: '【学习 CSS】',
+//   },
+// ];
 </script>
 
 <style scoped>
