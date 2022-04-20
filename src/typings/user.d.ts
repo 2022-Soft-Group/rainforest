@@ -9,7 +9,6 @@ type MessageInfo = {
 
 type UserInfo = {
   name: string;
-  id: number;
   description: string;
   avatar: string;
 };

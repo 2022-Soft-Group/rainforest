@@ -72,7 +72,7 @@ const likeNum = ref(0);
 const liked = ref(false);
 const disliked = ref(false);
 const handleLike = () => {
-  likeArticle(props.articleInfo.articleID).then((res) => {
+  likeArticle(props.articleInfo.articleID.toString()).then((res) => {
     if (res.data.status == 0) {
       likeNum.value = liked.value ? likeNum.value - 1 : likeNum.value + 1;
       liked.value = !liked.value;
@@ -86,7 +86,7 @@ const handleLike = () => {
 };
 
 const handleDislike = () => {
-  dislikeArticle(props.articleInfo.articleID).then((res) => {
+  dislikeArticle(props.articleInfo.articleID.toString()).then((res) => {
     if (res.data.status == 0) {
       disliked.value = !disliked.value;
       if (liked.value) {
@@ -101,7 +101,7 @@ const handleDislike = () => {
 
 onMounted(() => {
   likeNum.value = props.articleInfo.like;
-  getUserLikeStatus(props.articleInfo.articleID).then((res) => {
+  getUserLikeStatus(props.articleInfo.articleID.toString()).then((res) => {
     if (res.data.status == 0) {
       liked.value = res.data.data.liked;
       disliked.value = res.data.data.disliked;
