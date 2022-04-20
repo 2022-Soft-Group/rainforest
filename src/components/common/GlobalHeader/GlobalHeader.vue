@@ -4,16 +4,28 @@
       <router-link to="/homepage" class="flex self-center h-9 w-20 ml-10 mr-5">
         <img :src="BrandImg" />
       </router-link>
-      <div class="flex self-center mr-5">
-        <n-button text name="homepage">
-          <router-link class="cursor-pointer rounded-sm px-5 py-3 hover:bg-gray-100" to="/homepage"> 首页 </router-link>
-        </n-button>
-        <n-button text name="homepage">
-          <router-link class="cursor-pointer rounded-sm px-5 py-3 hover:bg-gray-100" to="/sections"> 板块 </router-link>
-        </n-button>
-        <n-button text name="homepage">
-          <router-link class="cursor-pointer rounded-sm px-5 py-3 hover:bg-gray-100" to="/columns"> 专栏 </router-link>
-        </n-button>
+      <div class="text-base font-medium text-center">
+        <router-link
+          class="inline-block p-4 border-b-2 hover:bg-gray-100"
+          :class="{ 'text-[#18a058]': homepageSelected, 'border-[#18a058]': homepageSelected }"
+          to="/homepage"
+        >
+          首页
+        </router-link>
+        <router-link
+          class="inline-block p-4 border-b-2 hover:bg-gray-100"
+          :class="{ 'text-[#18a058]': sectionSelected, 'border-[#18a058]': sectionSelected }"
+          to="/sections"
+        >
+          板块
+        </router-link>
+        <router-link
+          class="inline-block p-4 border-b-2 hover:bg-gray-100"
+          :class="{ 'text-[#18a058]': columnSelected, 'border-[#18a058]': columnSelected }"
+          to="/columns"
+        >
+          专栏
+        </router-link>
       </div>
       <div class="flex self-center w-100 mr-5">
         <n-input
@@ -45,10 +57,26 @@ import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
 import { getMessages } from '@/api/user';
+import { computed } from '@vue/reactivity';
 
 const route = useRoute();
 const showButton = ref(true);
-const tabValue = ref(route.name);
+// const tabValue = ref("homepage");
+// const isSelectedTab = computed(()=>{
+//   return route.name == tabValue.value;
+// })
+
+const homepageSelected = computed(() => {
+  return route.name == 'homepage';
+});
+
+const sectionSelected = computed(() => {
+  return route.name == 'sections';
+});
+
+const columnSelected = computed(() => {
+  return route.name == 'columns';
+});
 
 const messages = ref<Array<MessageInfo>>([]);
 const messagesCount = ref(0);
