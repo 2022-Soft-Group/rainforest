@@ -39,7 +39,7 @@
             <n-icon><search-icon /></n-icon>
           </template>
         </n-input>
-        <n-button v-if="showButton" round type="primary">写文章</n-button>
+        <n-button v-if="showButton" round type="primary" @click="handleWriteArticle">写文章</n-button>
       </div>
       <div class="flex justify-around w-50">
         <message-dropdown :messages="messages" :count="messagesCount" @mark-read="" />
@@ -52,7 +52,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
@@ -60,6 +60,7 @@ import { getMessages } from '@/api/user';
 import { computed } from '@vue/reactivity';
 
 const route = useRoute();
+const router = useRouter();
 const showButton = ref(true);
 // const tabValue = ref("homepage");
 // const isSelectedTab = computed(()=>{
@@ -80,6 +81,10 @@ const columnSelected = computed(() => {
 
 const messages = ref<Array<MessageInfo>>([]);
 const messagesCount = ref(0);
+
+const handleWriteArticle = () => {
+  router.push({ name: 'write' });
+};
 
 function getUserMessages() {
   getMessages().then((res) => {

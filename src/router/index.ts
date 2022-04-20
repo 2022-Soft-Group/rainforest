@@ -6,9 +6,21 @@ const routes: RouteRecordRaw[] = [
     redirect: { name: 'homepage' },
   },
   {
-    path: '/article/:id',
-    name: 'article',
-    component: () => import('../views/article/ArticleOverview.vue'),
+    path: '/article',
+    name: 'articleIndex',
+    component: () => import('../views/article/index.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'article',
+        component: () => import('../views/article/ArticleDetail.vue'),
+      },
+      {
+        path: 'write',
+        name: 'write',
+        component: () => import('../views/article/WriteArticle.vue'),
+      },
+    ],
   },
   {
     path: '/homepage',
@@ -28,7 +40,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/user',
     name: 'userhome',
-    meta: { title: 'userhome', requiresAuth: true },
+    meta: { requiresAuth: true },
     component: () => import('../views/user/UserHome.vue'),
   },
   {
