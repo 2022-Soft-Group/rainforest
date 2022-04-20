@@ -4,12 +4,16 @@
       <router-link to="/homepage" class="flex self-center h-9 w-20 ml-10 mr-5">
         <img :src="BrandImg" />
       </router-link>
-      <div class="flex self-end mr-5">
-        <n-tabs type="bar" size="large" animated :value="(tabValue as string)">
-          <n-tab name="homepage"><router-link to="/homepage">首页</router-link></n-tab>
-          <n-tab name="sections"> <router-link to="/sections">板块</router-link></n-tab>
-          <n-tab name="columns"><router-link to="/columns">专栏</router-link> </n-tab>
-        </n-tabs>
+      <div class="flex self-center mr-5">
+        <n-button text name="homepage">
+          <router-link class="cursor-pointer rounded-sm px-5 py-3 hover:bg-gray-100" to="/homepage"> 首页 </router-link>
+        </n-button>
+        <n-button text name="homepage">
+          <router-link class="cursor-pointer rounded-sm px-5 py-3 hover:bg-gray-100" to="/sections"> 板块 </router-link>
+        </n-button>
+        <n-button text name="homepage">
+          <router-link class="cursor-pointer rounded-sm px-5 py-3 hover:bg-gray-100" to="/columns"> 专栏 </router-link>
+        </n-button>
       </div>
       <div class="flex self-center w-100 mr-5">
         <n-input
