@@ -1,16 +1,17 @@
 <template>
   <div class="flex">
     <n-menu :options="menuOptions" class="Menu" />
-    <n-card :bordered="false" class="m-4 rounded-md shadow-sm">
+    <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
       <grid-list></grid-list>
     </n-card>
-
-    <!-- <articles-list /> -->
+    <router-view v-slot="{ Component }">
+      <!-- <component :is="currentView"></component> -->
+    </router-view>
   </div>
 </template>
 
 <script setup lang="tsx">
-import { h, onMounted, ref } from 'vue';
+import { computed, h, onMounted, ref } from 'vue';
 import { NIcon } from 'naive-ui';
 import type { MenuOption } from 'naive-ui';
 import type { Component } from 'vue';
@@ -26,6 +27,16 @@ import { getSections } from '@/api/sections';
 import type { defineComponent } from 'vue';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { getGrids } from '@/api/sections';
+// import{ num } from './1.vue';
+
+//动态组件
+// const arr: [] = [g1,]
+// const  currentView = computed({
+//   return ;
+// });
+// const changeView = () => {
+//   re
+// }
 
 const avatar = ref(true);
 const header = ref(true);
