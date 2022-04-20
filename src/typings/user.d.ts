@@ -6,3 +6,10 @@ type MessageInfo = {
   articleTitle: string;
   articleID: string;
 };
+
+type UserInfo = {
+  name: string;
+  id: number;
+  description: string;
+  avatar: string;
+};
