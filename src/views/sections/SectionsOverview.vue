@@ -4,9 +4,9 @@
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
       <grid-list :grids="grids"></grid-list>
     </n-card>
-    <router-view v-slot="{ Component }">
-      <!-- <component :is="currentView"></component> -->
-    </router-view>
+    <!-- <router-view v-slot="{ Component }"> -->
+    <!-- <component :is="currentView"></component> -->
+    <!-- </router-view> -->
   </div>
 </template>
 
