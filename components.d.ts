@@ -9,6 +9,11 @@ declare module 'vue' {
     AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
+<<<<<<< HEAD
+=======
+    GridList: typeof import('./src/components/grid/GridList.vue')['default']
+    GridListItem: typeof import('./src/components/grid/GridListItem.vue')['default']
+>>>>>>> dev
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     MessageDropdown: typeof import('./src/components/common/GlobalHeader/MessageDropdown.vue')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
