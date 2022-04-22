@@ -1,7 +1,7 @@
 <template>
   <n-card class="flex m-auto rounded-md w-200">
     <template #cover v-if="articleInfo.image != ''">
-      <n-image :fallback-src="fallbackImg" class="max-h-400" :src="articleInfo.image" />
+      <img class="max-h-400" :src="articleInfo.image" />
     </template>
     <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
     <router-link :to="'/user/' + articleInfo.authorID">
@@ -29,7 +29,6 @@ import type UploadButton from '@/components/common/UploadButton.vue';
 import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
-import content from '../article/example';
 
 export default defineComponent({
   components: {
@@ -102,7 +101,6 @@ export default defineComponent({
       userInfo,
       articleInfo,
       articleContent,
-      fallbackImg,
     };
   },
 });
