@@ -1,5 +1,8 @@
 <template>
-  <n-card class="flex m-auto m-4 rounded-md w-200">
+  <n-card class="flex m-auto mt-4 rounded-md w-200">
+    <template #cover v-if="articleInfo.image != ''">
+      <img class="max-h-400" :src="articleInfo.image" />
+    </template>
     <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
     <router-link :to="'/user/' + articleInfo.authorID">
       <n-thing>
@@ -11,7 +14,7 @@
       </n-thing>
     </router-link>
     <n-divider />
-    <Markdown :source="articleContent" :linkify="true" class="markdown"></Markdown>
+    <markdown-it-vue :content="articleContent" />
   </n-card>
   <!-- <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
     上传Markdown
@@ -19,7 +22,8 @@
 </template>
 <script setup lang="ts">
 import { ref, onMounted, h } from 'vue';
-import Markdown from 'vue3-markdown-it';
+import MarkdownItVue from 'markdown-it-vue';
+import 'markdown-it-vue/dist/markdown-it-vue.css';
 import type UploadButton from '@/components/common/UploadButton.vue';
 import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
@@ -44,6 +48,18 @@ const articleInfo = ref<ArticlesListItem>({
   image: '',
   articleID: 0,
 });
+
+const options = {
+  markdownIt: {
+    linkify: true,
+  },
+  linkAttributes: {
+    attrs: {
+      target: '_blank',
+      rel: 'noopener',
+    },
+  },
+};
 
 //const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 // const clickUpload = () => {
@@ -110,6 +126,13 @@ onMounted(() => {
   }
   .markdown :deep(nav) ol {
     max-width: 300px;
+  }
+
+  .markdown :deep(nav) a:hover {
+    border-radius: 5px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: white;
   }
 }
 </style>

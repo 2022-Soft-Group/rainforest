@@ -1,6 +1,4 @@
-import Markdown from 'vue3-markdown-it';
+import Markdown from 'markdown-it-vue';
 import type { App } from 'vue';
 
-export function setUpMarkdown(app: App) {
-  app.use(Markdown);
-}
+export function setUpMarkdown(app: App) {}

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex">
+  <div class="flex flex-y-auto">
     <n-card :bordered="false" class="basis-5/7 m-4 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab name="推荐">推荐</n-tab>
