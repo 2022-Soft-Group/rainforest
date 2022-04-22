@@ -1,7 +1,7 @@
 <template>
-  <n-card class="flex m-auto mt-4 rounded-md w-200">
+  <n-card class="flex m-auto rounded-md w-200">
     <template #cover v-if="articleInfo.image != ''">
-      <img class="max-h-400" :src="articleInfo.image" />
+      <n-image :fallback-src="fallbackImg" class="max-h-400" :src="articleInfo.image" />
     </template>
     <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
     <router-link :to="'/user/' + articleInfo.authorID">
@@ -14,7 +14,7 @@
       </n-thing>
     </router-link>
     <n-divider />
-    <markdown-it-vue :content="articleContent" />
+    <markdown-it-vue class="markdown" :content="articleContent" />
   </n-card>
   <!-- <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
     上传Markdown
@@ -22,12 +22,14 @@
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent } from 'vue';
+import fallbackImg from '@/assets/bgimg.jpg';
 import MarkdownItVue from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import type UploadButton from '@/components/common/UploadButton.vue';
 import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
+import content from '../article/example';
 
 export default defineComponent({
   components: {
@@ -100,6 +102,7 @@ export default defineComponent({
       userInfo,
       articleInfo,
       articleContent,
+      fallbackImg,
     };
   },
 });
@@ -123,28 +126,10 @@ export default defineComponent({
   border-radius: 8px;
   max-height: 800px;
 }
-.markdown :deep(nav) {
+.markdown :deep(.toc) {
   font-weight: bold;
 }
 .markdown :deep(img) {
   border-radius: 8px;
-}
-
-@media only screen and (min-width: 1400px) {
-  .markdown :deep(nav) {
-    position: fixed;
-    top: 60px;
-    left: 10px;
-  }
-  .markdown :deep(nav) ol {
-    max-width: 300px;
-  }
-
-  .markdown :deep(nav) a:hover {
-    border-radius: 5px;
-    padding-top: 4px;
-    padding-bottom: 4px;
-    background-color: white;
-  }
 }
 </style>
