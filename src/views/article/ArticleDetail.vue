@@ -20,8 +20,8 @@
     上传Markdown
   </upload-button> -->
 </template>
-<script setup lang="ts">
-import { ref, onMounted, h } from 'vue';
+<script lang="ts">
+import { ref, onMounted, defineComponent } from 'vue';
 import MarkdownItVue from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import type UploadButton from '@/components/common/UploadButton.vue';
@@ -29,67 +29,79 @@ import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
 
-const route = useRoute();
-const userInfo = ref<UserInfo>({
-  name: '',
-  description: '',
-  avatar: '',
-});
-const articleContent = ref('');
-const articleInfo = ref<ArticlesListItem>({
-  title: '',
-  author: '',
-  authorID: 0,
-  description: '',
-  like: 0,
-  collection: 0,
-  comments: 0,
-  tags: [],
-  image: '',
-  articleID: 0,
-});
-
-const options = {
-  markdownIt: {
-    linkify: true,
+export default defineComponent({
+  components: {
+    MarkdownItVue,
   },
-  linkAttributes: {
-    attrs: {
-      target: '_blank',
-      rel: 'noopener',
-    },
-  },
-};
-
-//const upload = ref<InstanceType<typeof UploadButton> | null>(null);
-// const clickUpload = () => {
-//   const file = upload.value?.file as File;
-//   console.log(file.name);
-//   file.text().then((res) => {
-//     source.value = res;
-//   });
-//   upload.value?.clearFile();
-// };
-
-onMounted(() => {
-  getArticle(route.params.id as string)
-    .then((res) => {
-      if (res.data.status == 0) {
-        articleInfo.value = res.data.data.articleInfo;
-        articleContent.value = res.data.data.articleContent;
-      } else {
-        window.$message.error('获取文章失败');
-      }
-    })
-    .then(() => {
-      getUserInfo(articleInfo.value.authorID.toString()).then((res) => {
-        if (res.data.status == 0) {
-          userInfo.value = res.data.data.user;
-        } else {
-          window.$message.error('获取用户信息失败');
-        }
-      });
+  setup() {
+    const route = useRoute();
+    const userInfo = ref<UserInfo>({
+      name: '',
+      description: '',
+      avatar: '',
     });
+    const articleContent = ref('');
+    const articleInfo = ref<ArticlesListItem>({
+      title: '',
+      author: '',
+      authorID: 0,
+      description: '',
+      like: 0,
+      collection: 0,
+      comments: 0,
+      tags: [],
+      image: '',
+      articleID: 0,
+    });
+
+    const options = {
+      markdownIt: {
+        linkify: true,
+      },
+      linkAttributes: {
+        attrs: {
+          target: '_blank',
+          rel: 'noopener',
+        },
+      },
+    };
+
+    //const upload = ref<InstanceType<typeof UploadButton> | null>(null);
+    // const clickUpload = () => {
+    //   const file = upload.value?.file as File;
+    //   console.log(file.name);
+    //   file.text().then((res) => {
+    //     source.value = res;
+    //   });
+    //   upload.value?.clearFile();
+    // };
+
+    onMounted(() => {
+      getArticle(route.params.id as string)
+        .then((res) => {
+          if (res.data.status == 0) {
+            articleInfo.value = res.data.data.articleInfo;
+            articleContent.value = res.data.data.articleContent;
+          } else {
+            window.$message.error('获取文章失败');
+          }
+        })
+        .then(() => {
+          getUserInfo(articleInfo.value.authorID.toString()).then((res) => {
+            if (res.data.status == 0) {
+              userInfo.value = res.data.data.user;
+            } else {
+              window.$message.error('获取用户信息失败');
+            }
+          });
+        });
+    });
+    return {
+      userInfo,
+      articleInfo,
+      articleContent,
+    };
+  },
 });
 </script>
 <style scoped>
