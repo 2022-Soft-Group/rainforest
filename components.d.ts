@@ -9,8 +9,6 @@ declare module 'vue' {
     AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
-    GridList: typeof import('./src/components/grid/GridList.vue')['default']
-    GridListItem: typeof import('./src/components/grid/GridListItem.vue')['default']
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     MessageDropdown: typeof import('./src/components/common/GlobalHeader/MessageDropdown.vue')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
@@ -18,6 +16,8 @@ declare module 'vue' {
     RankingList: typeof import('./src/components/common/globalcontent/RankingList.vue')['default']
     SignInForm: typeof import('./src/components/login/SignInForm.vue')['default']
     SignUpForm: typeof import('./src/components/login/SignUpForm.vue')['default']
+    TagList: typeof import('./src/components/tag/TagList.vue')['default']
+    TagListItem: typeof import('./src/components/tag/TagListItem.vue')['default']
     TrendDropdown: typeof import('./src/components/common/GlobalHeader/TrendDropdown.vue')['default']
     UploadButton: typeof import('./src/components/common/UploadButton.vue')['default']
   }

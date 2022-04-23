@@ -2,7 +2,7 @@
   <div class="flex">
     <n-menu :options="menuOptions" class="Menu" />
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <grid-list :grids="grids"></grid-list>
+      <tag-list :tags="tags"></tag-list>
     </n-card>
     <!-- <router-view v-slot="{ Component }"> -->
     <!-- <component :is="currentView"></component> -->
@@ -26,7 +26,7 @@ import {
 import { getSections } from '@/api/sections';
 import type { defineComponent } from 'vue';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
-import { getGrids } from '@/api/sections';
+import { getTags } from '@/api/sections';
 // import{ num } from './1.vue';
 
 //动态组件
@@ -37,20 +37,13 @@ import { getGrids } from '@/api/sections';
 // const changeView = () => {
 //   re
 // }
-
-const avatar = ref(true);
-const header = ref(true);
-const headerExtra = ref(true);
-const description = ref(true);
-const footer = ref(true);
-const action = ref(true);
-const grids = ref<Array<GridListItem>>([]);
+const tags = ref<Array<TagItem>>([]);
 
 onMounted(reload);
 function reload() {
-  getGrids().then((res) => {
+  getTags().then((res) => {
     if (res.data.status == 0) {
-      grids.value = res.data.data.grids as Array<GridListItem>;
+      tags.value = res.data.data.tags as Array<TagItem>;
     } else {
       window.$message.error('获取二级列表失败');
     }
