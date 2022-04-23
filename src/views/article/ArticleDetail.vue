@@ -14,18 +14,13 @@
       </n-thing>
     </router-link>
     <n-divider />
-    <markdown-it-vue class="markdown" :content="articleContent" />
+    <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
   </n-card>
-  <!-- <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
-    上传Markdown
-  </upload-button> -->
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent } from 'vue';
-import fallbackImg from '@/assets/bgimg.jpg';
 import MarkdownItVue from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue.css';
-import type UploadButton from '@/components/common/UploadButton.vue';
 import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
@@ -47,12 +42,15 @@ export default defineComponent({
       author: '',
       authorID: 0,
       description: '',
+      view: 0,
       like: 0,
       collection: 0,
       comments: 0,
       tags: [],
       image: '',
       articleID: 0,
+      column: '',
+      columnID: 0,
     });
 
     const options = {
@@ -66,16 +64,6 @@ export default defineComponent({
         },
       },
     };
-
-    //const upload = ref<InstanceType<typeof UploadButton> | null>(null);
-    // const clickUpload = () => {
-    //   const file = upload.value?.file as File;
-    //   console.log(file.name);
-    //   file.text().then((res) => {
-    //     source.value = res;
-    //   });
-    //   upload.value?.clearFile();
-    // };
 
     onMounted(() => {
       getArticle(route.params.id as string)
@@ -101,6 +89,7 @@ export default defineComponent({
       userInfo,
       articleInfo,
       articleContent,
+      options,
     };
   },
 });
