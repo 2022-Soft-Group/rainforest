@@ -13,11 +13,11 @@
           <n-tab-pane name="like" tab="点赞">
             <n-list v-if="likesList.length != 0">
               <n-list-item v-for="item in likesList">
-                <router-link :to="'/user/' + item.userID" class="hover:text-green-600">
+                <router-link :to="'/user/' + item.userID" class="hover:text-[#18a058]">
                   {{ item.userName }}
                 </router-link>
                 点赞了你的文章
-                <router-link :to="'/article/' + item.articleID" class="hover:text-green-600">
+                <router-link :to="'/article/' + item.articleID" class="hover:text-[#18a058]">
                   {{ item.articleTitle }}
                 </router-link>
               </n-list-item>
@@ -29,11 +29,11 @@
           <n-tab-pane name="comment" tab="评论">
             <n-list v-if="commentsList.length != 0">
               <n-list-item v-for="item in commentsList">
-                <router-link :to="'/user/' + item.userID" class="hover:text-green-600">
+                <router-link :to="'/user/' + item.userID" class="hover:text-[#18a058]">
                   {{ item.userName }}
                 </router-link>
                 评论了你的文章
-                <router-link :to="'/article/' + item.articleID" class="hover:text-green-600">
+                <router-link :to="'/article/' + item.articleID" class="hover:text-[#18a058]">
                   {{ item.articleTitle }}
                 </router-link>
               </n-list-item>
@@ -45,7 +45,7 @@
           <n-tab-pane name="follow" tab="关注">
             <n-list v-if="followList.length != 0">
               <n-list-item v-for="item in followList">
-                <router-link :to="'/user/' + item.userID" class="flex hover:text-green-600">
+                <router-link :to="'/user/' + item.userID" class="flex hover:text-[#18a058]">
                   <n-avatar :src="item.userAvatar"></n-avatar>
                   <div class="ml-8 self-center">{{ item.userName }}</div>
                 </router-link>

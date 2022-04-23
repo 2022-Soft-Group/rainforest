@@ -10,11 +10,11 @@
     <template #empty>
       <n-list>
         <n-list-item v-for="item in messagesList">
-          <router-link :to="'/user/' + item.userID" class="hover:text-green-600">
+          <router-link :to="'/user/' + item.userID" class="hover:text-[#18a058]">
             {{ item.userName }}
           </router-link>
           {{ item.actions }}了你的文章
-          <router-link :to="'/article/' + item.articleID" class="hover:text-green-600">
+          <router-link :to="'/article/' + item.articleID" class="hover:text-[#18a058]">
             {{ item.articleTitle }}
           </router-link>
         </n-list-item>

@@ -43,11 +43,7 @@
 	"[typescriptreact]": {
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
-<<<<<<< HEAD
-	"editor.formatOnSave": false,
-=======
 	"editor.formatOnSave": true,
->>>>>>> 4beefc1c67a3a0b98191022a4e0c8ccbe8706d17
 	"material-icon-theme.activeIconPack": "angular",
 	"material-icon-theme.files.associations": {},
 	"material-icon-theme.folders.associations": {
