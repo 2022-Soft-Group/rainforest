@@ -1,4 +1,4 @@
-import { backend } from './utils/request';
+import { backend, jsonBackend } from './utils/request';
 
 export function getArticleListRecommand() {
   return backend.get('article/list/recommend');
@@ -18,4 +18,8 @@ export function likeArticle(articleID: string) {
 
 export function dislikeArticle(articleID: string) {
   return backend.put(`article/${articleID}/dislike`);
+}
+
+export function addArticle(article: ArticleUpload) {
+  return jsonBackend.post(`article`, article);
 }
