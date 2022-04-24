@@ -1,7 +1,8 @@
 import axios from 'axios';
 import qs from 'qs';
 const backend = axios.create({
-  baseURL: 'http://47.96.71.148/api/',
+  // baseURL: 'http://47.96.71.148/api/',
+  baseURL: 'http://127.0.0.1:4523/mock/836630/',
 });
 
 const jsonBackend = axios.create({

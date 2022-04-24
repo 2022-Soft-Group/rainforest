@@ -2,8 +2,8 @@
   <div class="flex">
     <n-menu :options="sections" class="Menu" @select="handleSelect" />
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <tag-list :tags="tags" v-if="!isSelect"></tag-list>
-      <tag-list v-else :tags="tags"></tag-list>
+      <tag-list :tags="tagsArray" v-if="!isSelect"></tag-list>
+      <tag-list v-else :tags="selectedTagsArray"></tag-list>
     </n-card>
     <!-- <router-view v-slot="{ Component }"> -->
     <!-- <component :is="currentView"></component> -->
@@ -58,10 +58,11 @@ function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
 
-const tagsArray = ref<Array<TagItem>>([]);
-const selectedTagsArray = ref<Array<TagItem>>([]);
+let tagsArray = ref<Array<TagItem>>([]);
+tagsArray = tags;
+let selectedTagsArray = ref<Array<TagItem>>([]);
 
-const handleSelect = (selectedKey: string, label: string) => {
+const handleSelect = (label: string) => {
   // selectedTagsArray.value.length = 0;
   // tagsArray.forEach((element) => {
   //   if (element.key == selectedKey) {
@@ -70,7 +71,7 @@ const handleSelect = (selectedKey: string, label: string) => {
   // });
   isSelect.value = true;
   selectedTagsArray.value = tagsArray.value.filter((element: TagItem) => {
-    if (element.sectionKey == selectedKey) {
+    if (element.sectionKey == label) {
       return true;
     } else return false;
   });

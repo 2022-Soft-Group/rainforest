@@ -9,5 +9,5 @@ type TagItem = {
   title: string;
   img: string;
   description: string;
-  tagID: number;
+  id: number;
 };
