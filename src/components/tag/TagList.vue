@@ -6,7 +6,7 @@
     <n-grid-item v-for="item in tags">
       <div class="tagInfo">
         <div class="grid-title">
-          <router-link :to="tagDirection" class="font-bold text-xl m-2 text-[#18a058] pl-2">
+          <router-link :to="'/sections' + item.tagID" class="font-bold text-xl hover:text-[#18a058] m-2 pl-2">
             {{ item.title }}
           </router-link>
         </div>
@@ -21,10 +21,10 @@
 
 <script setup lang="ts">
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 const route = useRouter();
 const props = defineProps<{ tags: Array<TagItem> }>();
-const tagDirection = '/homepage';
 // const grids: GridListItem[] = [
 //   {
 //     title: '【学习 HTML】',
@@ -63,5 +63,7 @@ const tagDirection = '/homepage';
   --tw-bg-opacity: 1;
   background-color: rgba(242, 242, 242, var(--tw-bg-opacity));
   border-radius: 10px;
+  /* --tw-text-opacity: 1;
+  color: rgba(24, 160, 88, var(--tw-text-opacity)); */
 }
 </style>
