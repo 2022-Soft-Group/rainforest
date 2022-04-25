@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
-    <n-menu :options="sections" class="Menu" @select="handleSelect" />
+    <n-menu :options="sections" class="Menu" @update:value="handleSelect" />
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <tag-list :tags="tagsArray" v-if="!isSelect"></tag-list>
+      <tag-list v-if="!isSelect" :tags="tagsArray"></tag-list>
       <tag-list v-else :tags="selectedTagsArray"></tag-list>
     </n-card>
     <!-- <router-view v-slot="{ Component }"> -->

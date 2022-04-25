@@ -45,8 +45,6 @@ const props = defineProps<{ tags: Array<TagItem> }>();
   font-size: 14px;
   color: #666;
 }
-.grid-title {
-}
 .link {
   padding: 5px;
 }
