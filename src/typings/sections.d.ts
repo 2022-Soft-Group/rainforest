@@ -3,6 +3,9 @@ type SectionInfo = {
   key: string;
 };
 
-type GridListItem = {
+type Tag = {
   title: string;
+  img: string;
+  description: string;
+  id: number;
 };
