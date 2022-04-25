@@ -68,6 +68,7 @@ const handleSelect = (key: string, item: MenuOption) => {
   //     selectedTagsArray.value.push(element);
   //   }
   // });
+  window.$message.info(key);
   isSelect.value = true;
   selectedTagsArray.value = tagsArray.value.filter((element: TagItem) => {
     if (element.sectionKey == key) {

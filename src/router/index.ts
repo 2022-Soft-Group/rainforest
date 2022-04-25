@@ -29,12 +29,17 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/sections',
-    name: 'sectionsOverview',
-    component: () => import('../views/sections/SectionsOverview.vue'),
+    name: 'sectionsIndex',
+    component: () => import('../views/sections/index.vue'),
     children: [
       {
-        path: '/TagDetail',
-        name: 'TagDetail',
+        path: '',
+        name: 'sectionsOverview',
+        component: () => import('../views/sections/SectionsOverview.vue'),
+      },
+      {
+        path: ':id',
+        name: 'tagDetail',
         component: () => import('../views/sections/TagDetail.vue'),
       },
     ],
