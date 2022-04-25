@@ -53,27 +53,6 @@ export default defineComponent({
         },
       },
     };
-
-    onMounted(() => {
-      getArticle(route.params.id as string)
-        .then((res) => {
-          if (res.data.status == 0) {
-            articleInfo.value = res.data.data.articleInfo;
-            articleContent.value = res.data.data.articleContent;
-          } else {
-            window.$message.error('获取文章失败');
-          }
-        })
-        .then(() => {
-          getUserInfo(articleInfo.value.authorID.toString()).then((res) => {
-            if (res.data.status == 0) {
-              userInfo.value = res.data.data.user;
-            } else {
-              window.$message.error('获取用户信息失败');
-            }
-          });
-        });
-    });
     return {
       userInfo,
       articleInfo,

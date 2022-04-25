@@ -2,8 +2,7 @@
   <div class="flex">
     <n-menu :options="sections" class="Menu" @update:value="handleSelect" />
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <tag-list v-if="!isSelect" :tags="tagsArray"></tag-list>
-      <tag-list v-else :tags="selectedTagsArray"></tag-list>
+      <tag-list :tags="isSelect ? selectedTagsArray : tagsArray"></tag-list>
     </n-card>
     <!-- <router-view v-slot="{ Component }"> -->
     <!-- <component :is="currentView"></component> -->
@@ -62,7 +61,7 @@ let tagsArray = ref<Array<TagItem>>([]);
 tagsArray = tags;
 let selectedTagsArray = ref<Array<TagItem>>([]);
 
-const handleSelect = (label: string) => {
+const handleSelect = (key: string, item: MenuOption) => {
   // selectedTagsArray.value.length = 0;
   // tagsArray.forEach((element) => {
   //   if (element.key == selectedKey) {
@@ -71,7 +70,7 @@ const handleSelect = (label: string) => {
   // });
   isSelect.value = true;
   selectedTagsArray.value = tagsArray.value.filter((element: TagItem) => {
-    if (element.sectionKey == label) {
+    if (element.sectionKey == key) {
       return true;
     } else return false;
   });
