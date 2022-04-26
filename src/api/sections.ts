@@ -7,3 +7,7 @@ export function getSections() {
 export function getTags() {
   return backend.get('sections/tags');
 }
+
+export function getTagDetail(id: string) {
+  return backend.get(`sections/${id}`);
+}
