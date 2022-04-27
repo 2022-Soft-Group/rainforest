@@ -1,89 +1,54 @@
 <template>
-  <div id="body">
-    <div id="header"></div>
-    <div id="tableContainer">
-      <div id="tableRow">
-        <div id="main">
-          <p>
-            fdsafdfdasfdsffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-          </p>
-        </div>
-        <div id="sidebar">
-          <p>
-            fdsaffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <n-card title="用户中心" size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
+    资料
+    <n-avatar size="medium" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
+  </n-card>
 
-  <!-- <n-card title="超大卡片" size="large" id="card1"> 卡片内容 </n-card>
-
-  <div class="flex">
-    <n-card :bordered="false" class="basis-5/7 m-4 rounded-md shadow-sm">
+  <div class="flex flex-y-auto">
+    <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="我的关注">我的关注---fdsafdsfasdfdsa</n-tab-pane>
         <n-tab-pane name="我的粉丝">我的粉丝fdsaf</n-tab-pane>
-        <n-tab-pane name="我的文章">我的文dsf章</n-tab-pane>
+        <n-tab-pane name="我的文章">
+          <!-- <articles-list :articles="articles" :is-loading="isLoading" /> -->
+        </n-tab-pane>
         <n-tab-pane name="我的收藏">我的afsd收藏</n-tab-pane>
         <n-tab-pane name="我的资源">我的sdfa资源</n-tab-pane>
       </n-tabs>
-      <articles-list :articles="articles" :is-loading="isLoading" />
     </n-card>
     <div class="flex-col basis-2/7">
-      <n-card :bordered="false" class="my-4 rounded-md shadow-sm"> fdasfadsffda </n-card>
+      <n-card :bordered="false" class="my-2 rounded-md shadow-sm"> 我的成就 </n-card>
       <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        fadsfdsafsdaffdsafdasfsdafdsafdasfsd
+        关注的作者 <br />
+        关注的文章 <br />
+        关注的专栏 <br />
       </n-card>
     </div>
-  </div> -->
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const value = ref(0);
+// import { getArticleListRecommand } from '@/api/article';
+// import { ref, onMounted } from 'vue';
+
+// function reload() {
+//   isLoading.value = true;
+//   getArticleListRecommand().then((res) => {
+//     if (res.data.status == 0) {
+//       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+//       isLoading.value = false;
+//     } else {
+//       window.$message.error('获取推荐列表失败');
+//     }
+//   });
+// }
+// const isLoading = ref(false);
+// const articles = ref<Array<ArticlesListItem>>([]);
+// onMounted(reload);
 </script>
 
 <style scoped>
-#card1 {
-  width: 99%;
-  margin-left: 15px;
-  margin-right: 30px;
-}
-
-body {
-  width: 1000px;
-  position: fixed;
-}
-
-#header {
-  background-color: white;
-  margin: 10px 10px 0px 10px;
-  height: 108px;
-}
-
-#tableContainer {
-  display: table;
-  border-spacing: 10px;
-}
-
-#tableRow {
-  display: table-row;
-}
-
-#main {
-  background-color: white;
-  display: table-cell;
-  width: 70%;
-  padding: 15px;
-  vertical-align: top;
-}
-
-#sidebar {
-  background-color: white;
-  display: table-cell;
-  width: 30%;
-  padding: 15px;
-  vertical-align: top;
+#userHeader {
+  margin-top: 15px;
 }
 </style>
