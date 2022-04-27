@@ -1,7 +1,7 @@
 import { backend, jsonBackend } from './utils/request';
 
-export function getArticleListRecommand() {
-  return backend.get('article/list/recommend');
+export function getArticleListRecommand(data: { size: number; page: number }) {
+  return backend.get('article/list/recommend', { params: data });
 }
 
 export function getArticle(articleID: string) {
