@@ -1,25 +1,27 @@
 <template>
   <n-card size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
     <n-avatar :size="48" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
-    昵称
-    <n-collapse>
-      <n-collapse-item title="详细资料" name="1">
-        <div>描述:jfkdjfkdjkf</div>
-      </n-collapse-item>
-    </n-collapse>
+    昵称<br />
 
-    <n-collapse>
-      <n-collapse-item title="青铜" name="1">
-        <div>可以</div>
-      </n-collapse-item>
-      <n-collapse-item title="白银" name="2">
-        <div>很好</div>
-      </n-collapse-item>
-      <n-collapse-item title="黄金" name="3">
-        <div>真棒</div>
-      </n-collapse-item>
-    </n-collapse>
-
+    <n-ellipsis expand-trigger="click" line-clamp="2" :tooltip="false">
+      电灯熄灭 物换星移 泥牛入海<br />
+      黑暗好像 一颗巨石 按在胸口<br />
+      独脚大盗 百万富翁 摸爬滚打<br />
+      黑暗好像 一颗巨石 按在胸口
+    </n-ellipsis>
+    <template>
+      <n-collapse>
+        <n-collapse-item title="青铜" name="1">
+          <div>可以</div>
+        </n-collapse-item>
+        <n-collapse-item title="白银" name="2">
+          <div>很好</div>
+        </n-collapse-item>
+        <n-collapse-item title="黄金" name="3">
+          <div>真棒</div>
+        </n-collapse-item>
+      </n-collapse>
+    </template>
     <n-button type="info" ghost> 编辑资料 </n-button>
   </n-card>
 
