@@ -10,8 +10,6 @@ type ArticlesListItem = {
   tags: string[];
   image: string;
   articleID: number;
-  column: string;
-  columnID: number;
 };
 
 type ArticleUpload = {
