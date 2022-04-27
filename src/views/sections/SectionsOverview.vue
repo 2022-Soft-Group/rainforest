@@ -1,9 +1,17 @@
 <template>
-  <n-menu :options="menuOptions" class="w-48 h-1/1 absolute left-40" />
+  <div class="flex">
+    <n-menu :options="sections" class="Menu" @update:value="handleSelect" />
+    <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
+      <tag-list :tags="isSelect ? selectedTagsArray : tagsArray"></tag-list>
+    </n-card>
+    <!-- <router-view v-slot="{ Component }"> -->
+    <!-- <component :is="currentView"></component> -->
+    <!-- </router-view> -->
+  </div>
 </template>
 
 <script setup lang="tsx">
-import { h } from 'vue';
+import { computed, h, onMounted, ref } from 'vue';
 import { NIcon } from 'naive-ui';
 import type { MenuOption } from 'naive-ui';
 import type { Component } from 'vue';
@@ -15,149 +23,64 @@ import {
   HomeOutline as HomeIcon,
   Accessibility as AccessIcon,
 } from '@vicons/ionicons5';
+import { getSections } from '@/api/sections';
+import type { defineComponent } from 'vue';
+import { CashOutline as CashIcon } from '@vicons/ionicons5';
+import { getTags } from '@/api/sections';
+import {} from '../../store/auth';
+const tags = ref<Array<TagItem>>([]);
+const sections = ref<Array<SectionInfo>>([]);
+let isSelect = ref(false);
+
+onMounted(reload);
+function reload() {
+  getSections().then((res) => {
+    if (res.data.status == 0) {
+      sections.value = res.data.data.sections as Array<SectionInfo>;
+      sections.value.filter((element: SectionInfo) => {
+        element.icon = renderIcon(BookIcon);
+      });
+    } else {
+      window.$message.error('获取Section失败');
+    }
+  });
+  getTags().then((res) => {
+    if (res.data.status == 0) {
+      tags.value = res.data.data.tags as Array<TagItem>;
+    } else {
+      window.$message.error('获取二级列表失败');
+    }
+  });
+}
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
-// function handleUpdateValue(key: string, item: MenuOption) {
-//   window.$message.info('[onUpdate:value]: ' + JSON.stringify(key));
-//   window.$message.info('[onUpdate:value]: ' + JSON.stringify(item));
-// }
 
-const menuOptions: MenuOption[] = [
-  {
-    label: () =>
-      h(
-        RouterLink,
-        {
-          to: {
-            name: 'homepage',
-            params: {
-              lang: 'zh-CN',
-            },
-          },
-        },
-        { default: () => '回家' }
-      ),
-    key: 'go-back-home',
-    icon: renderIcon(AccessIcon),
-  },
-  {
-    key: 'divider-1',
-    type: 'divider',
-    props: {
-      style: {
-        marginLeft: '32px',
-      },
-    },
-  },
-  // {
-  //   label: () =>
-  //     h(
-  //       'a',
-  //       {
-  //         href: 'https://baike.baidu.com/item/%E4%B8%94%E5%90%AC%E9%A3%8E%E5%90%9F',
-  //         target: '_blank',
-  //         rel: 'noopenner noreferrer',
-  //       },
-  //       '且听风吟'
-  //     ),
-  //   key: 'hear-the-wind-sing',
-  //   icon: renderIcon(BookIcon),
-  // },
-  {
-    label: '前端',
-    key: 'qd',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '后端',
-    key: 'hd',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '小程序',
-    key: 'xcx',
-    icon: renderIcon(BookIcon),
-    // children: [
-    //   {
-    //     type: 'group',
-    //     label: '人物',
-    //     key: 'people',
-    //     children: [
-    //       {
-    //         label: '叙事者',
-    //         key: 'narrator',
-    //         icon: renderIcon(PersonIcon),
-    //       },
-    //       {
-    //         label: '羊男',
-    //         key: 'sheep-man',
-    //         icon: renderIcon(PersonIcon),
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     label: '饮品',
-    //     key: 'beverage',
-    //     icon: renderIcon(WineIcon),
-    //     children: [
-    //       {
-    //         label: '威士忌',
-    //         key: 'whisky',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     label: '食物',
-    //     key: 'food',
-    //     children: [
-    //       {
-    //         label: '三明治',
-    //         key: 'sandwich',
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     label: '过去增多，未来减少',
-    //     key: 'the-past-increases-the-future-recedes',
-    //   },
-    // ],
-  },
-  {
-    label: 'iOS',
-    key: 'ios',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: 'Android',
-    key: 'an',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '工具',
-    key: 'gj',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '程序员',
-    key: 'cxy',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: 'AI',
-    key: 'ai',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '云计算',
-    key: 'yjs',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '安全',
-    key: 'aq',
-    icon: renderIcon(BookIcon),
-  },
-];
+let tagsArray = ref<Array<TagItem>>([]);
+tagsArray = tags;
+let selectedTagsArray = ref<Array<TagItem>>([]);
+
+const handleSelect = (key: string, item: MenuOption) => {
+  // selectedTagsArray.value.length = 0;
+  // tagsArray.forEach((element) => {
+  //   if (element.key == selectedKey) {
+  //     selectedTagsArray.value.push(element);
+  //   }
+  // });
+  window.$message.info(key);
+  isSelect.value = true;
+  selectedTagsArray.value = tagsArray.value.filter((element: TagItem) => {
+    if (element.sectionKey == key) {
+      return true;
+    } else return false;
+  });
+};
 </script>
+<style>
+.Menu {
+  position: relative;
+  left: -50px;
+  width: 220px;
+}
+</style>

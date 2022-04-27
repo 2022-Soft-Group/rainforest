@@ -5,6 +5,7 @@ import {
   NBreadcrumb,
   NBreadcrumbItem,
   NButton,
+  NBackTop,
   NCard,
   NCheckbox,
   NColorPicker,
@@ -66,6 +67,7 @@ export default function setupNaiveUI(app: App) {
     components: [
       NAvatar,
       NBadge,
+      NBackTop,
       NBreadcrumb,
       NBreadcrumbItem,
       NButton,

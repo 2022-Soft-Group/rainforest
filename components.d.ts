@@ -16,7 +16,10 @@ declare module 'vue' {
     RankingList: typeof import('./src/components/common/globalcontent/RankingList.vue')['default']
     SignInForm: typeof import('./src/components/login/SignInForm.vue')['default']
     SignUpForm: typeof import('./src/components/login/SignUpForm.vue')['default']
+    TagList: typeof import('./src/components/tag/TagList.vue')['default']
+    TagListItem: typeof import('./src/components/tag/TagListItem.vue')['default']
     TrendDropdown: typeof import('./src/components/common/GlobalHeader/TrendDropdown.vue')['default']
+    UploadButton: typeof import('./src/components/common/UploadButton.vue')['default']
   }
 }
 

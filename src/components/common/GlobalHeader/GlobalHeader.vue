@@ -4,12 +4,28 @@
       <router-link to="/homepage" class="flex self-center h-9 w-20 ml-10 mr-5">
         <img :src="BrandImg" />
       </router-link>
-      <div class="flex self-end mr-5">
-        <n-tabs type="bar" size="large" animated :value="(tabValue as string)">
-          <n-tab name="homepage"><router-link to="/homepage">首页</router-link></n-tab>
-          <n-tab name="sections"> <router-link to="/sections">板块</router-link></n-tab>
-          <n-tab name="columns"><router-link to="/columns">专栏</router-link> </n-tab>
-        </n-tabs>
+      <div class="text-base font-medium text-center">
+        <router-link
+          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
+          :class="{ 'text-[#18a058]': homepageSelected, 'border-[#18a058]': homepageSelected }"
+          to="/homepage"
+        >
+          首页
+        </router-link>
+        <router-link
+          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
+          :class="{ 'text-[#18a058]': sectionSelected, 'border-[#18a058]': sectionSelected }"
+          to="/sections"
+        >
+          板块
+        </router-link>
+        <router-link
+          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
+          :class="{ 'text-[#18a058]': columnSelected, 'border-[#18a058]': columnSelected }"
+          to="/columns"
+        >
+          专栏
+        </router-link>
       </div>
       <div class="flex self-center w-100 mr-5">
         <n-input
@@ -23,7 +39,7 @@
             <n-icon><search-icon /></n-icon>
           </template>
         </n-input>
-        <n-button v-if="showButton" round type="primary">写文章</n-button>
+        <n-button v-if="showButton" round type="primary" @click="handleWriteArticle">写文章</n-button>
       </div>
       <div class="flex justify-around w-50">
         <message-dropdown :messages="messages" :count="messagesCount" @mark-read="" />
@@ -35,21 +51,39 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onMounted, ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
 import { getMessages } from '@/api/user';
 
 const route = useRoute();
+const router = useRouter();
 const showButton = ref(true);
-const tabValue = ref(route.name);
+// const tabValue = ref("homepage");
+// const isSelectedTab = computed(()=>{
+//   return route.name == tabValue.value;
+// })
+
+const homepageSelected = computed(() => {
+  return route.name == 'homepage';
+});
+
+const sectionSelected = computed(() => {
+  return route.name == 'sections';
+});
+
+const columnSelected = computed(() => {
+  return route.name == 'columns';
+});
 
 const messages = ref<Array<MessageInfo>>([]);
 const messagesCount = ref(0);
 
-const handleMardRead = () => {};
+const handleWriteArticle = () => {
+  router.push({ name: 'write' });
+};
 
 function getUserMessages() {
   getMessages().then((res) => {

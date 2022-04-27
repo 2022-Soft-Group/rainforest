@@ -4,7 +4,7 @@
     <n-skeleton text style="width: 60%" />
   </div>
   <div v-else>
-    <router-link :to="articleDirection" class="font-bold text-xl m-2 mt-0 hover:text-green-600">
+    <router-link tag="a" target="_blank" :to="articleDirection" class="font-bold text-xl m-2 mt-0 hover:text-[#18a058]">
       {{ articleInfo.title }}
     </router-link>
     <div class="flex justify-between mx-2 my-4">
@@ -17,7 +17,7 @@
       ></n-image>
       <div class="w-full ml-4 text-base self-center">
         {{ articleInfo.author + ': ' + articleInfo.description + '...' }}
-        <n-button type="primary" text>查看全文</n-button>
+        <router-link :to="articleDirection"><n-button type="primary" text>查看全文</n-button></router-link>
       </div>
     </div>
     <n-space class="w-full">
@@ -65,28 +65,50 @@ import {
   Pricetags as TagsIcon,
   ChatboxEllipses as CommentIcon,
 } from '@vicons/ionicons5';
+import { dislikeArticle, getUserLikeStatus, likeArticle } from '@/api/article';
 const props = defineProps<{ isLoading: boolean; articleInfo: ArticlesListItem }>();
 const articleDirection = ref('/article/' + props.articleInfo.articleID);
 const likeNum = ref(0);
 const liked = ref(false);
 const disliked = ref(false);
 const handleLike = () => {
-  likeNum.value = liked.value ? likeNum.value - 1 : likeNum.value + 1;
-  liked.value = !liked.value;
-  if (disliked.value) {
-    disliked.value = false;
-  }
+  likeArticle(props.articleInfo.articleID.toString()).then((res) => {
+    if (res.data.status == 0) {
+      likeNum.value = liked.value ? likeNum.value - 1 : likeNum.value + 1;
+      liked.value = !liked.value;
+      if (disliked.value) {
+        disliked.value = false;
+      }
+    } else {
+      window.$message.error('现在不能点赞');
+    }
+  });
 };
 
 const handleDislike = () => {
-  disliked.value = !disliked.value;
-  if (liked.value) {
-    likeNum.value--;
-    liked.value = false;
-  }
+  dislikeArticle(props.articleInfo.articleID.toString()).then((res) => {
+    if (res.data.status == 0) {
+      disliked.value = !disliked.value;
+      if (liked.value) {
+        likeNum.value--;
+        liked.value = false;
+      }
+    } else {
+      window.$message.error('现在不能点踩');
+    }
+  });
 };
 
 onMounted(() => {
   likeNum.value = props.articleInfo.like;
+  getUserLikeStatus(props.articleInfo.articleID.toString()).then((res) => {
+    if (res.data.status == 0) {
+      liked.value = res.data.data.liked;
+      disliked.value = res.data.data.disliked;
+    } else {
+      console.log(res.data.data.status);
+      window.$message.error('获取用户点赞信息失败');
+    }
+  });
 });
 </script>

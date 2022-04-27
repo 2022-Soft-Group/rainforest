@@ -6,14 +6,43 @@ const routes: RouteRecordRaw[] = [
     redirect: { name: 'homepage' },
   },
   {
+    path: '/article',
+    name: 'articleIndex',
+    component: () => import('../views/article/index.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'article',
+        component: () => import('../views/article/ArticleDetail.vue'),
+      },
+      {
+        path: 'write',
+        name: 'write',
+        component: () => import('../views/article/WriteArticle.vue'),
+      },
+    ],
+  },
+  {
     path: '/homepage',
     name: 'homepage',
     component: () => import('../views/homepage/HomePage.vue'),
   },
   {
     path: '/sections',
-    name: 'sections',
-    component: () => import('../views/sections/SectionsOverview.vue'),
+    name: 'sectionsIndex',
+    component: () => import('../views/sections/index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'sectionsOverview',
+        component: () => import('../views/sections/SectionsOverview.vue'),
+      },
+      {
+        path: 'TagDetail',
+        name: 'tagDetail',
+        component: () => import('../views/sections/TagDetail.vue'),
+      },
+    ],
   },
   {
     path: '/columns',
@@ -23,7 +52,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/user',
     name: 'userhome',
-    meta: { title: 'userhome', requiresAuth: false },
+    meta: { requiresAuth: true },
     component: () => import('../views/user/UserHome.vue'),
   },
   {
