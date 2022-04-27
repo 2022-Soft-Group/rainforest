@@ -1,7 +1,32 @@
 <template>
+<<<<<<< HEAD
   <n-card title="用户中心" size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
     资料
     <n-avatar size="medium" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
+=======
+  <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
+    <n-avatar :size="48" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
+    昵称
+    <n-collapse>
+      <n-collapse-item title="详细资料" name="1">
+        <div>描述:jfkdjfkdjkf</div>
+      </n-collapse-item>
+    </n-collapse>
+
+    <n-collapse>
+      <n-collapse-item title="青铜" name="1">
+        <div>可以</div>
+      </n-collapse-item>
+      <n-collapse-item title="白银" name="2">
+        <div>很好</div>
+      </n-collapse-item>
+      <n-collapse-item title="黄金" name="3">
+        <div>真棒</div>
+      </n-collapse-item>
+    </n-collapse>
+
+    <n-button type="info" ghost> 编辑资料 </n-button>
+>>>>>>> dev
   </n-card>
 
   <div class="flex flex-y-auto">
@@ -10,7 +35,11 @@
         <n-tab-pane name="我的关注">我的关注---fdsafdsfasdfdsa</n-tab-pane>
         <n-tab-pane name="我的粉丝">我的粉丝fdsaf</n-tab-pane>
         <n-tab-pane name="我的文章">
+<<<<<<< HEAD
           <!-- <articles-list :articles="articles" :is-loading="isLoading" /> -->
+=======
+          <articles-list :articles="articles" :is-loading="isLoading" />
+>>>>>>> dev
         </n-tab-pane>
         <n-tab-pane name="我的收藏">我的afsd收藏</n-tab-pane>
         <n-tab-pane name="我的资源">我的sdfa资源</n-tab-pane>
@@ -28,6 +57,7 @@
 </template>
 
 <script setup lang="ts">
+<<<<<<< HEAD
 // import { getArticleListRecommand } from '@/api/article';
 // import { ref, onMounted } from 'vue';
 
@@ -45,6 +75,25 @@
 // const isLoading = ref(false);
 // const articles = ref<Array<ArticlesListItem>>([]);
 // onMounted(reload);
+=======
+import { getArticleListRecommand } from '@/api/article';
+import { ref, onMounted } from 'vue';
+
+function reload() {
+  isLoading.value = true;
+  getArticleListRecommand().then((res) => {
+    if (res.data.status == 0) {
+      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      isLoading.value = false;
+    } else {
+      window.$message.error('获取推荐列表失败');
+    }
+  });
+}
+const isLoading = ref(false);
+const articles = ref<Array<ArticlesListItem>>([]);
+onMounted(reload);
+>>>>>>> dev
 </script>
 
 <style scoped>
