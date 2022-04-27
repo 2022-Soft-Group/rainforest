@@ -7,8 +7,15 @@ type MessageInfo = {
   articleID: string;
 };
 
-type UserInfo = {
+type User = {
+  id: number;
   name: string;
   description: string;
   avatar: string;
+  sex: string;
+  email: string;
+  phone: string;
+  coin: number;
+  createTime: string;
+  modifyTime: string;
 };
