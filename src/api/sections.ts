@@ -11,3 +11,7 @@ export function getTags() {
 export function getTagDetail(id: string) {
   return backend.get(`sections/${id}`);
 }
+
+export function getTagArticleList(data: { size: number; page: number }, id: string) {
+  return backend.get(`sections/${id}/articles`, { params: data });
+}

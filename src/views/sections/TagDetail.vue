@@ -13,13 +13,9 @@
           {{ tagInfo.description }}
         </div>
       </template>
-      <template #action>
-        <n-space>
-          <n-button v-if="isFollowed" size="large" type="primary" @click="handleClick"> 关注 </n-button>
-          <n-button v-else size="large" type="primary" @click="handleClick"> 关注 </n-button>
-        </n-space>
-      </template>
     </n-thing>
+  </n-card>
+  <n-card class="flex m-auto mt-2 rounded-t-md w-200">
     <articles-list :articles="articles" :is-loading="isLoading" />
   </n-card>
 </template>
@@ -27,8 +23,9 @@
 import { ref, onMounted, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
-import { getSections, getTagDetail, getTags } from '@/api/sections';
+import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
 import { getArticleListRecommand } from '@/api/article';
+import TagListVue from '@/components/tag/TagList.vue';
 const route = useRoute();
 const isFollowed = ref(false);
 const isLoading = ref(false);
@@ -54,7 +51,7 @@ function reload() {
     }
   });
   isLoading.value = true;
-  getArticleListRecommand().then((res) => {
+  getTagArticleList({ size: 10, page: 0 }, route.params.id as string).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
       isLoading.value = false;
