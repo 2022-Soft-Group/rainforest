@@ -4,7 +4,7 @@ export function getSections() {
   return backend.get('sections');
 }
 
-export function getTags() {
+export function getTags(data: { size: number; page: number }, sectionName: string) {
   return backend.get('sections/tags');
 }
 

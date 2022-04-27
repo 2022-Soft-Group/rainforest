@@ -24,7 +24,6 @@ import { ref, onMounted, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
-import { getArticleListRecommand } from '@/api/article';
 import TagListVue from '@/components/tag/TagList.vue';
 const route = useRoute();
 const isFollowed = ref(false);
@@ -38,9 +37,6 @@ const tagInfo = ref<TagItem>({
     'Vu 自动追踪依赖的模 自动追踪依赖的模板表达式和计算属性。板表达式和计算属性。e.j 自动追踪依赖的模板表达式和计算属性。s 是 自动追踪依赖的模板表达式和计算属性。一个 自动追踪依赖的模板表达式和计算属性。用于创 自动追踪依赖的模板表达式和计算属性。建 web 交互界面的HTML 模板 + JSON 数据，再创建一个 Vue 实例，就这么简单。 自动追踪依赖的模板表达式和计算属性。',
   id: 0,
 });
-function handleClick() {
-  isFollowed.value = !isFollowed.value;
-}
 onMounted(reload);
 function reload() {
   getTagDetail(route.params.id as string).then((res) => {
