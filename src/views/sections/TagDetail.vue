@@ -54,7 +54,7 @@ function reload() {
     }
   });
   isLoading.value = true;
-  getArticleListRecommand().then((res) => {
+  getArticleListRecommand({ size: 10, page: 0 }).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
       isLoading.value = false;
