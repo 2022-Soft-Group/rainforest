@@ -31,10 +31,17 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const userInfo = ref<UserInfo>({
+    const userInfo = ref<User>({
       name: '',
       description: '',
       avatar: '',
+      id: 0,
+      sex: '',
+      email: '',
+      phone: '',
+      coin: 0,
+      createTime: '',
+      modifyTime: '',
     });
     const articleContent = ref('');
     const articleInfo = ref<ArticlesListItem>({
@@ -49,8 +56,6 @@ export default defineComponent({
       tags: [],
       image: '',
       articleID: 0,
-      column: '',
-      columnID: 0,
     });
 
     const options = {
