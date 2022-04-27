@@ -38,7 +38,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/sections/SectionsOverview.vue'),
       },
       {
-        path: ':TagDetail',
+        path: ':id',
         name: 'tagDetail',
         component: () => import('../views/sections/TagDetail.vue'),
       },
