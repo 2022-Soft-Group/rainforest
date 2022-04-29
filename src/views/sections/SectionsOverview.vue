@@ -1,6 +1,6 @@
 <template>
   <div class="flex">
-    <n-menu :options="sections" class="Menu" @update:value="handleSelect" />
+    <n-menu :options="sectionInfo" class="Menu" />
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
       <tag-list :tags="isSelect ? selectedTagsArray : tagsArray"></tag-list>
     </n-card>
@@ -29,16 +29,20 @@ import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { getTags } from '@/api/sections';
 import {} from '../../store/auth';
 const tags = ref<Array<TagItem>>([]);
-const sections = ref<Array<SectionInfo>>([]);
+const sectionInfo = ref<Array<SectionInfo>>([]);
 let isSelect = ref(false);
 
 onMounted(reload);
 function reload() {
   getSections().then((res) => {
     if (res.data.status == 0) {
-      sections.value = res.data.data.sections as Array<SectionInfo>;
-      sections.value.filter((element: SectionInfo) => {
-        element.icon = renderIcon(BookIcon);
+      sectionInfo.value.length = 0;
+      res.data.data.sections.forEach((elm: string) => {
+        sectionInfo.value.push({
+          label: elm,
+          key: elm,
+          icon: renderIcon(BookIcon),
+        });
       });
     } else {
       window.$message.error('获取Section失败');

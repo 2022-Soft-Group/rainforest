@@ -7,7 +7,7 @@
       <div class="tagInfo">
         <div class="grid-title">
           <router-link
-            :to="'/sections/TagDetail'"
+            :to="'/sections/' + item.id"
             target="_blank"
             class="font-bold text-xl hover:text-[#18a058] m-2 pl-2"
           >
