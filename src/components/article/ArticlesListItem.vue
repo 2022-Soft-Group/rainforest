@@ -48,7 +48,9 @@
         <n-space class="ml-2">
           <n-icon size="small" class="mt-2"><tags-icon /></n-icon>
           <div v-for="item in articleInfo.tags">
-            <n-tag type="primary">{{ item }}</n-tag>
+            <router-link :to="'/sections/' + item.id">
+              <n-tag type="primary" class="cursor-pointer" target="_blank">{{ item }}</n-tag>
+            </router-link>
           </div>
         </n-space>
       </div>
