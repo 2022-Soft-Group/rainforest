@@ -10,11 +10,33 @@
       ></n-input>
       <div ref="domRef"></div>
     </n-card>
-    <upload-button style="width: 20%; margin-top: 10px" :show-file-list="false" ref="upload" @change="clickUpload">
-      上传封面图片
-    </upload-button>
-    <n-button @click="uploadArticle">上传文章</n-button>
-    <img :src="image" />
+    <n-divider />
+
+    <n-card class="flex m-auto mt-4 rounded-md">
+      <n-h2 class="flex m-4 font-semibold">发布选项</n-h2>
+      <n-space justify="space-around">
+        <upload-button
+          class="w-60 h-48 m-4 border-2 border-dashed rounded-md"
+          :show-file-list="false"
+          ref="upload"
+          @change="clickUpload"
+        >
+          <div v-if="image == ''" class="m-18 text-gray-400">
+            <div>点击上传封面</div>
+            <div>.jpeg/.png/.svg</div>
+          </div>
+          <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="image" />
+        </upload-button>
+        <n-space vertical class="self-start m-4">
+          <n-space>
+            <n-radio :checked="!isPublished" @change="isPublished = !isPublished"> 不发布到专栏 </n-radio>
+            <n-radio :checked="isPublished" @change="isPublished = !isPublished"> 发布到专栏 </n-radio>
+          </n-space>
+          <n-select v-if="isPublished"></n-select>
+        </n-space>
+      </n-space>
+      <n-button class="m-auto" @click="uploadArticle">上传文章</n-button>
+    </n-card>
   </div>
 </template>
 
@@ -25,7 +47,6 @@ import type UploadButton from '@/components/common/UploadButton.vue';
 import 'vditor/src/assets/scss/index.scss';
 import { uploadImage } from '@/api/asset';
 import { addArticle } from '@/api/article';
-import Compressor from 'compressorjs';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -40,6 +61,7 @@ const article = ref<ArticleUpload>({
   tags: [],
   columnID: 0,
 });
+const isPublished = ref(false);
 
 ref<InstanceType<typeof UploadButton> | null>(null);
 
@@ -71,7 +93,7 @@ function renderVditor() {
       type: 'text',
     },
     upload: {
-      accept: 'image/*,.wav,.jpg,.png,.gif,.jpeg,.svg',
+      accept: 'image/*,.wav,.jpg,.png,.jpeg,.svg',
       max: 10 * 1024 * 1024,
       multiple: false,
       url: 'http://47.96.71.148/api/asset/uploadimg',
