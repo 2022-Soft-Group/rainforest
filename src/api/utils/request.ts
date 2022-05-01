@@ -5,10 +5,12 @@ import qs from 'qs';
 const backend = axios.create({
   baseURL: 'http://kurino.top/api',
 });
+// http://kurino.top/api
 
 const jsonBackend = axios.create({
   baseURL: 'http://kurino.top/api',
 });
+//  http://127.0.0.1:4523/mock/836630
 
 backend.interceptors.request.use((config) => {
   config.headers = {
