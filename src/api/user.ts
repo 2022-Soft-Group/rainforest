@@ -4,6 +4,6 @@ export function getMessages() {
   return backend.get('user/messages');
 }
 
-export function getUserInfo(userID: string) {
+export function getUserInfo(userID: number) {
   return backend.get(`user/${userID}`);
 }

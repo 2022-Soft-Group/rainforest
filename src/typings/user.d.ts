@@ -12,10 +12,11 @@ type User = {
   name: string;
   description: string;
   avatar: string;
-  sex: string;
+  sex: number;
   email: string;
   phone: string;
   coin: number;
   createTime: string;
   modifyTime: string;
+  articleNum: number;
 };
