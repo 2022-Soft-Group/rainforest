@@ -4,18 +4,22 @@ import { defineStore } from 'pinia';
 export const useAuthStore = defineStore('auth', () => {
   const userID = ref(localStorage.getItem('userID') || '');
   const token = ref(localStorage.getItem('token') || '');
+  const avatar = ref('');
+  const ID = ref(-1);
   const isLogin = computed(() => {
     return token.value !== '';
   });
 
-  function signIn(userToken: string, id: number) {
+  function signIn(userToken: string, userID: number, userAvatar: string) {
     token.value = userToken;
-    userID.value = id.toString();
+    avatar.value = userAvatar;
+    ID.value = userID;
   }
   function signOut() {
     token.value = '';
-    userID.value = '0';
+    avatar.value = '';
+    ID.value = 0;
   }
 
-  return { token, userID, isLogin, signIn, signOut };
+  return { userID, token, avatar, ID, isLogin, signIn, signOut };
 });

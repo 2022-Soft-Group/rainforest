@@ -1,6 +1,6 @@
 <template>
   <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
-    <!-- <profiler-header :articleNum="articleNum" :userInfo="(userInfo as User)" /> -->
+    <profiler-header :articleNum="articleNum" :userInfo="(userInfo as User)" />
   </n-card>
 
   <div class="flex flex-y-auto">
@@ -52,7 +52,7 @@ function reload() {
       window.$message.error('获取推荐列表失败');
     }
   });
-  getUserInfo(parseInt(userID)).then((res) => {
+  getUserInfo(userID).then((res) => {
     if (res.data.status == 0) {
       userInfo.value = res.data.data.user as User;
     } else {

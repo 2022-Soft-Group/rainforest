@@ -8,7 +8,7 @@ type ArticlesListItem = {
   collection: number;
   comments: number;
   tags: TagItem[];
-  image: string;
+  image: string | undefined;
   articleID: number;
 };
 
@@ -18,5 +18,5 @@ type ArticleUpload = {
   description: string;
   image: string;
   tags: Arrary<number>;
-  columnID: number;
+  private: boolean;
 };

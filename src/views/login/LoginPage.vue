@@ -44,7 +44,7 @@ const handleUpdateTab = (value: string) => {
 
 backend.interceptors.response.use(
   (response) => {
-    if (response.data.status == 101) {
+    if (response.data.status == 102) {
       window.$message.error('登录认证失败');
       signOut();
       router.push({ name: 'login' });
