@@ -9,7 +9,7 @@ declare module 'vue' {
     AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
     CommentBox: typeof import('./src/components/article/comments/CommentBox.vue')['default']
     CommentList: typeof import('./src/components/article/comments/CommentList.vue')['default']
-    CommentListItem: typeof import('./src/components/article/comments/commentListItem.vue')['default']
+    CommentListItem: typeof import('./src/components/article/comments/CommentListItem.vue')['default']
     CommentOverview: typeof import('./src/components/article/comments/CommentOverview.vue')['default']
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
