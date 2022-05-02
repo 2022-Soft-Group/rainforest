@@ -27,23 +27,26 @@ const routes: RouteRecordRaw[] = [
     name: 'homepage',
     component: () => import('../views/homepage/HomePage.vue'),
   },
+
   {
     path: '/sections',
-    name: 'sectionsIndex',
-    component: () => import('../views/sections/index.vue'),
+    name: 'sectionsOverview',
+    component: () => import('../views/sections/SectionsOverview.vue'),
+    // redirect: { path: '/sections/' },
     children: [
       {
-        path: '',
-        name: 'sectionsOverview',
-        component: () => import('../views/sections/SectionsOverview.vue'),
-      },
-      {
-        path: ':id',
-        name: 'tagDetail',
-        component: () => import('../views/sections/TagDetail.vue'),
+        path: ':sectionKey',
+        name: 'sectionsTagList',
+        component: () => import('../views/sections/sectionsTagList.vue'),
       },
     ],
   },
+  {
+    path: '/tag/:id',
+    name: 'tagDetail',
+    component: () => import('../views/sections/TagDetail.vue'),
+  },
+
   {
     path: '/columns',
     name: 'columns',
