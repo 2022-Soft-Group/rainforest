@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import { getUserInfo } from '@/api/user';
 import { onMounted, ref } from 'vue';
+const props = defineProps<{ userID: number; comment: Comment }>();
 const userInfo = ref<User>({
   name: '',
   description: '',
@@ -25,6 +26,4 @@ const userInfo = ref<User>({
   createTime: '',
   modifyTime: '',
 });
-
-onMounted(getUserInfo());
 </script>
