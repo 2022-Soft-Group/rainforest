@@ -67,15 +67,15 @@ const showButton = ref(true);
 // })
 
 const homepageSelected = computed(() => {
-  return route.name == 'homepage';
+  return route.fullPath.split('/')[1] == 'homepage';
 });
 
 const sectionSelected = computed(() => {
-  return route.name == 'sections';
+  return route.fullPath.split('/')[1] == 'sections';
 });
 
 const columnSelected = computed(() => {
-  return route.name == 'columns';
+  return route.fullPath.split('/')[1] == 'columns';
 });
 
 const messages = ref<Array<MessageInfo>>([]);

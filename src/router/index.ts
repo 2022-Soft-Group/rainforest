@@ -30,7 +30,7 @@ const routes: RouteRecordRaw[] = [
 
   {
     path: '/sections',
-    name: 'sectionsOverview',
+    name: 'sections',
     component: () => import('../views/sections/SectionsOverview.vue'),
     // redirect: { path: '/sections/' },
     children: [

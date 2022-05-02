@@ -36,7 +36,9 @@ function handleUpdateValue(key: string, item: MenuOption) {
   router.push({ path: `/sections/${key}` });
 }
 
-onMounted(reload);
+onMounted(() => {
+  reload();
+});
 function reload() {
   getSections().then((res) => {
     if (res.data.status == 0) {
@@ -48,6 +50,8 @@ function reload() {
           icon: renderIcon(BookIcon),
         });
       });
+      let key = sectionInfo.value[0].key;
+      router.push({ path: `/sections/${key}` });
     } else {
       window.$message.error('获取Section失败');
     }

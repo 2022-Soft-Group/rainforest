@@ -6,8 +6,7 @@
 <script setup lang="tsx">
 import { computed, h, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { getTags } from '@/api/sections';
-import {} from '../../store/auth';
+import { getTags } from '../../api/sections';
 
 const route = useRoute();
 const tags = ref<Array<TagItem>>([]);
@@ -26,7 +25,7 @@ watch(
 );
 onMounted(reload);
 function reload() {
-  getTags({ sectionName: 'C++', size: 2, page: 0 }).then((res) => {
+  getTags({ sectionName: route.params.sectionKey as string, size: 2, page: 0 }).then((res) => {
     if (res.data.status == 0) {
       tags.value = res.data.data.tags as Array<TagItem>;
     } else {
