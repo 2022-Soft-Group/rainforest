@@ -9,7 +9,7 @@
     </router-link>
     <div class="flex justify-between mx-2 my-4">
       <n-image
-        v-if="articleInfo.image != ''"
+        v-if="articleInfo.image != null"
         width="200"
         object-fit="cover"
         class="h-40 flex-none rounded-md"
@@ -48,7 +48,9 @@
         <n-space class="ml-2">
           <n-icon size="small" class="mt-2"><tags-icon /></n-icon>
           <div v-for="item in articleInfo.tags">
-            <n-tag type="primary">{{ item.title }}</n-tag>
+            <router-link :to="'/sections/' + item.id">
+              <n-tag type="primary" class="cursor-pointer" target="_blank">{{ item.title }}</n-tag>
+            </router-link>
           </div>
         </n-space>
       </div>
