@@ -56,11 +56,13 @@ import { useRoute, useRouter } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
-import { getMessages } from '@/api/user';
+import { getMessages } from '@/api/message';
+import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
 const router = useRouter();
 const showButton = ref(true);
+const { isLogin } = useAuthStore();
 // const tabValue = ref("homepage");
 // const isSelectedTab = computed(()=>{
 //   return route.name == tabValue.value;
@@ -96,15 +98,17 @@ function getUserMessages() {
 function getUserTrends() {}
 
 onMounted(() => {
-  getUserMessages();
-  getUserTrends();
+  if (isLogin) {
+    getUserMessages();
+    getUserTrends();
+    window.setInterval(() => {
+      setTimeout(getUserMessages, 0);
+      setTimeout(getUserTrends, 0);
+    }, 30000);
+  }
 });
 
 // 每隔30s获取消息和动态
-window.setInterval(() => {
-  setTimeout(getUserMessages, 0);
-  setTimeout(getUserTrends, 0);
-}, 30000);
 </script>
 
 <style scoped>
