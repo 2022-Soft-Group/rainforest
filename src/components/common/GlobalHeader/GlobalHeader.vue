@@ -56,7 +56,7 @@ import { useRoute, useRouter } from 'vue-router';
 import BrandImg from '@/assets/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
-import { getMessages } from '@/api/user';
+import { getMessages } from '@/api/message';
 import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
