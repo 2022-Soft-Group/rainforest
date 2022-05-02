@@ -10,7 +10,7 @@ import { computed } from 'vue';
 import { useMessage } from 'naive-ui';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
-import { backend, jsonBackend } from '@/api/utils/request';
+import { backend } from '@/api/utils/request';
 import { useAuthStore } from '@/store/auth';
 import type { AxiosResponse } from 'axios';
 
@@ -24,37 +24,24 @@ const router = useRouter();
 const { signOut } = useAuthStore();
 backend.interceptors.response.use(
   (response) => {
-    handleResponse(response);
+    if (response.data.status == 102) {
+      window.$message.error('登录认证失败');
+      signOut();
+      router.push({ name: 'login' });
+    } else if (response.data.status != 0) {
+      window.$message.error(response.data.message);
+      return Promise.reject(response);
+    } else return Promise.resolve(response);
   },
   (error) => {
-    handleError(error);
+    window.$message.error('网络故障, 请检查网络连接');
+    return Promise.reject(error);
   }
 );
 
-jsonBackend.interceptors.response.use(
-  (response) => {
-    handleResponse(response);
-  },
-  (error) => {
-    handleError(error);
-  }
-);
+function handleResponse(response: AxiosResponse) {}
 
-function handleResponse(response: AxiosResponse) {
-  if (response.data.status == 102) {
-    window.$message.error('登录认证失败');
-    signOut();
-    router.push({ name: 'login' });
-  } else if (response.data.status != 0) {
-    window.$message.error(response.data.message);
-    return Promise.reject(response);
-  } else return Promise.resolve(response);
-}
-
-function handleError(error: any) {
-  window.$message.error('网络故障, 请检查网络连接');
-  return Promise.reject(error);
-}
+function handleError(error: any) {}
 </script>
 
 <style scoped></style>

@@ -18,5 +18,5 @@ type ArticleUpload = {
   description: string;
   image: string;
   tags: Arrary<number>;
-  columnID: number;
+  private: boolean;
 };

@@ -19,7 +19,7 @@
           class="w-60 h-48 m-4 border-2 border-dashed rounded-md"
           :show-file-list="false"
           ref="upload"
-          @change="clickUpload"
+          @change="clickUploadImage"
         >
           <div v-if="image == ''" class="m-18 text-gray-400">
             <div>点击上传封面</div>
@@ -27,15 +27,34 @@
           </div>
           <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="image" />
         </upload-button>
-        <n-space vertical class="self-start m-4">
+        <n-space vertical class="my-4 mx-10">
           <n-space>
-            <n-radio :checked="!isPublished" @change="isPublished = !isPublished"> 不发布到专栏 </n-radio>
-            <n-radio :checked="isPublished" @change="isPublished = !isPublished"> 发布到专栏 </n-radio>
+            <n-radio :checked="!isPublish" @change="isPublish = !isPublish"> 不发布到专栏 </n-radio>
+            <n-radio :checked="isPublish" @change="isPublish = !isPublish"> 发布到专栏 </n-radio>
           </n-space>
-          <n-select v-if="isPublished"></n-select>
+          <n-select v-if="isPublish"></n-select>
+        </n-space>
+        <n-space vertical class="my-4 mx-10">
+          <n-space>
+            <n-tooltip trigger="hover" placement="bottom">
+              <template #trigger>
+                <n-radio :checked="!isPrivate" @change="isPrivate = !isPrivate"> 公开发布 </n-radio>
+              </template>
+              所有人都能看到你的文章
+            </n-tooltip>
+            <n-tooltip trigger="hover" placement="bottom">
+              <template #trigger>
+                <n-radio :checked="isPrivate" @change="isPrivate = !isPrivate"> 私有发布 </n-radio>
+              </template>
+              只有你自己能看到你的文章
+            </n-tooltip>
+          </n-space>
+          <n-space class="pt-30">
+            <n-button type="primary" @click="uploadArticle">上传文章</n-button>
+            <n-button type="info">保存文章</n-button>
+          </n-space>
         </n-space>
       </n-space>
-      <n-button class="m-auto" @click="uploadArticle">上传文章</n-button>
     </n-card>
   </div>
 </template>
@@ -47,6 +66,7 @@ import type UploadButton from '@/components/common/UploadButton.vue';
 import 'vditor/src/assets/scss/index.scss';
 import { uploadImage } from '@/api/asset';
 import { addArticle } from '@/api/article';
+import { addArticleToColumn } from '@/api/columns';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -59,11 +79,11 @@ const article = ref<ArticleUpload>({
   description: '',
   image: '',
   tags: [],
-  columnID: 0,
+  private: false,
 });
-const isPublished = ref(false);
-
-ref<InstanceType<typeof UploadButton> | null>(null);
+const isPublish = ref(false);
+const selectedColumnID = ref(7);
+const isPrivate = ref(false);
 
 function addTitle() {
   let lines = vditor.value?.getValue() as string;
@@ -130,27 +150,40 @@ function renderVditor() {
 }
 
 function uploadArticle() {
+  if (title.value == '') {
+    window.$message.warning('标题不能为空');
+    return;
+  }
   article.value.title = title.value;
   article.value.content = vditor.value?.getValue() as string;
   article.value.description = article.value.content
     .substring(article.value.content.indexOf('\n') + 1)
+    .replace(new RegExp('!\\[.*]\\(.*\\)', 'g'), '')
     .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
     .substring(0, 50);
   article.value.image = image.value;
   article.value.tags = [];
-  article.value.columnID = 0;
+  article.value.private = isPrivate.value;
   addArticle(article.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章上传成功');
+      if (isPublish.value) {
+        addArticleToColumn(res.data.data.articleID, selectedColumnID.value).then((res) => {
+          if (res.data.status != 0) {
+            window.$message.error('添加专栏失败');
+          }
+        });
+      }
     } else {
       window.$message.error('文章上传失败');
     }
   });
 }
 
-const clickUpload = () => {
+const clickUploadImage = () => {
   const file = upload.value?.file as File;
   uploadImage(file).then((res) => {
+    console.log(res);
     if (res.data.status == 0) {
       image.value = res.data.data.url;
     } else {
