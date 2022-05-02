@@ -1,12 +1,12 @@
 <template>
   <div class="flex">
-    <n-menu :options="sectionInfo" class="Menu" />
+    <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
+
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <tag-list :tags="isSelect ? selectedTagsArray : tagsArray"></tag-list>
+      <router-view></router-view>
     </n-card>
     <!-- <router-view v-slot="{ Component }"> -->
     <!-- <component :is="currentView"></component> -->
-    <!-- </router-view> -->
   </div>
 </template>
 
@@ -24,15 +24,21 @@ import {
   Accessibility as AccessIcon,
 } from '@vicons/ionicons5';
 import { getSections } from '@/api/sections';
-import type { defineComponent } from 'vue';
-import { CashOutline as CashIcon } from '@vicons/ionicons5';
-import { getTags } from '@/api/sections';
-import {} from '../../store/auth';
+import { useRouter, useRoute } from 'vue-router';
 const tags = ref<Array<TagItem>>([]);
+const router = useRouter();
+const route = useRoute();
 const sectionInfo = ref<Array<SectionInfo>>([]);
-let isSelect = ref(false);
+const selectedSectionName = ref<string>('');
+function handleUpdateValue(key: string, item: MenuOption) {
+  // selectedSectionName.value = key;
+  //window.$message.info(selectedSectionName.value);
+  router.push({ path: `/sections/${key}` });
+}
 
-onMounted(reload);
+onMounted(() => {
+  reload();
+});
 function reload() {
   getSections().then((res) => {
     if (res.data.status == 0) {
@@ -44,17 +50,19 @@ function reload() {
           icon: renderIcon(BookIcon),
         });
       });
+      let key = sectionInfo.value[0].key;
+      router.push({ path: `/sections/${key}` });
     } else {
       window.$message.error('获取Section失败');
     }
   });
-  getTags().then((res) => {
-    if (res.data.status == 0) {
-      tags.value = res.data.data.tags as Array<TagItem>;
-    } else {
-      window.$message.error('获取二级列表失败');
-    }
-  });
+  // getTags({ size: 10, page: 0 }, selectedSectionName.value as string).then((res) => {
+  //   if (res.data.status == 0) {
+  //     tags.value = res.data.data.tags as Array<TagItem>;
+  //   } else {
+  //     window.$message.error('获取二级列表失败');
+  //   }
+  // });
 }
 
 function renderIcon(icon: Component) {
@@ -64,22 +72,6 @@ function renderIcon(icon: Component) {
 let tagsArray = ref<Array<TagItem>>([]);
 tagsArray = tags;
 let selectedTagsArray = ref<Array<TagItem>>([]);
-
-const handleSelect = (key: string, item: MenuOption) => {
-  // selectedTagsArray.value.length = 0;
-  // tagsArray.forEach((element) => {
-  //   if (element.key == selectedKey) {
-  //     selectedTagsArray.value.push(element);
-  //   }
-  // });
-  window.$message.info(key);
-  isSelect.value = true;
-  selectedTagsArray.value = tagsArray.value.filter((element: TagItem) => {
-    if (element.sectionKey == key) {
-      return true;
-    } else return false;
-  });
-};
 </script>
 <style>
 .Menu {

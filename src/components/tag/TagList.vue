@@ -6,11 +6,7 @@
     <n-grid-item v-for="item in tags">
       <div class="tagInfo">
         <div class="grid-title">
-          <router-link
-            :to="'/sections/' + item.id"
-            target="_blank"
-            class="font-bold text-xl hover:text-[#18a058] m-2 pl-2"
-          >
+          <router-link :to="'/tag/' + item.id" target="_blank" class="font-bold text-xl hover:text-[#18a058] m-2 pl-2">
             {{ item.title }}
           </router-link>
         </div>
