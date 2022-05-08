@@ -6,9 +6,9 @@ name: deploy to aliyun
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -16,25 +16,23 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   deploy_job:
-    runs-on: ubuntu-latest  #运行环境
+    runs-on: ubuntu-latest #运行环境
     name: build
     steps:
       # check out the repository
-      - name: Checkout    
-        uses: actions/checkout@v2    #这里使用了github官方提供的action,checkout项目到虚拟机上
+      - name: Checkout
+        uses: actions/checkout@v2 #这里使用了github官方提供的action,checkout项目到虚拟机上
 
       - name: Install Dependencies
-        run: npm
+        run: npm install
       - name: Build
-        run: |
-          npm install
-          npm run build
+        run: npm run build
 
       - name: deploy file to server
         uses: wlixcc/SFTP-Deploy-Action@v1.2.2
-        with:  
-          username: 'root'   #ssh user name
+        with:
+          username: 'root' #ssh user name
           server: '${{ secrets.SERVER_HOST }}' #引用之前创建好的secret
           ssh_private_key: ${{ secrets.SSH_SSH_KEY }} #引用之前创建好的secret
-          local_path: './dist/*'  # 对应我们项目build的文件夹路径
+          local_path: './dist/*' # 对应我们项目build的文件夹路径
           remote_path: '/var/projects/rainforest'
