@@ -23,7 +23,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3 #这里使用了github官方提供的action,checkout项目到虚拟机上
       - name: Install Node.js, NPM
-        uses: actions/setup-node@@v3.1.1
+        uses: actions/setup-node@v3.1.1
         with:
           node-version: 16
       - name: Install Dependencies
