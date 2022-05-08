@@ -1,3 +1,1 @@
-<template></template>
-
-<script lang="ts"></script>
+<template>commentList</template>
