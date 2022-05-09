@@ -1,1 +1,1 @@
-<template>commentList</template>
+<template>comment-list</template>
