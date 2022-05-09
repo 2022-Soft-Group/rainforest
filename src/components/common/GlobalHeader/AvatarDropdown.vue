@@ -1,6 +1,6 @@
 <template>
   <n-dropdown trigger="hover" :options="options" show-arrow @select="handleDropdownSelect">
-    <router-link class="flex-center" to="/user"> <n-avatar round :src="AvatarImg"> </n-avatar></router-link>
+    <router-link class="flex-center" to="/user"> <n-avatar round :src="avatar"> </n-avatar></router-link>
   </n-dropdown>
 </template>
 
@@ -9,13 +9,12 @@ import { h } from 'vue';
 import type { Component } from 'vue';
 import { NIcon } from 'naive-ui';
 import { useRouter } from 'vue-router';
-import AvatarImg from '@/assets/avatar.png';
 import { PersonCircle as PersonIcon, LogOut as LogOutIcon } from '@vicons/ionicons5';
 import { useAuthStore } from '@/store/auth';
 import { logout } from '@/api/auth';
 
 const router = useRouter();
-const { signOut } = useAuthStore();
+const { signOut, avatar } = useAuthStore();
 const renderIcon = (icon: Component) => {
   return () => {
     return h(NIcon, null, {
