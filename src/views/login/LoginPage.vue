@@ -7,7 +7,7 @@
           <n-tabs
             class="card-tabs"
             size="large"
-            animate
+            animated
             justify-content="space-evenly"
             :value="tabValue"
             @update-value="handleUpdateTab"
