@@ -1,7 +1,7 @@
 <template>
   <div class="ColumnHomeTop">
     <h1 class="ColumnHomeTop-logo"></h1>
-    <h2 class="ColumnHomeTop-subTitle">随心写作，自由表达</h2>
+    <h2 class="ColumnHomeTop-subTitle">想写就写，想抄就抄</h2>
     <button style="button" class="ColumnHomeTop-requestButton Button--plain Button--green">申请开通专栏</button>
   </div>
   <div class="ColumnHomeRecommendation">
@@ -217,8 +217,9 @@
   width: 100%;
 }
 .ColumnHomeTop-logo {
-  background: url(https://static.zhihu.com/heifetz/assets/logo.84666bea.png) 50% no-repeat;
-  background-size: 129px 179px;
+  background: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_JF3LxhTeQi-N-8tXh5XEazs24rri3-2E_w&usqp=CAU)
+    50% no-repeat;
+  background-size: 700px 379px;
   height: 0;
   left: 50%;
   margin: 0 0 0 -65px;
