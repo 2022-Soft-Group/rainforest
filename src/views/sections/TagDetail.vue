@@ -1,0 +1,58 @@
+<template>
+  <n-card class="flex m-auto rounded-md w-200">
+    <n-thing>
+      <template #avatar>
+        <n-avatar object-fit="cover" :size="150" :src="tagInfo.img"> </n-avatar>
+      </template>
+      <template #header>
+        <n-h1>{{ tagInfo.title }}</n-h1>
+      </template>
+
+      <template #description>
+        <div class="text-gray-400">
+          {{ tagInfo.description }}
+        </div>
+      </template>
+    </n-thing>
+  </n-card>
+  <n-card class="flex m-auto mt-2 rounded-t-md w-200">
+    <articles-list :articles="articles" :is-loading="isLoading" />
+  </n-card>
+</template>
+<script setup lang="ts">
+import { ref, onMounted, defineComponent } from 'vue';
+import { useRoute } from 'vue-router';
+import { CashOutline as CashIcon } from '@vicons/ionicons5';
+import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
+import TagListVue from '@/components/tag/TagList.vue';
+const route = useRoute();
+const isFollowed = ref(false);
+const isLoading = ref(false);
+const articles = ref<Array<ArticlesListItem>>([]);
+const tagInfo = ref<TagItem>({
+  sectionKey: '',
+  title: '',
+  img: '',
+  description: '',
+  id: 0,
+});
+onMounted(reload);
+function reload() {
+  getTagDetail(route.params.id as string).then((res) => {
+    if (res.data.status == 0) {
+      tagInfo.value = res.data.data.TagInfo as TagItem;
+    } else {
+      window.$message.error('获取二级列表失败');
+    }
+  });
+  // isLoading.value = true;
+  // getTagArticleList({ size: 10, page: 0 }, route.params.id as string).then((res) => {
+  //   if (res.data.status == 0) {
+  //     articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+  //     isLoading.value = false;
+  //   } else {
+  //     window.$message.error('获取推荐列表失败');
+  //   }
+  // });
+}
+</script>

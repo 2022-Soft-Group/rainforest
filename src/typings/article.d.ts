@@ -7,11 +7,9 @@ type ArticlesListItem = {
   like: number;
   collection: number;
   comments: number;
-  tags: string[];
-  image: string;
+  tags: TagItem[];
+  image: string | undefined;
   articleID: number;
-  column: string;
-  columnID: number;
 };
 
 type ArticleUpload = {
@@ -20,5 +18,15 @@ type ArticleUpload = {
   description: string;
   image: string;
   tags: Arrary<number>;
-  columnID: number;
+  private: boolean;
+};
+
+type Comment = {
+  commentorID: number;
+  content: string;
+  image: string | null;
+  toCommentID: string | null;
+  like: integer;
+  createTime: string;
+  commentID: integer;
 };

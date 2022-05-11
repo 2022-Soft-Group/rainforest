@@ -4,6 +4,16 @@ export function getSections() {
   return backend.get('sections');
 }
 
-export function getGrids() {
-  return backend.get('sections/grids');
+export function getTags(data: { sectionName: string; size: number; page: number }) {
+  return backend.get('sections/tags', {
+    params: data,
+  });
+}
+
+export function getTagDetail(tagid: string) {
+  return backend.get(`/sections/tag/${tagid}`);
+}
+
+export function getTagArticleList(data: { size: number; page: number }, id: string) {
+  return backend.get(`sections/tag/${id}/articles`, { params: data });
 }

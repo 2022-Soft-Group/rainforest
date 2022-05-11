@@ -16,6 +16,10 @@
     <n-divider />
     <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
   </n-card>
+  <n-divider />
+  <n-card class="flex m-auto rounded-md w-200">
+    <comment-overview class="w-200"></comment-overview>
+  </n-card>
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent } from 'vue';
@@ -31,10 +35,17 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
-    const userInfo = ref<UserInfo>({
+    const userInfo = ref<User>({
       name: '',
       description: '',
       avatar: '',
+      id: 0,
+      sex: '',
+      email: '',
+      phone: '',
+      coin: 0,
+      createTime: '',
+      modifyTime: '',
     });
     const articleContent = ref('');
     const articleInfo = ref<ArticlesListItem>({
@@ -49,8 +60,6 @@ export default defineComponent({
       tags: [],
       image: '',
       articleID: 0,
-      column: '',
-      columnID: 0,
     });
 
     const options = {

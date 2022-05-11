@@ -1,12 +1,12 @@
 <template>
   <div class="flex">
-    <n-menu :options="menuOptions" class="Menu" />
+    <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
+
     <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <grid-list :grids="grids"></grid-list>
+      <router-view></router-view>
     </n-card>
     <!-- <router-view v-slot="{ Component }"> -->
     <!-- <component :is="currentView"></component> -->
-    <!-- </router-view> -->
   </div>
 </template>
 
@@ -24,114 +24,59 @@ import {
   Accessibility as AccessIcon,
 } from '@vicons/ionicons5';
 import { getSections } from '@/api/sections';
-import type { defineComponent } from 'vue';
-import { CashOutline as CashIcon } from '@vicons/ionicons5';
-import { getGrids } from '@/api/sections';
-// import{ num } from './1.vue';
+import { useRouter, useRoute } from 'vue-router';
+const tags = ref<Array<TagItem>>([]);
+const router = useRouter();
+const route = useRoute();
+const sectionInfo = ref<Array<SectionInfo>>([]);
+const selectedSectionName = ref<string>('');
+function handleUpdateValue(key: string, item: MenuOption) {
+  // selectedSectionName.value = key;
+  //window.$message.info(selectedSectionName.value);
+  router.push({ path: `/sections/${key}` });
+}
 
-//动态组件
-// const arr: [] = [g1,]
-// const  currentView = computed({
-//   return ;
-// });
-// const changeView = () => {
-//   re
-// }
-
-const avatar = ref(true);
-const header = ref(true);
-const headerExtra = ref(true);
-const description = ref(true);
-const footer = ref(true);
-const action = ref(true);
-const grids = ref<Array<GridListItem>>([]);
-
-onMounted(reload);
+onMounted(() => {
+  reload();
+});
 function reload() {
-  getGrids().then((res) => {
+  getSections().then((res) => {
     if (res.data.status == 0) {
-      grids.value = res.data.data.grids as Array<GridListItem>;
+      sectionInfo.value.length = 0;
+      res.data.data.sections.forEach((elm: string) => {
+        sectionInfo.value.push({
+          label: elm,
+          key: elm,
+          icon: renderIcon(BookIcon),
+        });
+      });
+      let key = sectionInfo.value[0].key;
+      router.push({ path: `/sections/${key}` });
     } else {
-      window.$message.error('获取二级列表失败');
+      window.$message.error('获取Section失败');
     }
   });
+  // getTags({ size: 10, page: 0 }, selectedSectionName.value as string).then((res) => {
+  //   if (res.data.status == 0) {
+  //     tags.value = res.data.data.tags as Array<TagItem>;
+  //   } else {
+  //     window.$message.error('获取二级列表失败');
+  //   }
+  // });
 }
 
 function renderIcon(icon: Component) {
   return () => h(NIcon, null, { default: () => h(icon) });
 }
-const menuOptions: MenuOption[] = [
-  {
-    label: '前端',
-    key: 'qd',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '后端',
-    key: 'hd',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '小程序',
-    key: 'xcx',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: 'iOS',
-    key: 'ios',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: 'Android',
-    key: 'an',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '工具',
-    key: 'gj',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '程序员',
-    key: 'cxy',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: 'AI',
-    key: 'ai',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '云计算',
-    key: 'yjs',
-    icon: renderIcon(BookIcon),
-  },
-  {
-    label: '安全',
-    key: 'aq',
-    icon: renderIcon(BookIcon),
-  },
-];
 
-// const menuOptions = ref<Array<SectionInfo>>([]);
-// onMounted(() => {
-//   getSections().then((res) => {
-//     menuOptions.value = res.data.data.sections as Array<SectionInfo>;
-//   });
-// });
+let tagsArray = ref<Array<TagItem>>([]);
+tagsArray = tags;
+let selectedTagsArray = ref<Array<TagItem>>([]);
 </script>
 <style>
 .Menu {
   position: relative;
   left: -50px;
   width: 220px;
-}
-.light-green {
-  height: 108px;
-  background-color: rgba(0, 128, 0, 0.12);
-}
-.green {
-  height: 108px;
-  background-color: rgba(0, 128, 0, 0.24);
 }
 </style>
