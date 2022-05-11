@@ -4,7 +4,7 @@ import { resolvePath, viteDefine, setupVitePlugins, createViteProxy } from './bu
 export default defineConfig((configEnv) => {
   const viteEnv = loadEnv(configEnv.mode, `.env.${configEnv.mode}`) as ImportMetaEnv;
   const vitePath = resolvePath('./', import.meta.url);
-
+  console.log(viteEnv.VITE_APP_TITLE);
   return {
     base: viteEnv.VITE_BASE_URL,
     resolve: {
@@ -24,7 +24,7 @@ export default defineConfig((configEnv) => {
     },
     server: {
       host: '0.0.0.0',
-      port: Number(viteEnv.VITE_SERVER_PORT),
+      port: viteEnv.VITE_SERVER_PORT,
       open: true,
       proxy: createViteProxy(viteEnv),
     },

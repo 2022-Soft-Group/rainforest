@@ -1,0 +1,1 @@
+<template>comment-list</template>
