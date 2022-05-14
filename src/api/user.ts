@@ -4,16 +4,8 @@ export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
 }
 
-export function getUserArticleNum(userID: string) {
-  return backend.get(`user/${userID}/articleNum`);
-}
-
-export function getUserAchivement(userID: string) {
-  return backend.get(`user/${userID}/achivement`);
-}
-
-export function getUserFollowNum(userID: string) {
-  return backend.get(`user/${userID}/followNum`);
+export function getUserFeature(userID: string) {
+  return backend.get(`user/${userID}/feature`);
 }
 
 export function getUserListFollowing(data: { size: number; page: number }, userID: string) {

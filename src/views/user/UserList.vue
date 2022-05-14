@@ -3,14 +3,6 @@
     <n-divider v-if="index != 0"></n-divider>
     <user-list-item :user-feature="(item as UserFeature)" :is-loading="isLoading" />
   </div>
-
-  <!-- <user-list-item />
-  <n-divider />
-  <user-list-item />
-  <n-divider />
-  <user-list-item />
-  <n-divider />
-  <user-list-item /> -->
 </template>
 
 <script setup lang="ts">

@@ -1,6 +1,6 @@
 <template>
   <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
-    <profiler-header :articleNum="articleNum" :userInfo="(userInfo as User)" />
+    <profiler-header :articleNum="userFeature.articleNum" :userInfo="(userInfo as User)" />
   </n-card>
 
   <div class="flex flex-y-auto">
@@ -19,10 +19,10 @@
     </n-card>
     <div class="flex-col basis-2/7">
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-achivement :liked="userLiked" :collected="userCollected" />
+        <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
       </n-card>
       <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        <user-follow-num :following="userFollowingNum" :followed="userFollowedNum" />
+        <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
       </n-card>
     </div>
   </div>
@@ -38,7 +38,7 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserArticleNum, getUserAchivement, getUserFollowNum, getUserListFollowing } from '@/api/user';
+import { getUserInfo, getUserListFollowing, getUserFeature } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 import UserFollowNum from './UserFollowNum.vue';
 
@@ -61,35 +61,19 @@ function reload() {
       window.$message.error('获取我的用户信息失败');
     }
   });
-  getUserArticleNum(userID).then((res) => {
-    if (res.data.status == 0) {
-      articleNum.value = res.data.data.articleNum;
-    } else {
-      window.$message.error('获取我的用户文章数量失败');
-    }
-  });
-  getUserAchivement(userID).then((res) => {
-    if (res.data.status == 0) {
-      userLiked.value = res.data.data.userLiked;
-      userCollected.value = res.data.data.userCollected;
-    } else {
-      window.$message.error('获取我的用户成就失败');
-    }
-  });
-  getUserFollowNum(userID).then((res) => {
-    if (res.data.status == 0) {
-      userFollowedNum.value = res.data.data.userFollowedNum;
-      userFollowingNum.value = res.data.data.userFollowingNum;
-    } else {
-      window.$message.error('获取我的关注数量失败');
-    }
-  });
   getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
       userListIsLoading.value = false;
     } else {
       window.$message.error('获取我关注的用户失败');
+    }
+  });
+  getUserFeature(userID).then((res) => {
+    if (res.data.status == 0) {
+      userFeature.value = res.data.data.userFeature;
+    } else {
+      window.$message.error('获取我的关注数量失败');
     }
   });
 }
@@ -111,15 +95,17 @@ const userInfo = ref<User>({
   createTime: '',
   modifyTime: '',
 });
-const articleNum = ref(0);
 
-// 我的成就
-const userLiked = ref(0);
-const userCollected = ref(0);
-
-// 我关注和被关注的数量
-const userFollowingNum = ref(0);
-const userFollowedNum = ref(0);
+const userFeature = ref<UserFeature>({
+  id: 0,
+  name: '',
+  avatar: '',
+  articleNum: 0,
+  followingNum: 0,
+  followedNum: 0,
+  collectedNum: 0,
+  likedNum: 0,
+});
 
 // 我关注的用户列表
 const userListIsLoading = ref(false);
