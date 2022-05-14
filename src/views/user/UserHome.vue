@@ -1,6 +1,6 @@
 <template>
   <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
-    <profiler-header :userInfo="(userInfo as User)" />
+    <profiler-header :articleNum="articleNum" :userInfo="(userInfo as User)" />
   </n-card>
 
   <div class="flex flex-y-auto">
@@ -38,7 +38,7 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollow from './UserFollow.vue';
 import UserList from './UserList.vue';
-import { getUserInfo } from '@/api/user';
+import { getUserInfo, getUserArticleNum } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 
 const { userID } = useAuthStore();
@@ -59,6 +59,13 @@ function reload() {
       window.$message.error('获取用户信息失败');
     }
   });
+  getUserArticleNum(userID).then((res) => {
+    if (res.data.status == 0) {
+      articleNum.value = res.data.data.articleNum;
+    } else {
+      window.$message.error('获取用户文章数量失败');
+    }
+  });
 }
 const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
@@ -73,8 +80,9 @@ const userInfo = ref<User>({
   coin: 0,
   createTime: '',
   modifyTime: '',
-  articleNum: 0,
 });
+
+const articleNum = ref(0);
 
 onMounted(reload);
 </script>

@@ -20,7 +20,7 @@
         </div>
       </n-gi>
       <n-gi class="text-center">
-        <n-statistic label="" :value="[userInfo.articleNum, '篇'].join('')">
+        <n-statistic label="" :value="[articleNum, '篇'].join('')">
           <template #prefix>
             <n-icon size="30"><Book /></n-icon>
           </template>
@@ -62,5 +62,5 @@
 import { HomeSharp, Mail, Book, Transgender, IdCard, Man, Woman } from '@vicons/ionicons5';
 import { Coins } from '@vicons/fa';
 
-const props = defineProps<{ userInfo: User }>();
+const props = defineProps<{ articleNum: number; userInfo: User }>();
 </script>

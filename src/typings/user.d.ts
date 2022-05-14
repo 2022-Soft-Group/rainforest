@@ -18,5 +18,4 @@ type User = {
   coin: number;
   createTime: string;
   modifyTime: string;
-  articleNum: number;
 };
