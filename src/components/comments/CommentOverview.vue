@@ -8,15 +8,21 @@
       </n-icon>
     </n-button>
   </div>
-  <comment-list :article-id="articleId" :sort-by-time="sortByTime"></comment-list>
-  <comment-box :to-comment-id="null" :article-id="articleId" @comment-success="handleUploadComment"></comment-box>
+  <comment-list :article-id="parseInt(articleId as string)" :sort-by-time="sortByTime" ref="commentList"></comment-list>
+  <comment-box
+    :to-comment-id="null"
+    :article-id="parseInt(articleId as string)"
+    @comment-success="handleUploadComment"
+  ></comment-box>
 </template>
 
 <script setup lang="ts">
 import { FilterSharp as SortIcon } from '@vicons/ionicons5';
 import { ref } from 'vue';
 import CommentList from './CommentList.vue';
-const props = defineProps<{ articleId: number }>();
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const articleId = ref(route.params.id);
 const sortByTime = ref(false);
 const commentList = ref<InstanceType<typeof CommentList> | null>(null);
 const handleUploadComment = () => {

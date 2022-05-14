@@ -24,7 +24,7 @@ export function addArticle(article: ArticleUpload) {
   return jsonBackend.post(`article`, article);
 }
 
-export function getComments(data: { size: number; page: number; toCommentID: number }, articleID: number) {
+export function getComments(data: { size: number; page: number; toCommentID: number | null }, articleID: number) {
   return backend.get(`article/${articleID}/comment`, { params: data });
 }
 
