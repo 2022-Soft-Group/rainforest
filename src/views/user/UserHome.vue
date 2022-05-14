@@ -1,6 +1,6 @@
 <template>
   <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
-    <profiler-header :articleNum="articleNum" :userInfo="(userInfo as User)" />
+    <profiler-header :userInfo="(userInfo as User)" />
   </n-card>
 
   <div class="flex flex-y-auto">
@@ -19,10 +19,10 @@
     </n-card>
     <div class="flex-col basis-2/7">
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <achivement />
+        <user-achivement />
       </n-card>
       <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        <follow />
+        <user-follow />
       </n-card>
     </div>
   </div>
@@ -35,8 +35,8 @@
 import { getArticleListRecommand } from '@/api/article';
 import { ref, onMounted } from 'vue';
 import ProfilerHeader from '../user/ProfilerHeader.vue';
-import Achivement from './Achivement.vue';
-import Follow from './Follow.vue';
+import userAchivement from './UserAchivement.vue';
+import userFollow from './UserFollow.vue';
 import UserList from './UserList.vue';
 import { getUserInfo } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
@@ -62,8 +62,19 @@ function reload() {
 }
 const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
-const userInfo = ref<User>();
-const articleNum = ref(0);
+const userInfo = ref<User>({
+  name: '',
+  description: '',
+  avatar: '',
+  id: 0,
+  sex: 0,
+  email: '',
+  phone: '',
+  coin: 0,
+  createTime: '',
+  modifyTime: '',
+  articleNum: 0,
+});
 
 onMounted(reload);
 </script>

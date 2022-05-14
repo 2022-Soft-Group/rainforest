@@ -2,10 +2,10 @@
   <n-page-header>
     <n-grid :cols="2">
       <n-gi>
-        <n-statistic label="获得点赞" :value="liked" />
+        <n-statistic label="获得点赞" :value="like" />
       </n-gi>
       <n-gi>
-        <n-statistic label="获得收藏" :value="followed" />
+        <n-statistic label="获得收藏" :value="follow" />
       </n-gi>
     </n-grid>
     <template #title>
@@ -22,7 +22,7 @@
 import { defineComponent } from 'vue';
 import { useMessage } from 'naive-ui';
 import { CheckmarkDone } from '@vicons/ionicons5';
-const props = defineProps<{ liked: number; followed: number }>();
+// const props = defineProps<{ liked: number; followed: number }>();
 export default defineComponent({
   data() {
     return {

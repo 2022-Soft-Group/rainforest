@@ -40,12 +40,13 @@ export default defineComponent({
       description: '',
       avatar: '',
       id: 0,
-      sex: '',
+      sex: 0,
       email: '',
       phone: '',
       coin: 0,
       createTime: '',
       modifyTime: '',
+      articleNum: 0,
     });
     const articleContent = ref('');
     const articleInfo = ref<ArticlesListItem>({

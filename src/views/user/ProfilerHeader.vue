@@ -2,18 +2,29 @@
   <n-page-header>
     <n-grid :cols="3">
       <n-gi>
-        <n-icon size="30"><Coins /></n-icon>
-        <n-statistic :value="[userInfo.coin, '币'].join('')" />
+        <n-statistic :value="[userInfo.coin, '币'].join('')">
+          <template #prefix>
+            <n-icon size="30">
+              <Coins />
+            </n-icon>
+          </template>
+        </n-statistic>
       </n-gi>
       <n-gi>
         <div class="text-justify">
-          <n-icon size="30"><Mail /></n-icon>
-          <n-statistic :value="userInfo.email" />
+          <n-statistic :value="userInfo.email">
+            <template #prefix>
+              <n-icon size="30"><Mail /></n-icon>
+            </template>
+          </n-statistic>
         </div>
       </n-gi>
-      <n-gi>
-        <n-icon size="30"><Book /></n-icon>
-        <n-statistic label="" :value="[articleNum, '篇'].join('')" />
+      <n-gi class="text-center">
+        <n-statistic label="" :value="[userInfo.articleNum, '篇'].join('')">
+          <template #prefix>
+            <n-icon size="30"><Book /></n-icon>
+          </template>
+        </n-statistic>
       </n-gi>
     </n-grid>
     <template #title>
@@ -21,10 +32,10 @@
         <span class="text-2xl">{{ userInfo.name }}</span>
         <br /><br />
         <div v-if="userInfo.sex == 1">
-          <n-icon size="25"><Male /></n-icon>
+          <n-icon size="25"><Man /></n-icon>
         </div>
         <div v-else>
-          <n-icon size="25"><Female /></n-icon>
+          <n-icon size="25"><Woman /></n-icon>
         </div>
       </span>
     </template>
@@ -48,8 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import { HomeSharp, Mail, Book, Transgender, IdCard, Male, Female } from '@vicons/ionicons5';
+import { HomeSharp, Mail, Book, Transgender, IdCard, Man, Woman } from '@vicons/ionicons5';
 import { Coins } from '@vicons/fa';
 
-const props = defineProps<{ articleNum: number; userInfo: User }>();
+const props = defineProps<{ userInfo: User }>();
 </script>
