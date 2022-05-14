@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<template>comment-list</template>
-=======
 <template>
   <comment-item :comment="commentInfo"></comment-item>
 </template>
@@ -17,4 +14,3 @@ const commentInfo = ref<CommentListItem>({
   commentID: 15,
 });
 </script>
->>>>>>> kurino
