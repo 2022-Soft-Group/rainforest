@@ -25,6 +25,14 @@
       </template>
       <template #description> 回复于{{ comment.createTime }} </template>
       <div class="text-base">{{ comment.content }}</div>
+      <div v-if="comment.image != ''">
+        <n-image
+          :src="(comment.image as string)"
+          width="120"
+          object-fit="cover"
+          class="h-24 flex-none rounded-md"
+        ></n-image>
+      </div>
       <template #action>
         <n-space>
           <n-space justify="space-between">
@@ -51,7 +59,7 @@
       @comment-success="handleShowComments"
     ></comment-box>
     <div v-if="showSubComments" v-for="comment in subComments">
-      <comment-item :comment="comment" :article-id="articleId" :class="{ 'ml-10': isFirstLayer }"></comment-item>
+      <comment-item :comment="comment" :article-id="articleId" :class="{ 'ml-10': true }"></comment-item>
     </div>
   </n-space>
   <n-divider />
@@ -100,9 +108,9 @@ const handleLikeComments = () => {
 const handleShowComments = () => {
   showSubComments.value = !showSubComments.value;
   isLoading.value = true;
-  getComments({ size: 100, page: 0, toCommentID: props.comment.toCommentID as number }, props.articleId).then((res) => {
+  getComments({ size: 100, page: 0, toCommentID: props.comment.commentID as number }, props.articleId).then((res) => {
     if (res.data.status == 0) {
-      console.log('get comments');
+      console.log(props.comment.toCommentID);
       subComments.value = res.data.data.comments;
       isLoading.value = false;
     } else {
