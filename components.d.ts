@@ -6,7 +6,11 @@ declare module 'vue' {
   export interface GlobalComponents {
     ArticlesList: typeof import('./src/components/article/ArticlesList.vue')['default']
     ArticlesListItem: typeof import('./src/components/article/ArticlesListItem.vue')['default']
+<<<<<<< HEAD
     AvatarDropdown: typeof import('./src/components/common/globalheader/AvatarDropdown.vue')['default']
+=======
+    AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
+>>>>>>> kurino
     CommentBox: typeof import('./src/components/comments/CommentBox.vue')['default']
     CommentItem: typeof import('./src/components/comments/CommentItem.vue')['default']
     CommentList: typeof import('./src/components/comments/CommentList.vue')['default']
