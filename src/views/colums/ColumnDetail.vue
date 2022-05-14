@@ -2,15 +2,15 @@
   <n-card class="flex m-auto rounded-md w-200">
     <n-thing>
       <template #avatar>
-        <n-avatar object-fit="cover" :size="150" :src="tagInfo.img"> </n-avatar>
+        <n-avatar object-fit="cover" :size="150" :src="columnInfo.imgSrc"> </n-avatar>
       </template>
       <template #header>
-        <n-h1>{{ tagInfo.title }}</n-h1>
+        <n-h1>{{ columnInfo.title }}</n-h1>
       </template>
 
       <template #description>
         <div class="text-gray-400">
-          {{ tagInfo.description }}
+          {{ columnInfo.description }}
         </div>
       </template>
     </n-thing>
@@ -25,22 +25,24 @@ import { useRoute } from 'vue-router';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
 import TagListVue from '@/components/tag/TagList.vue';
+import { getColumnDetail } from '@/api/columns';
 const route = useRoute();
-const isFollowed = ref(false);
 const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
-const tagInfo = ref<TagItem>({
-  sectionKey: '',
-  title: '',
-  img: '',
-  description: '',
+const columnInfo = ref<ColumnListItem>({
   id: 0,
+  href: '',
+  imgSrc: '',
+  title: '',
+  description: '',
+  followerNum: 0,
+  ArticleNum: 0,
 });
 onMounted(reload);
 function reload() {
-  getTagDetail(route.params.id as string).then((res) => {
+  getColumnDetail(route.params.id as string).then((res) => {
     if (res.data.status == 0) {
-      tagInfo.value = res.data.data.TagInfo as TagItem;
+      columnInfo.value = res.data.data.columnInfo as ColumnListItem;
     } else {
       window.$message.error('获取二级列表失败');
     }

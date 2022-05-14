@@ -1,27 +1,29 @@
 <template>
-  <a
+  <router-link
     class="ColumnHomeColumnCard ColumnHomeRecommendation-card"
+    tag="a"
     target="_blank"
-    href="https://zhuanlan.zhihu.com/c_1099983271789805568"
-    rel="noopener noreferrer"
-    ><img
-      class="Avatar"
-      width="50"
-      height="48"
-      src="https://pic1.zhimg.com/v2-6a4a46f73fd4d4124374fee1d3aafb92_xs.jpg?source=d16d100b"
-      srcset="https://pic1.zhimg.com/v2-6a4a46f73fd4d4124374fee1d3aafb92_l.jpg?source=d16d100b 2x"
-      alt="专栏图像"
-    />
-    <div class="ColumnHomeColumnCard-info">
-      <div class="ColumnHomeColumnCard-title">儿童学画画</div>
-      <div class="ColumnHomeColumnCard-description">画画牛逼，育儿也稳得一匹的 “戏精” 妈妈。</div>
-    </div>
-    <div class="ColumnHomeColumnCard-meta">2,158 人关注 | 248 篇文章</div>
-    <button type="button" class="Button ColumnHomeColumnCard-followButton Button--green">进入专栏</button></a
+    :to="'/columns/' + columnInfo.id"
   >
+    <n-image class="Avatar" width="50" height="48" :src="columnInfo.imgSrc"></n-image>
+    <div class="ColumnHomeColumnCard-info">
+      <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
+      <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
+    </div>
+    <div class="ColumnHomeColumnCard-meta">
+      {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.ArticleNum }} 篇文章
+    </div>
+    <button type="button" class="Button ColumnHomeColumnCard-followButton Button--green">进入专栏</button>
+  </router-link>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'vue-router';
+const route = useRouter();
+const props = defineProps<{ columnInfo: ColumnListItem }>();
+</script>
 
 <style scoped>
 .ColumnHomeRecommendation-card {
@@ -78,6 +80,7 @@ a {
   -webkit-box-orient: vertical;
   font-weight: 600;
   font-synthesis: style;
+  font-size: large;
 }
 .ColumnHomeColumnCard-description {
   font-size: 14px;

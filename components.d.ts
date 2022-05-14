@@ -7,7 +7,6 @@ declare module 'vue' {
     ArticlesList: typeof import('./src/components/article/ArticlesList.vue')['default']
     ArticlesListItem: typeof import('./src/components/article/ArticlesListItem.vue')['default']
     AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
-    ColumnList: typeof import('./src/components/column/ColumnList.vue')['default']
     ColumnListItem: typeof import('./src/components/column/ColumnListItem.vue')['default']
     CommentBox: typeof import('./src/components/comments/CommentBox.vue')['default']
     CommentItem: typeof import('./src/components/comments/CommentItem.vue')['default']

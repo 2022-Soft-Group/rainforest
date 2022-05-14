@@ -2,20 +2,114 @@
   <div class="ColumnHomeTop">
     <h1 class="ColumnHomeTop-logo"></h1>
     <h2 class="ColumnHomeTop-subTitle">想写就写，想抄就抄</h2>
-    <button style="button" class="ColumnHomeTop-requestButton Button--plain Button--green">申请开通专栏</button>
+    <n-button @click="showModal = true" class="ColumnHomeTop-requestButton Button--plain Button--green">
+      申请开通专栏
+    </n-button>
+    <n-modal
+      v-model:show="showModal"
+      :mask-closable="false"
+      preset="dialog"
+      :style="bodyStyle"
+      title="新建专栏"
+      size="huge"
+      :bordered="true"
+      positive-text="新建专栏"
+      negative-text="取消"
+      @positive-click="onPositiveClick"
+      @negative-click="onNegativeClick"
+    >
+      <n-space vertical size="large">
+        <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" />
+        <n-input
+          type="textarea"
+          placeholder="请输入一句话介绍"
+          v-model:value="description"
+          :autosize="{
+            minRows: 3,
+          }"
+        />
+      </n-space>
+    </n-modal>
   </div>
   <div class="ColumnHomeRecommendation">
     <h3 class="ColumnHomeTitle">
       <div class="ColumnHomeTitle-text">专栏 · 探索</div>
       <div class="ColumnHomeTitle-line"></div>
     </h3>
-    <column-list></column-list>
+    <div class="ColumnHomeRecommendation-cardContainer">
+      <div v-for="item in columnList">
+        <column-list-item :column-info="item"></column-list-item>
+      </div>
+    </div>
+    <button
+      class="Button ColumnHomeRecommendation-refreshButton Button--withIcon Button--withLabel"
+      @click="handleRequest"
+    >
+      浏览更多
+    </button>
   </div>
   <div class="ColumnHomeBottom ColumnHome-HomeBttom">
     <h3 class="ColumnHomeBottom-title">在语林创作</h3>
-    <button type="button" class="Button ColumnHomeBottom-requestButton">申请专栏</button>
   </div>
 </template>
+
+<script setup lang="ts">
+import { onMounted, ref } from 'vue';
+import { useAuthStore } from '@/store/auth';
+import { useRouter } from 'vue-router';
+import { addColumn, getColumnListRecommand } from '@/api/columns';
+const route = useRouter();
+const columnList = ref<Array<ColumnListItem>>([]);
+let currentPage = 0;
+onMounted(reload);
+function reload() {
+  getColumnListRecommand({ size: 8, page: currentPage }).then((res) => {
+    if (res.data.status == 0) {
+      columnList.value = res.data.data.columnInfos as Array<ColumnListItem>;
+    } else {
+      window.$message.error('获取推荐列表失败');
+    }
+  });
+}
+function handleRequest() {
+  getColumnListRecommand({ size: 10, page: ++currentPage }).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.columnInfos.forEach((element: any) => {
+        columnList.value.push(element);
+      });
+    }
+  });
+}
+const bodyStyle = { width: '600px' };
+const showModal = ref(false);
+function onNegativeClick() {
+  showModal.value = false;
+}
+const title = ref('');
+const description = ref('');
+const imgSrc = ref('');
+const column = ref<ColumnUpload>({
+  imgSrc: '',
+  title: '',
+  description: '',
+});
+function onPositiveClick() {
+  if (title.value == '') {
+    window.$message.warning('标题不能为空');
+  }
+  column.value.title = title.value;
+  column.value.description = description.value;
+  column.value.imgSrc = imgSrc.value;
+  showModal.value = false;
+  addColumn(column.value).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('创建专栏成功');
+    } else {
+      window.$message.error('创建专栏失败');
+    }
+  });
+}
+</script>
 
 <style>
 .ColumnHomeTop {
@@ -160,5 +254,136 @@
 }
 .ColumnHomeBottom-requestButton {
   border-color: #444;
+}
+.ColumnHomeRecommendation-cardContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.ColumnHomeRecommendation-card {
+  margin: 0 8px 16px;
+}
+.ColumnHomeColumnCard {
+  border-radius: 4px;
+  -webkit-box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
+  box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  padding: 26px 0 23px;
+  width: 206px;
+}
+.ColumnHomeColumnCard {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: #fff;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+.ColumnHomeColumnCard-info {
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-flex: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  padding: 0 16px;
+}
+.ColumnHomeColumnCard-title {
+  margin-top: 16px;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-weight: 600;
+  font-synthesis: style;
+}
+.ColumnHomeColumnCard-description {
+  font-size: 14px;
+  line-height: 21px;
+  margin-top: 7px;
+  text-align: center;
+  word-break: break-all;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.ColumnHomeColumnCard-meta {
+  font-size: 14px;
+  margin-top: 14px;
+}
+.ColumnHomeColumnCard-meta {
+  color: grey;
+}
+.ColumnHomeColumnCard-followButton {
+  margin-top: 15px;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+}
+.Button--green {
+  color: #11a668;
+  border-color: #11a668;
+}
+.Button--green:hover {
+  background-color: rgba(133, 144, 166, 0.06);
+}
+.Button {
+  display: inline-block;
+  padding: 0 16px;
+  font-size: 14px;
+  line-height: 32px;
+  text-align: center;
+  cursor: pointer;
+  background: none;
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+.Button:focus {
+  outline: none;
+  -webkit-transition: -webkit-box-shadow 0.3s;
+  transition: -webkit-box-shadow 0.3s;
+  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, -webkit-box-shadow 0.3s;
+}
+
+.Avatar {
+  background: #fff;
+  border-radius: 50%;
+}
+.ColumnHomeRecommendation-refreshButton {
+  margin-top: 20px;
+  width: 98px;
+}
+.ColumnHomeRecommendation-refreshButton {
+  color: #444;
+}
+.ColumnHomeRecommendation-refreshButton {
+  border-color: #444;
+}
+.Button--grey {
+  color: #8590a6;
+  border-color: #8590a6;
 }
 </style>
