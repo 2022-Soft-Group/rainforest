@@ -45,7 +45,7 @@
     </template>
     <template #extra>
       <n-space>
-        <n-button type="info" ghost> 编辑资料 </n-button>
+        <n-button type="primary" ghost> 编辑资料 </n-button>
       </n-space>
     </template>
     <template #footer>

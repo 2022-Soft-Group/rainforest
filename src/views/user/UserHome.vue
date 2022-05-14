@@ -7,9 +7,11 @@
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="我的关注">
-          <user-list :users="userListFollowing" :is-loading="userListIsLoading" />
+          <user-list :users="userListFollowing" :is-loading="userListFollowingIsLoading" />
         </n-tab-pane>
-        <n-tab-pane name="我的粉丝">我的粉丝fdsaf</n-tab-pane>
+        <n-tab-pane name="我的粉丝">
+          <user-list :users="userListFollowed" :is-loading="userListFollowedIsLoading" />
+        </n-tab-pane>
         <n-tab-pane name="我的文章">
           <articles-list :articles="articles" :is-loading="isLoading" />
         </n-tab-pane>
@@ -38,14 +40,15 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserListFollowing, getUserFeature } from '@/api/user';
+import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 import UserFollowNum from './UserFollowNum.vue';
 
 const { userID } = useAuthStore();
 function reload() {
   isLoading.value = true;
-  userListIsLoading.value = true;
+  userListFollowingIsLoading.value = true;
+  userListFollowedIsLoading.value = true;
   getArticleListRecommand({ size: 10, page: 0 }).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
@@ -64,9 +67,17 @@ function reload() {
   getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
-      userListIsLoading.value = false;
+      userListFollowingIsLoading.value = false;
     } else {
       window.$message.error('获取我关注的用户失败');
+    }
+  });
+  getUserListFollowed({ size: 10, page: 0 }, userID).then((res) => {
+    if (res.data.status == 0) {
+      userListFollowed.value = res.data.data.userListFollowed as Array<UserFeature>;
+      userListFollowingIsLoading.value = false;
+    } else {
+      window.$message.error('获取关注我的用户失败');
     }
   });
   getUserFeature(userID).then((res) => {
@@ -108,8 +119,12 @@ const userFeature = ref<UserFeature>({
 });
 
 // 我关注的用户列表
-const userListIsLoading = ref(false);
+const userListFollowingIsLoading = ref(false);
 const userListFollowing = ref<Array<UserFeature>>([]);
+
+// 关注我的用户列表
+const userListFollowedIsLoading = ref(false);
+const userListFollowed = ref<Array<UserFeature>>([]);
 
 onMounted(reload);
 </script>
