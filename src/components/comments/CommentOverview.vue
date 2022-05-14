@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { FilterSharp as SortIcon } from '@vicons/ionicons5';
 import { ref } from 'vue';
-import type CommentList from './CommentList.vue';
+import CommentList from './CommentList.vue';
 const props = defineProps<{ articleId: number }>();
 const sortByTime = ref(false);
 const commentList = ref<InstanceType<typeof CommentList> | null>(null);

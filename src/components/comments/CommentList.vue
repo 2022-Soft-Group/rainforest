@@ -18,8 +18,10 @@ import { getComments } from '../../api/article';
 const props = defineProps<{ articleId: number; sortByTime: boolean }>();
 const commentsInfo = ref<Array<CommentListItem>>([]);
 const handleGetComments = () => {
+  console.log('comment');
   getComments({ size: 100, page: 0, toCommentID: null }, props.articleId).then((res) => {
     if (res.data.status == 0) {
+      commentsInfo.value = res.data.data.comments;
     } else {
       window.$message.error('获取评论失败');
     }

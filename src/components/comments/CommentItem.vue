@@ -34,7 +34,7 @@
                 {{ comment.like }}
               </n-button>
             </div>
-            <div v-if="isFirstLayer" class="mt-1">
+            <div class="mt-1">
               <n-button text class="text-transparent" @click="handleShowComments">
                 <n-icon size="small"><comment-icon /></n-icon>
                 查看评论
@@ -50,7 +50,7 @@
       :article-id="articleId"
       @comment-success="handleShowComments"
     ></comment-box>
-    <div v-if="showSubComments && isFirstLayer" v-for="comment in subComments">
+    <div v-if="showSubComments" v-for="comment in subComments">
       <comment-item :comment="comment" :article-id="articleId" :class="{ 'ml-10': isFirstLayer }"></comment-item>
     </div>
   </n-space>
@@ -102,6 +102,7 @@ const handleShowComments = () => {
   isLoading.value = true;
   getComments({ size: 100, page: 0, toCommentID: props.comment.toCommentID as number }, props.articleId).then((res) => {
     if (res.data.status == 0) {
+      console.log('get comments');
       subComments.value = res.data.data.comments;
       isLoading.value = false;
     } else {
