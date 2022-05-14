@@ -19,10 +19,10 @@
     </n-card>
     <div class="flex-col basis-2/7">
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-achivement :liked="userLiked" :followed="userFollowed" />
+        <user-achivement :liked="userLiked" :collected="userCollected" />
       </n-card>
       <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        <user-follow />
+        <user-follow :following="userFollowingNum" :followed="userFollowedNum" />
       </n-card>
     </div>
   </div>
@@ -38,7 +38,7 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollow from './UserFollow.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserArticleNum, getUserAchivement } from '@/api/user';
+import { getUserInfo, getUserArticleNum, getUserAchivement, getUserFollowNum } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 
 const { userID } = useAuthStore();
@@ -69,9 +69,17 @@ function reload() {
   getUserAchivement(userID).then((res) => {
     if (res.data.status == 0) {
       userLiked.value = res.data.data.userLiked;
-      userFollowed.value = res.data.data.userFollowed;
+      userCollected.value = res.data.data.userCollected;
     } else {
       window.$message.error('获取用户成就失败');
+    }
+  });
+  getUserFollowNum(userID).then((res) => {
+    if (res.data.status == 0) {
+      userFollowedNum.value = res.data.data.userFollowedNum;
+      userFollowingNum.value = res.data.data.userFollowingNum;
+    } else {
+      window.$message.error('获取用户关注数量失败');
     }
   });
 }
@@ -97,7 +105,11 @@ const articleNum = ref(0);
 
 // 我的成就
 const userLiked = ref(0);
-const userFollowed = ref(0);
+const userCollected = ref(0);
+
+// 我关注和被关注的数量
+const userFollowingNum = ref(0);
+const userFollowedNum = ref(0);
 
 onMounted(reload);
 </script>

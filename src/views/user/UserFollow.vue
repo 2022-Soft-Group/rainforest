@@ -12,17 +12,7 @@
   </n-page-header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import { useMessage } from 'naive-ui';
-
-export default defineComponent({
-  data() {
-    return {
-      following: 125000,
-      followed: 25,
-    };
-  },
-  setup() {},
-});
+const props = defineProps<{ following: number; followed: number }>();
 </script>

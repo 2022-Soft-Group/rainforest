@@ -5,7 +5,7 @@
         <n-statistic label="获得点赞" :value="liked" />
       </n-gi>
       <n-gi class="text-center">
-        <n-statistic label="获得收藏" :value="followed" />
+        <n-statistic label="获得收藏" :value="collected" />
       </n-gi>
     </n-grid>
     <template #title>
@@ -20,5 +20,5 @@
 
 <script setup lang="ts">
 import { CheckmarkDone } from '@vicons/ionicons5';
-const props = defineProps<{ liked: number; followed: number }>();
+const props = defineProps<{ liked: number; collected: number }>();
 </script>

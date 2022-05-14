@@ -11,3 +11,7 @@ export function getUserArticleNum(userID: string) {
 export function getUserAchivement(userID: string) {
   return backend.get(`user/${userID}/achivement`);
 }
+
+export function getUserFollowNum(userID: string) {
+  return backend.get(`user/${userID}/follow`);
+}
