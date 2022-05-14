@@ -1,11 +1,18 @@
 <template>
-  <n-space vertical>
+  <div v-if="isLoading">
+    <n-skeleton text :repeat="2" />
+    <n-skeleton text style="width: 60%" />
+  </div>
+  <n-space vertical v-else>
     <n-thing>
       <template #avatar>
         <n-avatar round :src="userInfo.avatar"></n-avatar>
       </template>
       <template #header>
-        <router-link :to="'/user/' + userInfo.id">{{ userInfo.name }}</router-link>
+        <router-link :to="'/user/' + userInfo.id" class="hover:text-[#18a058]">
+          {{ userInfo.name }}
+        </router-link>
+        <span> 回复 {{ comment.toCommentorName }}</span>
       </template>
       <template #header-extra>
         <div class="mt-1">
@@ -16,18 +23,19 @@
           </n-button>
         </div>
       </template>
-      {{ comment.content }}
+      <template #description> 回复于{{ comment.createTime }} </template>
+      <div class="text-base">{{ comment.content }}</div>
       <template #action>
         <n-space>
           <n-space justify="space-between">
             <div class="mt-1">
-              <n-button text class="text-gray-400" @click="">
+              <n-button text class="text-gray-400" @click="handleLikeComments">
                 <n-icon size="small"><like-icon /></n-icon>
                 {{ comment.like }}
               </n-button>
             </div>
-            <div class="mt-1">
-              <n-button text class="text-gray-400" @click="showSubComments = !showSubComments">
+            <div v-if="isFirstLayer" class="mt-1">
+              <n-button text class="text-transparent" @click="handleShowComments">
                 <n-icon size="small"><comment-icon /></n-icon>
                 查看评论
               </n-button>
@@ -36,12 +44,17 @@
         </n-space>
       </template>
     </n-thing>
-    <comment-box v-if="showCommentBox"></comment-box>
-    <div v-if="showSubComments" v-for="comment in subComments">
-      <n-divider />
-      <comment-item :comment="comment" :class="{ 'ml-10': isFirstLayer }"></comment-item>
+    <comment-box
+      v-if="showCommentBox"
+      :to-comment-id="comment.commentID"
+      :article-id="articleId"
+      @comment-success="handleShowComments"
+    ></comment-box>
+    <div v-if="showSubComments && isFirstLayer" v-for="comment in subComments">
+      <comment-item :comment="comment" :article-id="articleId" :class="{ 'ml-10': isFirstLayer }"></comment-item>
     </div>
   </n-space>
+  <n-divider />
 </template>
 
 <script setup lang="ts">
@@ -53,7 +66,8 @@ import {
   ThumbsUpSharp as LikeIcon,
 } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
-const props = defineProps<{ comment: CommentListItem }>();
+import { getComments, likeComment } from '@/api/article';
+const props = defineProps<{ comment: CommentListItem; articleId: number }>();
 const userInfo = ref<User>({
   name: '',
   description: '',
@@ -72,35 +86,29 @@ const showSubComments = ref(false);
 const isFirstLayer = computed(() => {
   return props.comment.toCommentID == null;
 });
-const subComments: CommentListItem[] = [
-  {
-    commentorID: 10,
-    content: '这是一条评论',
-    image: null,
-    toCommentID: 10,
-    like: 10,
-    createTime: '',
-    commentID: 15,
-  },
-  {
-    commentorID: 10,
-    content: '这是一条评论',
-    image: null,
-    toCommentID: 10,
-    like: 10,
-    createTime: '',
-    commentID: 16,
-  },
-  {
-    commentorID: 10,
-    content: '这是一条评论',
-    image: null,
-    toCommentID: 10,
-    like: 10,
-    createTime: '',
-    commentID: 17,
-  },
-];
+const subComments = ref<Array<CommentListItem>>([]);
+const isLoading = ref(false);
+
+const handleLikeComments = () => {
+  likeComment(props.articleId, props.comment.commentID).then((res) => {
+    if (res.data.status != 0) {
+      window.$message.error('点赞评论失败');
+    }
+  });
+};
+
+const handleShowComments = () => {
+  showSubComments.value = !showSubComments.value;
+  isLoading.value = true;
+  getComments({ size: 100, page: 0, toCommentID: props.comment.toCommentID as number }, props.articleId).then((res) => {
+    if (res.data.status == 0) {
+      subComments.value = res.data.data.comments;
+      isLoading.value = false;
+    } else {
+      window.$message.error('获取评论失败');
+    }
+  });
+};
 
 watch(
   () => props.comment,
