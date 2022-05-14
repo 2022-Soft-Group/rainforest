@@ -53,7 +53,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import BrandImg from '@/assets/svg.svg';
+import BrandImg from '/resource/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
 import { getMessages } from '@/api/message';
