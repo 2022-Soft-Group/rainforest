@@ -46,7 +46,6 @@ export default defineComponent({
       coin: 0,
       createTime: '',
       modifyTime: '',
-      articleNum: 0,
     });
     const articleContent = ref('');
     const articleInfo = ref<ArticlesListItem>({

@@ -1,11 +1,11 @@
 <template>
   <n-page-header>
     <n-grid :cols="2">
-      <n-gi>
-        <n-statistic label="获得点赞" :value="like" />
+      <n-gi class="text-center">
+        <n-statistic label="获得点赞" :value="liked" />
       </n-gi>
-      <n-gi>
-        <n-statistic label="获得收藏" :value="follow" />
+      <n-gi class="text-center">
+        <n-statistic label="获得收藏" :value="followed" />
       </n-gi>
     </n-grid>
     <template #title>
@@ -18,21 +18,7 @@
   </n-page-header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useMessage } from 'naive-ui';
+<script setup lang="ts">
 import { CheckmarkDone } from '@vicons/ionicons5';
-// const props = defineProps<{ liked: number; followed: number }>();
-export default defineComponent({
-  data() {
-    return {
-      like: 230,
-      follow: 100,
-    };
-  },
-  components: {
-    CheckmarkDone,
-  },
-  setup() {},
-});
+const props = defineProps<{ liked: number; followed: number }>();
 </script>

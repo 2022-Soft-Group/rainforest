@@ -19,7 +19,7 @@
     </n-card>
     <div class="flex-col basis-2/7">
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-achivement />
+        <user-achivement :liked="userLiked" :followed="userFollowed" />
       </n-card>
       <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
         <user-follow />
@@ -38,7 +38,7 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollow from './UserFollow.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserArticleNum } from '@/api/user';
+import { getUserInfo, getUserArticleNum, getUserAchivement } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 
 const { userID } = useAuthStore();
@@ -66,9 +66,21 @@ function reload() {
       window.$message.error('获取用户文章数量失败');
     }
   });
+  getUserAchivement(userID).then((res) => {
+    if (res.data.status == 0) {
+      userLiked.value = res.data.data.userLiked;
+      userFollowed.value = res.data.data.userFollowed;
+    } else {
+      window.$message.error('获取用户成就失败');
+    }
+  });
 }
+
+// 我对文章
 const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
+
+// 我的个人信息
 const userInfo = ref<User>({
   name: '',
   description: '',
@@ -81,8 +93,11 @@ const userInfo = ref<User>({
   createTime: '',
   modifyTime: '',
 });
-
 const articleNum = ref(0);
+
+// 我的成就
+const userLiked = ref(0);
+const userFollowed = ref(0);
 
 onMounted(reload);
 </script>
