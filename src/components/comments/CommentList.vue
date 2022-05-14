@@ -12,14 +12,12 @@
 </template>
 
 <script setup lang="ts">
-import { Time } from '@vicons/ionicons5';
 import { onMounted, ref, watch } from 'vue';
 import { getComments } from '../../api/article';
 
 const props = defineProps<{ articleId: number; sortByTime: boolean }>();
 const commentsInfo = ref<Array<CommentListItem>>([]);
 const handleGetComments = () => {
-  console.log(props.articleId);
   getComments({ size: 100, page: 0, toCommentID: null }, props.articleId).then((res) => {
     if (res.data.status == 0) {
       commentsInfo.value = res.data.data.comments;

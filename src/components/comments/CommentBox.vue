@@ -57,7 +57,9 @@ const handleUploadComment = () => {
     image: image.value,
   }).then((res) => {
     if (res.data.status == 0) {
-      window.$message.info('评论发送成功');
+      comment.value = '';
+      image.value = '';
+      uploadImg.value = false;
       emits('comment-success');
     } else {
       window.$message.info('评论发送失败');

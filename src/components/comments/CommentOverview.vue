@@ -8,7 +8,7 @@
       </n-icon>
     </n-button>
   </div>
-  <comment-list :article-id="parseInt(articleId as string)" :sort-by-time="sortByTime"></comment-list>
+  <comment-list :article-id="parseInt(articleId as string)" :sort-by-time="sortByTime" ref="commentList"></comment-list>
   <comment-box
     :to-comment-id="null"
     :article-id="parseInt(articleId as string)"
