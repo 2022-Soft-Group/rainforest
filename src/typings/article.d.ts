@@ -20,3 +20,14 @@ type ArticleUpload = {
   tags: Arrary<number>;
   private: boolean;
 };
+
+type CommentListItem = {
+  commentorID: number;
+  content: string;
+  image: string | null;
+  toCommentID: number | null;
+  like: number;
+  createTime: string;
+  commentID: number;
+  toCommentorName: string;
+};

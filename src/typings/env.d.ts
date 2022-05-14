@@ -20,7 +20,7 @@ interface ImportMetaEnv {
   /** 项目描述 */
   readonly VITE_APP_DESC: string;
   /** 开发启动的服务端口号 */
-  readonly VITE_SERVER_PORT: string;
+  readonly VITE_SERVER_PORT: number;
   /** vite环境类型 */
   readonly VITE_ENV_TYPE?: EnvType;
   /** 开启请求代理 */
