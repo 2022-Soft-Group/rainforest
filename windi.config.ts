@@ -71,7 +71,7 @@ export default defineConfig({
         'dark-base': '#101014',
       },
       backgroundImage: {
-        'login-pattern': "url('src/assets/bgimg.jpg')",
+        'login-pattern': "url('/resource/bgimg.jpg')",
       },
       textColor: {
         'black-base': '#333639',
