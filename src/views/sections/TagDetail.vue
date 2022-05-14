@@ -16,7 +16,7 @@
     </n-thing>
   </n-card>
   <n-card class="flex m-auto mt-2 rounded-t-md w-200">
-    <articles-list :articles="articles" :is-loading="isLoading" />
+    <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
   </n-card>
 </template>
 <script setup lang="ts">
@@ -26,8 +26,8 @@ import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
 import TagListVue from '@/components/tag/TagList.vue';
 const route = useRoute();
-const isFollowed = ref(false);
 const isLoading = ref(false);
+let currentPage = 0;
 const articles = ref<Array<ArticlesListItem>>([]);
 const tagInfo = ref<TagItem>({
   sectionKey: '',
@@ -43,6 +43,26 @@ function reload() {
       tagInfo.value = res.data.data.TagInfo as TagItem;
     } else {
       window.$message.error('获取二级列表失败');
+    }
+  });
+  isLoading.value = true;
+  getTagArticleList({ size: 10, page: currentPage, id: tagInfo.value.id }).then((res) => {
+    if (res.data.status == 0) {
+      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      isLoading.value = false;
+    } else {
+      window.$message.error('获取文章列表失败');
+    }
+  });
+}
+function handleRequest() {
+  isLoading.value = true;
+  getTagArticleList({ size: 10, page: ++currentPage, id: tagInfo.value.id }).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.articleInfos.forEach((element: any) => {
+        articles.value.push(element);
+      });
+      isLoading.value = false;
     }
   });
 }

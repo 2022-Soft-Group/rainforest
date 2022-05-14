@@ -10,6 +10,7 @@ type ArticlesListItem = {
   tags: TagItem[];
   image: string | undefined;
   articleID: number;
+  columns: ColumnListItem[]; //只是在这里加了，还没有全面加
 };
 
 type ArticleUpload = {

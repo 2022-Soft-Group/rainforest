@@ -16,7 +16,7 @@
     </n-thing>
   </n-card>
   <n-card class="flex m-auto mt-2 rounded-t-md w-200">
-    <articles-list :articles="articles" :is-loading="isLoading" />
+    <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
   </n-card>
 </template>
 <script setup lang="ts">
@@ -25,8 +25,10 @@ import { useRoute } from 'vue-router';
 import { CashOutline as CashIcon } from '@vicons/ionicons5';
 import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
 import TagListVue from '@/components/tag/TagList.vue';
-import { getColumnDetail } from '@/api/columns';
+import { getColumnArticleList, getColumnDetail } from '@/api/columns';
+import { getArticleListRecommand } from '@/api/article';
 const route = useRoute();
+let currentPage = 0;
 const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
 const columnInfo = ref<ColumnListItem>({
@@ -45,6 +47,26 @@ function reload() {
       columnInfo.value = res.data.data.columnInfo as ColumnListItem;
     } else {
       window.$message.error('获取二级列表失败');
+    }
+  });
+  isLoading.value = true;
+  getColumnArticleList({ size: 10, page: currentPage, id: columnInfo.value.id }).then((res) => {
+    if (res.data.status == 0) {
+      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      isLoading.value = false;
+    } else {
+      window.$message.error('获取文章列表失败');
+    }
+  });
+}
+function handleRequest() {
+  isLoading.value = true;
+  getColumnArticleList({ size: 10, page: ++currentPage, id: columnInfo.value.id }).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.articleInfos.forEach((element: any) => {
+        articles.value.push(element);
+      });
+      isLoading.value = false;
     }
   });
 }

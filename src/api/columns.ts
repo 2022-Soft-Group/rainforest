@@ -15,3 +15,7 @@ export function getColumnDetail(id: string) {
 export function addColumn(column: ColumnUpload) {
   return jsonBackend.post(`column`, column);
 }
+
+export function getColumnArticleList(data: { size: number; page: number; id: number }) {
+  return backend.get(`/column/${data.id}/articles`, { params: data });
+}
