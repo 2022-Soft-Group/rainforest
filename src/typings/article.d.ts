@@ -21,12 +21,13 @@ type ArticleUpload = {
   private: boolean;
 };
 
-type Comment = {
+type CommentListItem = {
   commentorID: number;
   content: string;
   image: string | null;
-  toCommentID: string | null;
-  like: integer;
+  toCommentID: number | null;
+  like: number;
   createTime: string;
-  commentID: integer;
+  commentID: number;
+  toCommentorName: string;
 };
