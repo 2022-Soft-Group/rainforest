@@ -13,5 +13,9 @@ export function getUserAchivement(userID: string) {
 }
 
 export function getUserFollowNum(userID: string) {
-  return backend.get(`user/${userID}/follow`);
+  return backend.get(`user/${userID}/followNum`);
+}
+
+export function getUserListFollowing(data: { size: number; page: number }, userID: string) {
+  return backend.get(`user/${userID}/list/followings`, { params: data });
 }

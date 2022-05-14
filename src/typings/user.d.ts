@@ -19,3 +19,14 @@ type User = {
   createTime: string;
   modifyTime: string;
 };
+
+type UserFeature = {
+  id: number;
+  name: string;
+  avatar: string;
+  articleNum: number;
+  followingNum: number;
+  followedNum: number;
+  collectedNum: number;
+  likedNum: number;
+};

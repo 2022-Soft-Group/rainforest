@@ -7,7 +7,7 @@
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="我的关注">
-          <user-list />
+          <user-list :users="userListFollowing" :is-loading="userListIsLoading" />
         </n-tab-pane>
         <n-tab-pane name="我的粉丝">我的粉丝fdsaf</n-tab-pane>
         <n-tab-pane name="我的文章">
@@ -38,13 +38,14 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserArticleNum, getUserAchivement, getUserFollowNum } from '@/api/user';
+import { getUserInfo, getUserArticleNum, getUserAchivement, getUserFollowNum, getUserListFollowing } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 import UserFollowNum from './UserFollowNum.vue';
 
 const { userID } = useAuthStore();
 function reload() {
   isLoading.value = true;
+  userListIsLoading.value = true;
   getArticleListRecommand({ size: 10, page: 0 }).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
@@ -57,14 +58,14 @@ function reload() {
     if (res.data.status == 0) {
       userInfo.value = res.data.data.user as User;
     } else {
-      window.$message.error('获取用户信息失败');
+      window.$message.error('获取我的用户信息失败');
     }
   });
   getUserArticleNum(userID).then((res) => {
     if (res.data.status == 0) {
       articleNum.value = res.data.data.articleNum;
     } else {
-      window.$message.error('获取用户文章数量失败');
+      window.$message.error('获取我的用户文章数量失败');
     }
   });
   getUserAchivement(userID).then((res) => {
@@ -72,7 +73,7 @@ function reload() {
       userLiked.value = res.data.data.userLiked;
       userCollected.value = res.data.data.userCollected;
     } else {
-      window.$message.error('获取用户成就失败');
+      window.$message.error('获取我的用户成就失败');
     }
   });
   getUserFollowNum(userID).then((res) => {
@@ -80,12 +81,20 @@ function reload() {
       userFollowedNum.value = res.data.data.userFollowedNum;
       userFollowingNum.value = res.data.data.userFollowingNum;
     } else {
-      window.$message.error('获取用户关注数量失败');
+      window.$message.error('获取我的关注数量失败');
+    }
+  });
+  getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
+    if (res.data.status == 0) {
+      userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
+      userListIsLoading.value = false;
+    } else {
+      window.$message.error('获取我关注的用户失败');
     }
   });
 }
 
-// 我对文章
+// 我的文章
 const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
 
@@ -111,6 +120,10 @@ const userCollected = ref(0);
 // 我关注和被关注的数量
 const userFollowingNum = ref(0);
 const userFollowedNum = ref(0);
+
+// 我关注的用户列表
+const userListIsLoading = ref(false);
+const userListFollowing = ref<Array<UserFeature>>([]);
 
 onMounted(reload);
 </script>

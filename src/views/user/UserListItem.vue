@@ -1,30 +1,24 @@
 <template>
   <n-page-header subtitle="已认证账号">
     <template #title>
-      <div class="text-lg font-bold">{{ name }}</div>
+      <div class="text-lg font-bold">{{ userFeature.name }}</div>
     </template>
     <template #avatar>
-      <n-avatar src="https://cdnimg103.lizhi.fm/user/2017/02/04/2583325032200238082_160x160.jpg" />
+      <n-avatar :src="userFeature.avatar" :size="60" />
     </template>
     <template #extra>
       <n-space>
         <n-button type="default" ghost> 已关注 </n-button>
       </n-space>
     </template>
-    <template #footer>fsddddddddddddddddddddddddddddddddddd</template>
+    <template #footer>
+      <div class="text-gray-500 leading-3">
+        {{ userFeature.articleNum }} 篇文章 · {{ userFeature.followedNum }} 关注着 · {{ userFeature.likedNum }} 点赞
+      </div>
+    </template>
   </n-page-header>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import { useMessage } from 'naive-ui';
-
-export default defineComponent({
-  data() {
-    return {
-      name: '小破孩',
-    };
-  },
-  setup() {},
-});
+<script setup lang="ts">
+const props = defineProps<{ userFeature: UserFeature; isLoading: boolean }>();
 </script>
