@@ -22,7 +22,7 @@
         <user-achivement :liked="userLiked" :collected="userCollected" />
       </n-card>
       <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        <user-follow :following="userFollowingNum" :followed="userFollowedNum" />
+        <user-follow-num :following="userFollowingNum" :followed="userFollowedNum" />
       </n-card>
     </div>
   </div>
@@ -36,10 +36,11 @@ import { getArticleListRecommand } from '@/api/article';
 import { ref, onMounted } from 'vue';
 import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
-import userFollow from './UserFollow.vue';
+import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserArticleNum, getUserAchivement, getUserFollowNum } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
+import UserFollowNum from './UserFollowNum.vue';
 
 const { userID } = useAuthStore();
 function reload() {

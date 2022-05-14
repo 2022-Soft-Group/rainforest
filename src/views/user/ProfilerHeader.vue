@@ -22,7 +22,7 @@
       <n-gi class="text-center">
         <n-statistic label="" :value="[articleNum, '篇'].join('')">
           <template #prefix>
-            <n-icon size="30"><Book /></n-icon>
+            <n-icon size="30"><Pencil /></n-icon>
           </template>
         </n-statistic>
       </n-gi>
@@ -50,7 +50,7 @@
     </template>
     <template #footer>
       <n-collapse>
-        <n-collapse-item title="详细资料">
+        <n-collapse-item title="个人简介">
           <div>{{ userInfo.description }}</div>
         </n-collapse-item>
       </n-collapse>
@@ -59,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { HomeSharp, Mail, Book, Transgender, IdCard, Man, Woman } from '@vicons/ionicons5';
+import { HomeSharp, Mail, Pencil, Transgender, IdCard, Man, Woman } from '@vicons/ionicons5';
 import { Coins } from '@vicons/fa';
 
 const props = defineProps<{ articleNum: number; userInfo: User }>();
