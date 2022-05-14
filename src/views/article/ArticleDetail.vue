@@ -40,7 +40,7 @@ export default defineComponent({
       description: '',
       avatar: '',
       id: 0,
-      sex: '',
+      sex: 0,
       email: '',
       phone: '',
       coin: 0,
