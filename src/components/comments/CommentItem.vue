@@ -79,7 +79,7 @@ const userInfo = ref<User>({
   description: '',
   avatar: '',
   id: 0,
-  sex: '',
+  sex: 0,
   email: '',
   phone: '',
   coin: 0,
