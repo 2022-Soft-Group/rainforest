@@ -5,7 +5,7 @@
         <n-statistic :value="[userInfo.coin, '币'].join('')">
           <template #prefix>
             <n-icon size="30">
-              <Coins />
+              <point-icon />
             </n-icon>
           </template>
         </n-statistic>
@@ -14,7 +14,7 @@
         <div class="text-justify">
           <n-statistic :value="userInfo.email">
             <template #prefix>
-              <n-icon size="30"><Mail /></n-icon>
+              <n-icon size="30"><mail-icon /></n-icon>
             </template>
           </n-statistic>
         </div>
@@ -22,7 +22,7 @@
       <n-gi class="text-center">
         <n-statistic label="" :value="[articleNum, '篇'].join('')">
           <template #prefix>
-            <n-icon size="30"><Pencil /></n-icon>
+            <n-icon size="30"><pencil-icon /></n-icon>
           </template>
         </n-statistic>
       </n-gi>
@@ -32,10 +32,10 @@
         <span class="text-2xl">{{ userInfo.name }}</span>
         <br /><br />
         <div v-if="userInfo.sex == 1">
-          <n-icon size="25"><Man /></n-icon>
+          <n-icon size="25"><man-icon /></n-icon>
         </div>
         <div v-else>
-          <n-icon size="25"><Woman /></n-icon>
+          <n-icon size="25"><woman-icon /></n-icon>
         </div>
       </span>
     </template>
@@ -59,8 +59,13 @@
 </template>
 
 <script setup lang="ts">
-import { HomeSharp, Mail, Pencil, Transgender, IdCard, Man, Woman } from '@vicons/ionicons5';
-import { Coins } from '@vicons/fa';
+import {
+  Mail as MailIcon,
+  Pencil as PencilIcon,
+  Man as ManIcon,
+  Woman as WomanIcon,
+  Sparkles as PointIcon,
+} from '@vicons/ionicons5';
 
 const props = defineProps<{ articleNum: number; userInfo: User }>();
 </script>
