@@ -1,8 +1,6 @@
 <template>
   <n-upload :file-list="fileList" :default-upload="false" class="upload-container" @change="handleFileChange" :max="1">
-    <n-button type="primary" block secondary strong>
-      <slot></slot>
-    </n-button>
+    <slot></slot>
   </n-upload>
 </template>
 

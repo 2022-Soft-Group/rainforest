@@ -53,29 +53,31 @@
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import BrandImg from '@/assets/svg.svg';
+import BrandImg from '/resource/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
-import { getMessages } from '@/api/user';
+import { getMessages } from '@/api/message';
+import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
 const router = useRouter();
 const showButton = ref(true);
+const { isLogin } = useAuthStore();
 // const tabValue = ref("homepage");
 // const isSelectedTab = computed(()=>{
 //   return route.name == tabValue.value;
 // })
 
 const homepageSelected = computed(() => {
-  return route.name == 'homepage';
+  return route.fullPath.split('/')[1] == 'homepage';
 });
 
 const sectionSelected = computed(() => {
-  return route.name == 'sections';
+  return route.fullPath.split('/')[1] == 'sections';
 });
 
 const columnSelected = computed(() => {
-  return route.name == 'columns';
+  return route.fullPath.split('/')[1] == 'columns';
 });
 
 const messages = ref<Array<MessageInfo>>([]);
@@ -96,15 +98,17 @@ function getUserMessages() {
 function getUserTrends() {}
 
 onMounted(() => {
-  getUserMessages();
-  getUserTrends();
+  if (isLogin) {
+    getUserMessages();
+    getUserTrends();
+    window.setInterval(() => {
+      setTimeout(getUserMessages, 0);
+      setTimeout(getUserTrends, 0);
+    }, 30000);
+  }
 });
 
 // 每隔30s获取消息和动态
-window.setInterval(() => {
-  setTimeout(getUserMessages, 0);
-  setTimeout(getUserTrends, 0);
-}, 30000);
 </script>
 
 <style scoped>
