@@ -60,6 +60,7 @@ export default defineComponent({
       tags: [],
       image: '',
       articleID: 0,
+      columns: [],
     });
 
     const options = {
