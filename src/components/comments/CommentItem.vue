@@ -5,7 +5,10 @@
         <n-avatar round :src="userInfo.avatar"></n-avatar>
       </template>
       <template #header>
-        <router-link :to="'/user/' + userInfo.id">{{ userInfo.name }}</router-link>
+        <router-link :to="'/user/' + userInfo.id" class="hover:text-[#18a058]">
+          {{ userInfo.name }}
+        </router-link>
+        <span v-if="comment.toCommentorName != null"> 回复 {{ comment.toCommentorName }}</span>
       </template>
       <template #header-extra>
         <div class="mt-1">
@@ -16,30 +19,46 @@
           </n-button>
         </div>
       </template>
-      {{ comment.content }}
+      <template #description> 回复于{{ comment.createTime }} </template>
+      <div class="text-base">{{ comment.content }}</div>
+      <div v-if="comment.image != ''">
+        <n-image
+          :src="(comment.image as string)"
+          width="240"
+          object-fit="cover"
+          class="h-48 flex-none rounded-md"
+        ></n-image>
+      </div>
       <template #action>
         <n-space>
           <n-space justify="space-between">
             <div class="mt-1">
-              <n-button text class="text-gray-400" @click="">
+              <n-button text class="text-gray-400" @click="handleLikeComments">
                 <n-icon size="small"><like-icon /></n-icon>
                 {{ comment.like }}
               </n-button>
             </div>
             <div class="mt-1">
-              <n-button text class="text-gray-400" @click="showSubComments = !showSubComments">
+              <n-button text class="text-transparent" @click="handleShowComments">
                 <n-icon size="small"><comment-icon /></n-icon>
-                查看评论
+                {{ showSubComments ? '取消查看' : '查看回复' }}
               </n-button>
             </div>
           </n-space>
         </n-space>
       </template>
     </n-thing>
-    <comment-box v-if="showCommentBox"></comment-box>
-    <div v-if="showSubComments" v-for="comment in subComments">
-      <n-divider />
-      <comment-item :comment="comment" :class="{ 'ml-10': isFirstLayer }"></comment-item>
+    <comment-box
+      v-if="showCommentBox"
+      :to-comment-id="comment.commentID"
+      :article-id="articleId"
+      @comment-success="handleShowComments"
+    ></comment-box>
+    <n-divider />
+    <div v-if="showSubComments">
+      <div v-for="comment in subComments">
+        <comment-item :comment="comment" :article-id="articleId" :class="{ 'ml-12': isFirstLayer }"></comment-item>
+      </div>
     </div>
   </n-space>
 </template>
@@ -53,7 +72,8 @@ import {
   ThumbsUpSharp as LikeIcon,
 } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
-const props = defineProps<{ comment: CommentListItem }>();
+import { getComments, likeComment } from '@/api/article';
+const props = defineProps<{ comment: CommentListItem; articleId: number }>();
 const userInfo = ref<User>({
   name: '',
   description: '',
@@ -66,41 +86,35 @@ const userInfo = ref<User>({
   createTime: '',
   modifyTime: '',
 });
-const toCommentorName = ref('');
 const showCommentBox = ref(false);
 const showSubComments = ref(false);
+
 const isFirstLayer = computed(() => {
   return props.comment.toCommentID == null;
 });
-const subComments: CommentListItem[] = [
-  {
-    commentorID: 10,
-    content: '这是一条评论',
-    image: null,
-    toCommentID: 10,
-    like: 10,
-    createTime: '',
-    commentID: 15,
-  },
-  {
-    commentorID: 10,
-    content: '这是一条评论',
-    image: null,
-    toCommentID: 10,
-    like: 10,
-    createTime: '',
-    commentID: 16,
-  },
-  {
-    commentorID: 10,
-    content: '这是一条评论',
-    image: null,
-    toCommentID: 10,
-    like: 10,
-    createTime: '',
-    commentID: 17,
-  },
-];
+const subComments = ref<Array<CommentListItem>>([]);
+
+const handleLikeComments = () => {
+  likeComment(props.articleId, props.comment.commentID).then((res) => {
+    if (res.data.status != 0) {
+      window.$message.error('点赞评论失败');
+    }
+  });
+};
+
+const handleShowComments = () => {
+  getComments({ size: 100, page: 0, toCommentID: props.comment.commentID as number }, props.articleId).then((res) => {
+    if (res.data.status == 0) {
+      subComments.value = res.data.data.comments;
+      if (subComments.value.length != 0) {
+        showSubComments.value = !showSubComments.value;
+      }
+    } else {
+      window.$message.error('获取评论失败');
+    }
+  });
+  showCommentBox.value = false;
+};
 
 watch(
   () => props.comment,
@@ -108,9 +122,17 @@ watch(
     getUserInfo(props.comment.commentorID.toString()).then((res) => {
       userInfo.value = res.data.data.user;
     });
+    handleShowComments();
   },
   {
     immediate: true,
   }
 );
 </script>
+
+<style scoped>
+:deep(.n-divider) {
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+</style>

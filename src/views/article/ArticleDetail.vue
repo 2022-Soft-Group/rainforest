@@ -18,7 +18,7 @@
   </n-card>
   <n-divider />
   <n-card class="flex m-auto rounded-md w-200">
-    <comment-overview class="w-200"></comment-overview>
+    <comment-overview class="w-200" :article-id="articleInfo.articleID"></comment-overview>
   </n-card>
 </template>
 <script lang="ts">
