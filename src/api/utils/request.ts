@@ -1,16 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
-// http://127.0.0.1:4523/mock/836630
-// http://kurino.top/api
+const mockUrl = 'http://127.0.0.1:4523/mock/836630';
+const url = 'http://kurino.top/api';
 const backend = axios.create({
-  baseURL: 'http://127.0.0.1:4523/mock/836630',
+  baseURL: url,
 });
-// http://kurino.top/api
-
 const jsonBackend = axios.create({
-  baseURL: 'http://127.0.0.1:4523/mock/836630',
+  baseURL: url,
 });
-//  http://127.0.0.1:4523/mock/836630
 
 backend.interceptors.request.use((config) => {
   config.headers = {
