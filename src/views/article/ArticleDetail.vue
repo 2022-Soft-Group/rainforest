@@ -22,7 +22,7 @@
   </n-card>
 </template>
 <script lang="ts">
-import { ref, onMounted, defineComponent } from 'vue';
+import { ref, onMounted, defineComponent, provide } from 'vue';
 import MarkdownItVue from 'markdown-it-vue';
 import 'markdown-it-vue/dist/markdown-it-vue.css';
 import { getUserInfo } from '@/api/user';
@@ -51,7 +51,7 @@ export default defineComponent({
     const articleInfo = ref<ArticlesListItem>({
       title: '',
       author: '',
-      authorID: 0,
+      authorID: 1,
       description: '',
       view: 0,
       like: 0,
@@ -75,11 +75,14 @@ export default defineComponent({
       },
     };
 
+    const authorID = ref(0);
+    provide('authorID', authorID);
     onMounted(() => {
       getArticle(route.params.id as string)
         .then((res) => {
           if (res.data.status == 0) {
             articleInfo.value = res.data.data.articleInfo;
+            authorID.value = articleInfo.value.authorID;
             articleContent.value = res.data.data.articleContent;
           } else {
             window.$message.error('获取文章失败');

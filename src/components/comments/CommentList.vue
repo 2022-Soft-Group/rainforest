@@ -4,8 +4,14 @@
       <n-empty description="还没有评论哦"></n-empty>
     </div>
     <div v-else>
-      <div v-for="comment in commentsInfo">
-        <comment-item :comment="comment" :article-id="articleId"></comment-item>
+      <div v-for="(comment, index) in commentsInfo">
+        <comment-item
+          :comment="comment"
+          :comment-order="index"
+          :article-id="articleId"
+          :sort-by-time="sortByTime"
+          @delete-comment="handleDeleteComment"
+        ></comment-item>
       </div>
     </div>
   </n-card>
@@ -14,6 +20,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { getComments } from '../../api/article';
+import { compareByTime, compareByLike } from './CommentUtils';
 
 const props = defineProps<{ articleId: number; sortByTime: boolean }>();
 const commentsInfo = ref<Array<CommentListItem>>([]);
@@ -27,7 +34,15 @@ const handleGetComments = () => {
   });
 };
 
-defineExpose({ handleGetComments });
+const handleAddComments = (comment: CommentListItem) => {
+  commentsInfo.value.push(comment);
+};
+
+const handleDeleteComment = (index: number) => {
+  commentsInfo.value.splice(index, 1);
+};
+
+defineExpose({ handleAddComments });
 
 function sortCommentsInfo(sortByTime: boolean) {
   if (sortByTime) {
@@ -36,16 +51,6 @@ function sortCommentsInfo(sortByTime: boolean) {
     commentsInfo.value.sort(compareByLike);
   }
 }
-
-const compareByTime = (a: CommentListItem, b: CommentListItem) => {
-  var date1 = new Date(a.createTime);
-  var date2 = new Date(b.createTime);
-  return date1 < date2 ? 1 : -1;
-};
-
-const compareByLike = (a: CommentListItem, b: CommentListItem) => {
-  return b.like - a.like;
-};
 
 watch(
   () => props.sortByTime,

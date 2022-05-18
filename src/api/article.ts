@@ -39,3 +39,7 @@ export function commentArticleComments(
 ) {
   return backend.post(`article/${articleID}/comment`, data);
 }
+
+export function deleteComment(articleID: number, commentID: number) {
+  return backend.delete(`article/${articleID}/comment/${commentID}`);
+}

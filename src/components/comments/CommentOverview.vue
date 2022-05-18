@@ -12,20 +12,24 @@
   <comment-box
     :to-comment-id="null"
     :article-id="parseInt(articleId as string)"
-    @comment-success="handleUploadComment"
+    :to-commentor-name="null"
+    @comment-success="handleAddComment"
+    ref="commentBox"
   ></comment-box>
 </template>
 
 <script setup lang="ts">
 import { FilterSharp as SortIcon } from '@vicons/ionicons5';
 import { ref } from 'vue';
+import CommentBox from './CommentBox.vue';
 import CommentList from './CommentList.vue';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const articleId = ref(route.params.id);
 const sortByTime = ref(false);
+const commentBox = ref<InstanceType<typeof CommentBox> | null>(null);
 const commentList = ref<InstanceType<typeof CommentList> | null>(null);
-const handleUploadComment = () => {
-  commentList.value?.handleGetComments();
+const handleAddComment = () => {
+  commentList.value?.handleAddComments(commentBox.value?.commentInfo as CommentListItem);
 };
 </script>

@@ -31,4 +31,5 @@ type CommentListItem = {
   createTime: string;
   commentID: number;
   toCommentorName: string;
+  deleted: boolean;
 };
