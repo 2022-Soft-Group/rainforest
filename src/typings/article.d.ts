@@ -10,6 +10,7 @@ type ArticlesListItem = {
   tags: TagItem[];
   image: string | undefined;
   articleID: number;
+  thumbnail: string | null;
   columns: ColumnListItem[]; //只是在这里加了，还没有全面加
 };
 
@@ -20,6 +21,7 @@ type ArticleUpload = {
   image: string;
   tags: Arrary<number>;
   private: boolean;
+  imageID: number;
 };
 
 type CommentListItem = {
