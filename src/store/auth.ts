@@ -2,23 +2,24 @@ import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
 export const useAuthStore = defineStore('auth', () => {
+  const userID = ref(localStorage.getItem('userID') || '');
   const token = ref(localStorage.getItem('token') || '');
-  const avatar = ref('');
-  const ID = ref(-1);
+  const avatar = ref(localStorage.getItem('avatar') || '');
   const isLogin = computed(() => {
     return token.value !== '';
   });
 
-  function signIn(userToken: string, userID: number, userAvatar: string) {
-    token.value = userToken;
-    avatar.value = userAvatar;
-    ID.value = userID;
+  function signIn(userToken: string, ID: number, userAvatar: string) {
+    localStorage.setItem('token', userToken);
+    localStorage.setItem('userID', ID.toString());
+    localStorage.setItem('avatar', userAvatar);
   }
   function signOut() {
+    localStorage.clear();
     token.value = '';
     avatar.value = '';
-    ID.value = 0;
+    userID.value = '';
   }
 
-  return { token, avatar, ID, isLogin, signIn, signOut };
+  return { userID, token, avatar, isLogin, signIn, signOut };
 });
