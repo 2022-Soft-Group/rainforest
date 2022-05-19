@@ -54,7 +54,8 @@ const uploadImg = ref(false);
 
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
-  uploadImage(file).then((res) => {
+  // 此处上传的图片会在评论区显示
+  uploadImage(file, 240, 192).then((res) => {
     console.log(res);
     if (res.data.status == 0) {
       commentInfo.value.image = res.data.data.url;

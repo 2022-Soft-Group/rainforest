@@ -5,6 +5,7 @@
     </div>
     <div v-else>
       <div v-for="(comment, index) in commentsInfo">
+        <n-divider v-if="index != 0"></n-divider>
         <comment-item
           :comment="comment"
           :comment-order="index"

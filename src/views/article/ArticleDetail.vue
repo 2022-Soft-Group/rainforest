@@ -1,25 +1,29 @@
 <template>
-  <n-card class="flex m-auto rounded-md w-200">
-    <template #cover v-if="articleInfo.image != ''">
-      <img class="max-h-400" :src="articleInfo.image" />
-    </template>
-    <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
-    <router-link :to="'/user/' + articleInfo.authorID">
-      <n-thing>
-        <template #avatar>
-          <n-avatar round :src="userInfo.avatar"></n-avatar>
-        </template>
-        <template #header>{{ userInfo.name }}</template>
-        <template #description> {{ userInfo.description }} </template>
-      </n-thing>
-    </router-link>
-    <n-divider />
-    <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
-  </n-card>
-  <n-divider />
-  <n-card class="flex m-auto rounded-md w-200">
-    <comment-overview class="w-200" :article-id="articleInfo.articleID"></comment-overview>
-  </n-card>
+  <n-space vertical>
+    <n-card class="flex m-auto rounded-md">
+      <template #cover v-if="articleInfo.image != ''">
+        <img class="max-h-400" :src="articleInfo.image" />
+      </template>
+      <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
+      <router-link :to="'/user/' + articleInfo.authorID">
+        <n-thing>
+          <template #avatar>
+            <n-avatar round :src="userInfo.avatar"></n-avatar>
+          </template>
+          <template #header>{{ userInfo.name }}</template>
+          <template #description> {{ userInfo.description }} </template>
+        </n-thing>
+      </router-link>
+      <n-divider />
+      <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
+    </n-card>
+    <n-card class="flex m-auto rounded-md">
+      <article-info-panel :article-info="articleInfo"></article-info-panel>
+    </n-card>
+    <n-card class="flex m-auto rounded-md">
+      <comment-overview :comment-num="articleInfo.comments"></comment-overview>
+    </n-card>
+  </n-space>
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent, provide } from 'vue';
@@ -28,10 +32,12 @@ import 'markdown-it-vue/dist/markdown-it-vue.css';
 import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
+import { RouterLink } from 'vue-router';
 
 export default defineComponent({
   components: {
     MarkdownItVue,
+    RouterLink,
   },
   setup() {
     const route = useRoute();
@@ -51,7 +57,7 @@ export default defineComponent({
     const articleInfo = ref<ArticlesListItem>({
       title: '',
       author: '',
-      authorID: 1,
+      authorID: 0,
       description: '',
       view: 0,
       like: 0,
@@ -60,6 +66,7 @@ export default defineComponent({
       tags: [],
       image: '',
       articleID: 0,
+      thumbnail: '',
       columns: [],
     });
 
@@ -131,5 +138,6 @@ export default defineComponent({
 }
 .markdown :deep(img) {
   border-radius: 8px;
+  pointer-events: none;
 }
 </style>

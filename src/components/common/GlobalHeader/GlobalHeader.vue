@@ -42,8 +42,8 @@
         <n-button v-if="showButton" round type="primary" @click="handleWriteArticle">写文章</n-button>
       </div>
       <div class="flex justify-around w-50">
-        <message-dropdown :messages="messages" :count="messagesCount" @mark-read="" />
-        <trend-dropdown :messages="messages" :count="messagesCount" @mark-read="" />
+        <message-dropdown :messages="messages" :count="messagesCount" @mark-read-all="handleMarkReadAll" />
+        <trend-dropdown :messages="trends" :count="trendsCount" @mark-read-all="" />
         <avatar-dropdown />
       </div>
     </div>
@@ -56,7 +56,7 @@ import { useRoute, useRouter } from 'vue-router';
 import BrandImg from '/resource/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 import { Search as SearchIcon } from '@vicons/ionicons5';
-import { getMessages } from '@/api/message';
+import { getMessages, markReadMessage } from '@/api/message';
 import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
@@ -81,7 +81,20 @@ const columnSelected = computed(() => {
 });
 
 const messages = ref<Array<MessageInfo>>([]);
-const messagesCount = ref(0);
+const trends = ref<Array<MessageInfo>>([]);
+const messagesCount = computed(() => {
+  return messages.value.length;
+});
+const trendsCount = computed(() => {
+  return trends.value.length;
+});
+
+const handleMarkReadAll = () => {
+  messages.value.forEach((elm) => {
+    markReadMessage(elm.msgID);
+  });
+  messages.value.length = 0;
+};
 
 const handleWriteArticle = () => {
   router.push({ name: 'write' });
@@ -90,7 +103,6 @@ const handleWriteArticle = () => {
 function getUserMessages() {
   getMessages().then((res) => {
     messages.value = res.data.data.messages as Array<MessageInfo>;
-    messagesCount.value = messages.value.length;
   });
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <n-space vertical v-if="!comment.deleted">
+  <n-space vertical>
     <n-thing>
       <template #avatar>
         <n-avatar round :src="userInfo.avatar"></n-avatar>
@@ -21,7 +21,8 @@
         </div>
       </template>
       <template #description> 回复于{{ comment.createTime }} </template>
-      <div class="text-base">{{ comment.content }}</div>
+      <div v-if="!comment.deleted" class="text-base">{{ comment.content }}</div>
+      <div v-else class="text-base text-gray-300">{{ comment.content }}</div>
       <div v-if="comment.image != ''">
         <n-image
           :src="(comment.image as string)"
@@ -30,7 +31,7 @@
           class="h-48 flex-none rounded-md"
         ></n-image>
       </div>
-      <template #action>
+      <template #action v-if="!comment.deleted">
         <n-space>
           <n-space justify="space-between">
             <div class="mt-1">
@@ -39,7 +40,7 @@
                 {{ like != 0 ? like : '点赞' }}
               </n-button>
             </div>
-            <div class="mt-1">
+            <div v-if="subComments.length != 0" class="mt-1">
               <n-button text class="text-transparent" @click="handleShowComments">
                 <n-icon size="small"><comment-icon /></n-icon>
                 {{ showSubComments ? '取消查看' : '查看回复' }}
@@ -68,9 +69,9 @@
       @comment-success="handleAddComment"
       ref="commentBox"
     ></comment-box>
-    <n-divider />
     <div v-if="showSubComments">
       <div v-for="(comment, index) in subComments">
+        <n-divider></n-divider>
         <comment-item
           :comment="comment"
           :article-id="articleId"
@@ -151,9 +152,7 @@ const handleShowComments = () => {
   getComments({ size: 100, page: 0, toCommentID: props.comment.commentID as number }, props.articleId).then((res) => {
     if (res.data.status == 0) {
       subComments.value = res.data.data.comments;
-      if (subComments.value.length != 0) {
-        showSubComments.value = !showSubComments.value;
-      }
+      showSubComments.value = !showSubComments.value;
     } else {
       window.$message.error('获取评论失败');
     }
@@ -166,7 +165,9 @@ const handleAddComment = () => {
     handleShowComments();
   } else {
     subComments.value.push(commentBox.value?.commentInfo as CommentListItem);
+    showCommentBox.value = false;
   }
+  showSubComments.value = true;
 };
 
 function sortCommentsInfo(sortByTime: boolean) {

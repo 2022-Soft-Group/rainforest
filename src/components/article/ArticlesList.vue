@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoading">
     <div v-for="index of 10" :key="index">
-      <n-divider v-if="index != 0"></n-divider>
+      <n-divider v-if="index != 1"></n-divider>
       <n-skeleton text :repeat="2" />
       <n-skeleton text style="width: 60%" />
     </div>
