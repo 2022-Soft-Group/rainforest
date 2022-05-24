@@ -3,7 +3,6 @@ import { setupNaiveUI, setupAssets } from './plugins';
 import AppProvider from './AppProvider.vue';
 import router from './router';
 import { createPinia } from 'pinia';
-import { setUpMarkdown } from './plugins/markdown';
 
 async function setupApp() {
   // 引入静态资源
@@ -11,8 +10,6 @@ async function setupApp() {
   const app = createApp(AppProvider);
   // 按需引入naiveUI
   setupNaiveUI(app);
-  // 引入markdown
-  setUpMarkdown(app);
   // 路由准备就绪后挂载 App
   app.use(router).use(createPinia()).mount('#app');
 }
