@@ -8,7 +8,8 @@
     </template>
     <template #extra>
       <n-space>
-        <n-button :bordered="false" color="gray" @mouseenter.native=""> 已关注 </n-button>
+        <n-button v-if="followed" :bordered="false" color="gray" @mouseenter.native=""> 已关注 </n-button>
+        <n-button v-else :bordered="false" color="gray"> 关注 </n-button>
       </n-space>
     </template>
     <template #footer>
@@ -20,5 +21,8 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 const props = defineProps<{ userFeature: UserFeature; isLoading: boolean }>();
+const buttonText = ref('');
+const followed = ref(true);
 </script>
