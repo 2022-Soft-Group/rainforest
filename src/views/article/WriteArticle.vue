@@ -72,6 +72,7 @@ const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
 const title = ref('');
 const image = ref('');
+let imageID = 0;
 const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 const article = ref<ArticleUpload>({
   title: '',
@@ -80,6 +81,7 @@ const article = ref<ArticleUpload>({
   image: '',
   tags: [],
   private: false,
+  imageID: 0,
 });
 const isPublish = ref(false);
 const selectedColumnID = ref(7);
@@ -112,11 +114,12 @@ function renderVditor() {
       enable: true,
       type: 'text',
     },
+    cdn: 'http://kurino.top/cdn',
     upload: {
       accept: 'image/*,.wav,.jpg,.png,.jpeg,.svg',
       max: 10 * 1024 * 1024,
       multiple: false,
-      url: 'http://47.96.71.148/api/asset/uploadimg',
+      url: 'http://kurino.top/api/asset/uploadimg',
       headers: {
         Authorization: localStorage.getItem('token') || '',
       },
@@ -164,6 +167,7 @@ function uploadArticle() {
   article.value.image = image.value;
   article.value.tags = [];
   article.value.private = isPrivate.value;
+  article.value.imageID = imageID;
   addArticle(article.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章上传成功');
@@ -182,10 +186,11 @@ function uploadArticle() {
 
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
-  uploadImage(file).then((res) => {
+  uploadImage(file, null, null).then((res) => {
     console.log(res);
     if (res.data.status == 0) {
       image.value = res.data.data.url;
+      imageID = res.data.data.id;
     } else {
       window.$message.error('图片上传失败');
     }

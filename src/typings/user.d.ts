@@ -5,6 +5,8 @@ type MessageInfo = {
   actions: number;
   articleTitle: string;
   articleID: string;
+  msgID: number;
+  content: string;
 };
 
 type User = {
