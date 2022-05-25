@@ -6,17 +6,17 @@
   <div class="flex flex-y-auto">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
-        <n-tab-pane name="我的关注">
+        <n-tab-pane name="关注">
           <user-list :users="userListFollowing" :is-loading="userListFollowingIsLoading" />
         </n-tab-pane>
-        <n-tab-pane name="我的粉丝">
+        <n-tab-pane name="粉丝">
           <user-list :users="userListFollowed" :is-loading="userListFollowedIsLoading" />
         </n-tab-pane>
-        <n-tab-pane name="我的文章">
+        <n-tab-pane name="文章">
           <articles-list :articles="articles" :is-loading="isLoading" />
         </n-tab-pane>
-        <n-tab-pane name="我的收藏">我的afsd收藏</n-tab-pane>
-        <n-tab-pane name="我的资源">我的sdfa资源</n-tab-pane>
+        <n-tab-pane name="收藏">我的afsd收藏</n-tab-pane>
+        <n-tab-pane name="资源">我的sdfa资源</n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7">

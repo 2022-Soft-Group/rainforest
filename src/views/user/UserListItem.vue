@@ -8,7 +8,7 @@
     </template>
     <template #extra>
       <n-space>
-        <n-button :bordered="false" color="gray"> 已关注 </n-button>
+        <n-button :bordered="false" color="gray" @mouseenter.native=""> 已关注 </n-button>
       </n-space>
     </template>
     <template #footer>
