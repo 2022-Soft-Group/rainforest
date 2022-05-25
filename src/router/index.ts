@@ -50,7 +50,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/columns',
     name: 'columns',
-    component: () => import('../views/colums/ColumnsOverview.vue'),
+    component: () => import('../views/columns/ColumnsOverview.vue'),
   },
   {
     path: '/user',

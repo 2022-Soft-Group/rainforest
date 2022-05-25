@@ -15,8 +15,8 @@
         <n-tab-pane name="文章">
           <articles-list :articles="articles" :is-loading="isLoading" />
         </n-tab-pane>
-        <n-tab-pane name="收藏">我的afsd收藏</n-tab-pane>
-        <n-tab-pane name="资源">我的sdfa资源</n-tab-pane>
+        <n-tab-pane name="收藏">我的收藏</n-tab-pane>
+        <n-tab-pane name="资源">我的资源</n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7">

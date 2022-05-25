@@ -13,12 +13,12 @@
     </template>
 
     <template #avatar>
-      <n-icon size="30"><CheckmarkDone /></n-icon>
+      <n-icon size="30"><checkmark-done-icon /></n-icon>
     </template>
   </n-page-header>
 </template>
 
 <script setup lang="ts">
-import { CheckmarkDone } from '@vicons/ionicons5';
+import { CheckmarkDone as CheckmarkDoneIcon } from '@vicons/ionicons5';
 const props = defineProps<{ liked: number; collected: number }>();
 </script>
