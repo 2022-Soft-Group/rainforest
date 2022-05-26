@@ -20,13 +20,9 @@
   </n-card>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, defineComponent } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { CashOutline as CashIcon } from '@vicons/ionicons5';
-import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
-import TagListVue from '@/components/tag/TagList.vue';
 import { getColumnArticleList, getColumnDetail } from '@/api/columns';
-import { getArticleListRecommand } from '@/api/article';
 const route = useRoute();
 let currentPage = 0;
 const isLoading = ref(false);

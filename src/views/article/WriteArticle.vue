@@ -116,7 +116,7 @@ function renderVditor() {
     },
     cdn: 'http://kurino.top/cdn',
     upload: {
-      accept: 'image/*,.wav,.jpg,.png,.jpeg,.svg',
+      accept: 'image/*,.jpg,.png,.jpeg,.svg',
       max: 10 * 1024 * 1024,
       multiple: false,
       url: 'http://kurino.top/api/asset/uploadimg',
