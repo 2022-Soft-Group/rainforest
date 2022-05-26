@@ -74,13 +74,15 @@ const searchHotwords = ref<Array<DropdownMixedOption>>([]);
 const searchHistorys = ref<Array<DropdownMixedOption>>([]);
 const handleSelectOption = (key: number, option: DropdownMixedOption) => {
   let content = (option.label as string).split('_')[0];
-  router.push({ name: 'search', query: { key: content, target: searchTarget.value } });
+  let routeUrl = router.resolve({ name: 'search', query: { key: content, target: searchTarget.value } });
+  window.open(routeUrl.href, '_blank');
 };
 const handleSelectSearchTarget = (key: string, option: DropdownMixedOption) => {
   searchTarget.value = option.label as string;
 };
 const handleSearch = () => {
-  router.push({ name: 'search', query: { key: searchContent.value, target: searchTarget.value } });
+  let routeUrl = router.resolve({ name: 'search', query: { key: searchContent.value, target: searchTarget.value } });
+  window.open(routeUrl.href, '_blank');
 };
 
 function loadSearchInfos() {
