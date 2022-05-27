@@ -81,6 +81,10 @@ const handleSelectSearchTarget = (key: string, option: DropdownMixedOption) => {
   searchTarget.value = option.label as string;
 };
 const handleSearch = () => {
+  if (searchContent.value == '') {
+    window.$message.warning('搜索内容不能为空！');
+    return;
+  }
   let routeUrl = router.resolve({ name: 'search', query: { key: searchContent.value, target: searchTarget.value } });
   window.open(routeUrl.href, '_blank');
 };

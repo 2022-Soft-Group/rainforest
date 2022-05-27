@@ -5,7 +5,7 @@
     target="_blank"
     :to="'/columns/' + columnInfo.id"
   >
-    <n-image class="Avatar" width="50" height="48" :src="columnInfo.imgSrc"></n-image>
+    <n-image class="Avatar" width="50" height="48" :src="columnInfo.img" object-fit="cover"></n-image>
     <div class="ColumnHomeColumnCard-info">
       <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
       <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
