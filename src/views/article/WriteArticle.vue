@@ -67,6 +67,8 @@ import 'vditor/src/assets/scss/index.scss';
 import { uploadImage } from '@/api/asset';
 import { addArticle } from '@/api/article';
 import { addArticleToColumn } from '@/api/columns';
+import { useLoadingBar } from 'naive-ui';
+import { sleep } from 'seemly';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -86,6 +88,7 @@ const article = ref<ArticleUpload>({
 const isPublish = ref(false);
 const selectedColumnID = ref(7);
 const isPrivate = ref(false);
+const loadingBar = useLoadingBar();
 
 function addTitle() {
   let lines = vditor.value?.getValue() as string;
@@ -95,6 +98,7 @@ function addTitle() {
 
 function renderVditor() {
   if (!domRef.value) return;
+  loadingBar.start();
   vditor.value = new Vditor(domRef.value, {
     minHeight: 900,
     theme: 'classic', //主题
@@ -115,6 +119,8 @@ function renderVditor() {
       type: 'text',
     },
     cdn: 'http://kurino.top/cdn',
+    after: () => loadingBar.finish(),
+    
     upload: {
       accept: 'image/*,.jpg,.png,.jpeg,.svg',
       max: 10 * 1024 * 1024,

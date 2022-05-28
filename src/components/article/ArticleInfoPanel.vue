@@ -96,6 +96,7 @@ watch(
   () => props.articleInfo,
   () => {
     likeNum.value = props.articleInfo.like;
+    console.log(props.articleInfo.like);
     getUserLikeStatus(props.articleInfo.articleID.toString()).then((res) => {
       if (res.data.status == 0) {
         liked.value = res.data.data.liked;
@@ -104,7 +105,7 @@ watch(
     });
   },
   {
-    deep: true,
+    immediate: true,
   }
 );
 </script>

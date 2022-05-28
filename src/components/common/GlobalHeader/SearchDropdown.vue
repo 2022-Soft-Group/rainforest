@@ -9,13 +9,20 @@
       :render-label="renderDropdownLabel"
       @select="handleSelectOption"
     >
-      <n-input class="ml-4" round :placeholder="'请输入搜索的' + searchTarget" v-model:value="searchContent">
+      <n-input
+        class="ml-4"
+        round
+        :placeholder="'请输入搜索的' + searchTarget"
+        v-model:value="searchContent"
+        @focus="handleFocus"
+        @blur="handleBlur"
+      >
         <template #suffix>
           <n-icon><search-icon /></n-icon>
         </template>
       </n-input>
     </n-dropdown>
-    <n-button round type="primary" @click="handleSearch">
+    <n-button v-if="showButton" round type="primary" @click="handleSearch" @keydown.enter="handlekeyDownSearch">
       搜索{{ searchTarget }}
       <n-dropdown trigger="hover" :options="searchTargetOptions" @select="handleSelectSearchTarget">
         <n-icon class="ml-1"><down-icon /></n-icon>
@@ -25,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, onMounted, ref } from 'vue';
+import { h, onMounted, ref, watchEffect } from 'vue';
 import {
   Search as SearchIcon,
   CaretDownOutline as DownIcon,
@@ -35,12 +42,15 @@ import {
 import type { DropdownMixedOption } from 'naive-ui/lib/dropdown/src/interface';
 import { NButton, useLoadingBar, NIcon } from 'naive-ui';
 import { deleteSearchHistory, getSearchHistoryAndHotWord } from '@/api/search';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const loadingBar = useLoadingBar();
+const showButton = ref(true);
 const router = useRouter();
+const route = useRoute();
 const searchTarget = ref('文章');
 const searchContent = ref('');
+const isFocusing = ref(false);
 const searchTargetOptions: Array<DropdownMixedOption> = [
   { label: '文章', key: 'article' },
   { label: '标签', key: 'tag' },
@@ -72,6 +82,17 @@ const searchOptions = ref<Array<DropdownMixedOption>>([
 ]);
 const searchHotwords = ref<Array<DropdownMixedOption>>([]);
 const searchHistorys = ref<Array<DropdownMixedOption>>([]);
+const handleFocus = () => {
+  console.log(searchContent.value);
+  if (searchContent.value != undefined && searchContent.value != '') return;
+  showButton.value = false;
+  isFocusing.value = true;
+};
+
+const handleBlur = () => {
+  showButton.value = true;
+  isFocusing.value = false;
+};
 const handleSelectOption = (key: number, option: DropdownMixedOption) => {
   let content = (option.label as string).split('_')[0];
   let routeUrl = router.resolve({ name: 'search', query: { key: content, target: searchTarget.value } });
@@ -81,12 +102,19 @@ const handleSelectSearchTarget = (key: string, option: DropdownMixedOption) => {
   searchTarget.value = option.label as string;
 };
 const handleSearch = () => {
-  if (searchContent.value == '') {
+  if (searchContent.value == undefined) {
     window.$message.warning('搜索内容不能为空！');
     return;
   }
   let routeUrl = router.resolve({ name: 'search', query: { key: searchContent.value, target: searchTarget.value } });
   window.open(routeUrl.href, '_blank');
+};
+
+const handlekeyDownSearch = () => {
+  console.log('enter');
+  if (isFocusing.value) {
+    handleSearch();
+  }
 };
 
 function loadSearchInfos() {
@@ -181,5 +209,19 @@ const handleDeleteHistory = (key: string, id: number) => {
     }
   });
 };
-onMounted(loadSearchInfos);
+onMounted(() => {
+  loadSearchInfos();
+  if (route.query != undefined) {
+    console.log(route);
+    searchContent.value = route.query.key as string;
+  }
+});
+
+watchEffect(() => {
+  if (searchContent.value != '') {
+    showButton.value = true;
+  } else {
+    showButton.value = false;
+  }
+});
 </script>

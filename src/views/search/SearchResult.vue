@@ -38,6 +38,7 @@ import { searchArticle, searchColumn, searchTag } from '../../api/search';
 import { useLoadingBar } from 'naive-ui';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { sleep } from 'seemly';
 let currentPage = [0, 0, 0];
 const route = useRoute();
 const loadingBar = useLoadingBar();
@@ -54,12 +55,14 @@ const handleUpdateValue = (value: string) => {
     loadTag();
   } else if (value == '专栏' && !loaded[2]) {
     loadColumn();
+  } else {
+    sleep(10);
+    loadingBar.finish();
   }
 };
 
 function reload() {
   isLoading.value = true;
-  loadingBar.start();
   if (route.query.target == '文章') {
     loadArtile();
   } else if (route.query.target == '标签') {
@@ -70,9 +73,12 @@ function reload() {
 }
 
 function loadArtile() {
+  loadingBar.start();
   searchArticle({ size: 10, page: currentPage[0]++, key: route.query.key as string }).then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      res.data.data.articleInfos.forEach((element: any) => {
+        articles.value.push(element);
+      });
       isLoading.value = false;
       loadingBar.finish();
       loaded[0] = true;
@@ -83,9 +89,12 @@ function loadArtile() {
 }
 
 function loadTag() {
+  loadingBar.start();
   searchTag({ size: 10, page: currentPage[1]++, key: route.query.key as string }).then((res) => {
     if (res.data.status == 0) {
-      tags.value = res.data.data.tagInfos as Array<TagItem>;
+      res.data.data.tagInfos.forEach((element: any) => {
+        tags.value.push(element);
+      });
       isLoading.value = false;
       loadingBar.finish();
       loaded[1] = true;
@@ -96,9 +105,12 @@ function loadTag() {
 }
 
 function loadColumn() {
+  loadingBar.start();
   searchColumn({ size: 10, page: currentPage[2]++, key: route.query.key as string }).then((res) => {
     if (res.data.status == 0) {
-      columns.value = res.data.data.columnInfos as Array<ColumnListItem>;
+      res.data.data.columnInfos.forEach((element: any) => {
+        columns.value.push(element);
+      });
       isLoading.value = false;
       loadingBar.finish();
       loaded[2] = true;
