@@ -16,14 +16,14 @@ export function getUserListFollowed(data: { size: number; page: number }, userID
   return backend.get(`user/${userID}/list/followeds`, { params: data });
 }
 
-export function followUser(userID: string, dstUserID: string) {
-  return backend.put(`user/${userID}/list/followings/${dstUserID}/follow`);
+export function followUser(userID: string) {
+  return backend.put(`user/fan/${userID}`);
 }
 
-export function cancelFollowUser(userID: string, dstUserID: string) {
-  return backend.put(`user/${userID}/list/followings/${dstUserID}/cancelfollow`);
+export function cancelFollowUser(userID: string) {
+  return backend.put(`user/unfan/${userID}`);
 }
 
-export function getFollowUserStatus(userID: string, dstUserID: string) {
-  return backend.put(`user/${userID}/list/followings/${dstUserID}/isfollowing`);
+export function getFollowUserStatus(userID: string) {
+  return backend.get(`user/fanstatus/${userID}`);
 }

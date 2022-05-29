@@ -46,6 +46,10 @@
     <template #extra>
       <n-space>
         <n-button type="primary" ghost> 编辑资料 </n-button>
+        <!-- <n-button v-if="userID == userInfo.id.toString()" type="primary" ghost> 编辑资料 </n-button> -->
+        <!-- <n-button v-else :bordered="false" type="primary" @click="handleFollow">
+          <n-icon><add-icon /></n-icon> 关注
+        </n-button> -->
       </n-space>
     </template>
     <template #footer>
@@ -59,13 +63,17 @@
 </template>
 
 <script setup lang="ts">
+import { useAuthStore } from '@/store/auth';
+import { followUser } from '@/api/user';
 import {
   Mail as MailIcon,
   Pencil as PencilIcon,
   Man as ManIcon,
   Woman as WomanIcon,
   Sparkles as PointIcon,
+  Add as addIcon,
 } from '@vicons/ionicons5';
 
+const { userID } = useAuthStore();
 const props = defineProps<{ articleNum: number; userInfo: User }>();
 </script>
