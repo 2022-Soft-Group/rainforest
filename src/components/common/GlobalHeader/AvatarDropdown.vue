@@ -42,7 +42,6 @@ const handleDropdownSelect = (key: string) => {
   } else if (key == 'logout') {
     logout().then((res) => {
       if (res.data.status == 0) {
-        localStorage.clear();
         signOut();
         window.$message.info('登出成功');
         router.push({ name: 'login' });

@@ -20,27 +20,33 @@
 
 <script setup lang="ts">
 import { getArticleListRecommand } from '@/api/article';
+import { useLoadingBar } from 'naive-ui';
 import { ref, onMounted } from 'vue';
 let currentPage = 0;
+const loadingBar = useLoadingBar();
 
 function handleRequest() {
   isLoading.value = true;
+  loadingBar.start();
   getArticleListRecommand({ size: 10, page: ++currentPage }).then((res) => {
     if (res.data.status == 0) {
       res.data.data.articleInfos.forEach((element: any) => {
         articles.value.push(element);
       });
       isLoading.value = false;
+      loadingBar.finish();
     }
   });
 }
 
 function reload() {
   isLoading.value = true;
+  loadingBar.start();
   getArticleListRecommand({ size: 10, page: currentPage }).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
       isLoading.value = false;
+      loadingBar.finish();
     } else {
       window.$message.error('获取推荐列表失败');
     }

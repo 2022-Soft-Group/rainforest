@@ -10,6 +10,7 @@ type ArticlesListItem = {
   tags: TagItem[];
   image: string | undefined;
   articleID: number;
+  thumbnail: string | null;
   columns: ColumnListItem[]; //只是在这里加了，还没有全面加
 };
 
@@ -20,14 +21,17 @@ type ArticleUpload = {
   image: string;
   tags: Arrary<number>;
   private: boolean;
+  imageID: number;
 };
 
-type Comment = {
+type CommentListItem = {
   commentorID: number;
   content: string;
   image: string | null;
-  toCommentID: string | null;
-  like: integer;
+  toCommentID: number | null;
+  like: number;
   createTime: string;
-  commentID: integer;
+  commentID: number;
+  toCommentorName: string;
+  deleted: boolean;
 };

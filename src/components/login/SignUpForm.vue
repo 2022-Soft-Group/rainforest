@@ -7,7 +7,22 @@
       <div class="flex-y-center">
         <n-input v-model:value="model.code" placeholder="验证码" />
         <div class="w-18px"></div>
-        <n-button size="large" @click="handleGetCaptcha"> 获取验证码 </n-button>
+        <n-button
+          size="large"
+          :type="valid ? 'primary' : 'default'"
+          :disabled="!valid"
+          secondary
+          @click="handleGetCaptcha"
+        >
+          获取验证码
+          <n-countdown
+            v-if="!valid"
+            :duration="60000"
+            :active="!valid"
+            @finish="valid = !valid"
+            :render="renderCountdown"
+          />
+        </n-button>
       </div>
     </n-form-item>
     <n-form-item path="passwd">
@@ -22,7 +37,8 @@
 
 <script setup lang="ts">
 import { getCaptcha, register } from '@/api/auth';
-import { reactive } from 'vue';
+import type { CountdownProps } from 'naive-ui';
+import { reactive, ref } from 'vue';
 const emits = defineEmits(['finish-register']);
 
 const model = reactive({
@@ -31,12 +47,19 @@ const model = reactive({
   passwd: '',
   confirmpasswd: '',
 });
-
+const valid = ref(true);
 const handleGetCaptcha = () => {
-  if (model.email == '') window.$message.warning('输入邮箱不能为空');
+  if (model.email == '') {
+    window.$message.warning('输入邮箱不能为空');
+    return;
+  }
   getCaptcha({ email: model.email });
+  valid.value = false;
 };
 
+const renderCountdown: CountdownProps['render'] = ({ hours, minutes, seconds }) => {
+  return `(${String(seconds).padStart(2, '0')})`;
+};
 const handleSubmit = () => {
   if (model.passwd != model.confirmpasswd) {
     window.$message.warning('两次输入密码不同！');
