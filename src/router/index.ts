@@ -23,6 +23,11 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/search/SearchResult.vue'),
+  },
+  {
     path: '/homepage',
     name: 'homepage',
     component: () => import('../views/homepage/HomePage.vue'),
@@ -37,7 +42,7 @@ const routes: RouteRecordRaw[] = [
       {
         path: ':sectionKey',
         name: 'sectionsTagList',
-        component: () => import('../views/sections/sectionsTagList.vue'),
+        component: () => import('../views/sections/SectionsTagList.vue'),
       },
     ],
   },
@@ -50,17 +55,17 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/columns',
     name: 'columnsIndex',
-    component: () => import('../views/colums/index.vue'),
+    component: () => import('../views/columns/index.vue'),
     children: [
       {
         path: '',
         name: 'columns',
-        component: () => import('../views/colums/ColumnsOverview.vue'),
+        component: () => import('../views/columns/ColumnsOverview.vue'),
       },
       {
         path: ':id',
         name: 'columnDetail',
-        component: () => import('../views/colums/ColumnDetail.vue'),
+        component: () => import('../views/columns/ColumnDetail.vue'),
       },
     ],
   },
