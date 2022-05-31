@@ -1,5 +1,5 @@
 <template>
-  <n-card class="flex m-auto rounded-md w-200">
+  <n-card class="flex m-auto rounded-md w-full">
     <n-thing>
       <template #avatar>
         <n-avatar object-fit="cover" :size="150" :src="columnInfo.imgSrc"> </n-avatar>
