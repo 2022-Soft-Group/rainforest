@@ -18,10 +18,10 @@ type ArticleUpload = {
   title: string;
   content: string;
   description: string;
-  image: string;
+  image?: string;
   tags: Arrary<number>;
   private: boolean;
-  imageID: number;
+  imageID?: number;
 };
 
 type CommentListItem = {
