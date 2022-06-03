@@ -16,13 +16,14 @@
         v-model:value="searchContent"
         @focus="handleFocus"
         @blur="handleBlur"
+        @keydown.enter="handlekeyDownSearch"
       >
         <template #suffix>
           <n-icon><search-icon /></n-icon>
         </template>
       </n-input>
     </n-dropdown>
-    <n-button v-if="showButton" round type="primary" @click="handleSearch" @keydown.enter="handlekeyDownSearch">
+    <n-button v-if="showButton" round type="primary" @click="handleSearch">
       搜索{{ searchTarget }}
       <n-dropdown trigger="hover" :options="searchTargetOptions" @select="handleSelectSearchTarget">
         <n-icon class="ml-1"><down-icon /></n-icon>
@@ -32,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, onMounted, ref, watchEffect } from 'vue';
+import { h, nextTick, onMounted, ref, watchEffect } from 'vue';
 import {
   Search as SearchIcon,
   CaretDownOutline as DownIcon,
@@ -83,7 +84,6 @@ const searchOptions = ref<Array<DropdownMixedOption>>([
 const searchHotwords = ref<Array<DropdownMixedOption>>([]);
 const searchHistorys = ref<Array<DropdownMixedOption>>([]);
 const handleFocus = () => {
-  console.log(searchContent.value);
   if (searchContent.value != undefined && searchContent.value != '') return;
   showButton.value = false;
   isFocusing.value = true;
@@ -111,7 +111,6 @@ const handleSearch = () => {
 };
 
 const handlekeyDownSearch = () => {
-  console.log('enter');
   if (isFocusing.value) {
     handleSearch();
   }
@@ -211,10 +210,6 @@ const handleDeleteHistory = (key: string, id: number) => {
 };
 onMounted(() => {
   loadSearchInfos();
-  if (route.query != undefined) {
-    console.log(route);
-    searchContent.value = route.query.key as string;
-  }
 });
 
 watchEffect(() => {
@@ -222,6 +217,14 @@ watchEffect(() => {
     showButton.value = true;
   } else {
     showButton.value = false;
+  }
+});
+
+watchEffect(() => {
+  if (route.query != undefined) {
+    nextTick(() => {
+      searchContent.value = route.query.key as string;
+    });
   }
 });
 </script>

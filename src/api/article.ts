@@ -8,7 +8,7 @@ export function getArticle(articleID: string) {
   return backend.get(`article/${articleID}`);
 }
 
-export function getUserLikeStatus(articleID: string) {
+export function getUserLikeStatus(articleID: number) {
   return backend.get(`article/${articleID}/status`);
 }
 

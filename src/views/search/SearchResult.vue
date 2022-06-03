@@ -5,7 +5,7 @@
         type="line"
         size="large"
         class="mb-6"
-        :default-value="route.query.target"
+        :default-value="(route.query.target as string)"
         @update-value="handleUpdateValue"
       >
         <n-tab-pane name="文章" tab="文章">
@@ -38,7 +38,6 @@ import { searchArticle, searchColumn, searchTag } from '../../api/search';
 import { useLoadingBar } from 'naive-ui';
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { sleep } from 'seemly';
 let currentPage = [0, 0, 0];
 const route = useRoute();
 const loadingBar = useLoadingBar();
@@ -55,9 +54,6 @@ const handleUpdateValue = (value: string) => {
     loadTag();
   } else if (value == '专栏' && !loaded[2]) {
     loadColumn();
-  } else {
-    sleep(10);
-    loadingBar.finish();
   }
 };
 
