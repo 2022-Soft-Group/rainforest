@@ -2,12 +2,12 @@
   <n-card class="flex m-auto rounded-md w-full">
     <n-thing>
       <template #avatar>
+        <n-avatar object-fit="cover" :size="150" v-if="columnInfo.imgSrc" :src="columnInfo.imgSrc"> </n-avatar>
         <n-avatar object-fit="cover" :size="150" :src="columnInfo.imgSrc"> </n-avatar>
       </template>
       <template #header>
         <n-h1>{{ columnInfo.title }}</n-h1>
       </template>
-
       <template #description>
         <div class="text-gray-400">
           {{ columnInfo.description }}
