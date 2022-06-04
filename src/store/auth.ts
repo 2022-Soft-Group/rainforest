@@ -8,11 +8,13 @@ export const useAuthStore = defineStore('auth', () => {
   const isLogin = computed(() => {
     return token.value !== '';
   });
+  const isAdmin = ref(false);
 
-  function signIn(userToken: string, ID: number, userAvatar: string) {
+  function signIn(userToken: string, ID: number, userAvatar: string, admin: boolean) {
     localStorage.setItem('token', userToken);
     localStorage.setItem('userID', ID.toString());
     localStorage.setItem('avatar', userAvatar);
+    isAdmin.value = admin;
   }
   function signOut() {
     localStorage.clear();

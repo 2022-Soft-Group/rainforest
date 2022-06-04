@@ -63,6 +63,7 @@ import {
   NAnchorLink,
   NH1,
   NText,
+  NUpload,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -131,6 +132,7 @@ export default function setupNaiveUI(app: App) {
       NAnchorLink,
       NH1,
       NText,
+      NUpload,
     ],
   });
   app.use(naive);

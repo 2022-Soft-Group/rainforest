@@ -197,14 +197,16 @@ function renderDropdownLabel(option: DropdownMixedOption) {
 }
 const handleDeleteHistory = (key: string, id: number) => {
   deleteSearchHistory(id).then((res) => {
+    let deleteIdx = 0;
     if (res.data.status == 0) {
-      let deleteIdx = 0;
       searchOptions.value.forEach((elm, index) => {
         if (elm.key == key) {
           deleteIdx = index;
         }
       });
       searchOptions.value.splice(deleteIdx, 1);
+    } else if (res.data.status == 501) {
+      return;
     }
   });
 };

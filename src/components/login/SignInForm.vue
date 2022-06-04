@@ -30,7 +30,7 @@ const model = reactive({
 const handleLogin = () => {
   login({ email: model.email, passwd: model.passwd }).then((res) => {
     if (res.data.status == 0) {
-      signIn(res.data.data.token, res.data.data.user.id, res.data.data.user.avatar);
+      signIn(res.data.data.token, res.data.data.user.id, res.data.data.user.avatar, res.data.data.user.isAdmin);
       window.$message.info('登录成功');
       router.push({ name: 'homepage' });
     }

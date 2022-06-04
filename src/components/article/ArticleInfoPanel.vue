@@ -27,8 +27,8 @@
       <n-space class="ml-2">
         <n-icon size="small" class="mt-2"><tags-icon /></n-icon>
         <div v-for="item in articleInfo.tags">
-          <router-link :to="'/sections/' + item.id">
-            <n-tag type="primary" class="cursor-pointer" target="_blank">{{ item.title }}</n-tag>
+          <router-link :to="'/tag/' + item.id">
+            <n-tag type="primary" class="cursor-pointer">{{ item.title }}</n-tag>
           </router-link>
         </div>
       </n-space>
@@ -38,13 +38,13 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
 import { dislikeArticle, getUserLikeStatus, likeArticle } from '@/api/article';
 import {
   CaretUpOutline as LikeIcon,
   CaretDownOutline as DislikeIcon,
-  FolderOpen as CollectionIcon,
+  Star as CollectionIcon,
   Pricetags as TagsIcon,
   ChatboxEllipses as CommentIcon,
 } from '@vicons/ionicons5';

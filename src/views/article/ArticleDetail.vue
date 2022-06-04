@@ -24,6 +24,17 @@
       <comment-overview :comment-num="articleInfo.comments"></comment-overview>
     </n-card>
   </n-space>
+  <n-space vertical class="fixed left-1 z-99">
+    <n-button type="primary" size="large" secondary circle>
+      <n-icon size="26"> <like-icon /> </n-icon>
+    </n-button>
+    <n-button type="primary" size="large" secondary circle>
+      <n-icon size="26"> <dislike-icon /> </n-icon>
+    </n-button>
+    <n-button type="warning" size="large" secondary circle>
+      <n-icon size="26"> <collection-icon /> </n-icon>
+    </n-button>
+  </n-space>
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent, provide } from 'vue';
@@ -33,11 +44,15 @@ import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
 import { RouterLink } from 'vue-router';
+import { CaretUpOutline as LikeIcon, CaretDownOutline as DislikeIcon, Star as CollectionIcon } from '@vicons/ionicons5';
 
 export default defineComponent({
   components: {
     MarkdownItVue,
     RouterLink,
+    LikeIcon,
+    DislikeIcon,
+    CollectionIcon,
   },
   setup() {
     const route = useRoute();
@@ -52,6 +67,7 @@ export default defineComponent({
       coin: 0,
       createTime: '',
       modifyTime: '',
+      isAdmin: false,
     });
     const articleContent = ref('');
     const articleInfo = ref<ArticlesListItem>({
@@ -136,17 +152,13 @@ export default defineComponent({
 
 .markdown :deep(.toc) {
   position: fixed;
-  z-index: 88;
-  right: 0;
+  right: 30px;
   bottom: 23%;
   padding: 14px 24px 0;
-  box-shadow: 0 4px 38px 0 rgba(242, 242, 242, 0.2);
-  border-radius: 10px 0 0 10px;
-  background-color: rgba(255, 255, 255, 1);
+  height: 400px;
+  overflow-y: scroll;
 }
-.markdown :deep(.toc)-wechat:hover .code {
-  display: block;
-}
+
 .markdown :deep(img) {
   border-radius: 8px;
   pointer-events: none;
