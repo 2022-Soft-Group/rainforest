@@ -1,40 +1,63 @@
 <template>
-  <n-space vertical>
-    <n-card class="flex m-auto rounded-md">
-      <template #cover v-if="articleInfo.image != ''">
-        <img class="max-h-400" :src="articleInfo.image" />
-      </template>
-      <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
-      <router-link :to="'/user/' + articleInfo.authorID">
-        <n-thing>
-          <template #avatar>
-            <n-avatar round :src="userInfo.avatar"></n-avatar>
-          </template>
-          <template #header>{{ userInfo.name }}</template>
-          <template #description> {{ userInfo.description }} </template>
-        </n-thing>
-      </router-link>
-      <n-divider />
-      <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
-    </n-card>
-    <n-card class="flex m-auto rounded-md">
-      <article-info-panel :article-info="articleInfo"></article-info-panel>
-    </n-card>
-    <n-card class="flex m-auto rounded-md">
-      <comment-overview :comment-num="articleInfo.comments"></comment-overview>
-    </n-card>
-  </n-space>
-  <n-space vertical class="fixed left-1 z-99">
-    <n-button type="primary" size="large" secondary circle>
-      <n-icon size="26"> <like-icon /> </n-icon>
-    </n-button>
-    <n-button type="primary" size="large" secondary circle>
-      <n-icon size="26"> <dislike-icon /> </n-icon>
-    </n-button>
-    <n-button type="warning" size="large" secondary circle>
-      <n-icon size="26"> <collection-icon /> </n-icon>
-    </n-button>
-  </n-space>
+  <div class="flex">
+    <n-space vertical>
+      <n-card class="flex m-auto rounded-md w-240">
+        <template #cover v-if="articleInfo.image != ''">
+          <img class="max-h-400" :src="articleInfo.image" />
+        </template>
+        <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
+        <router-link :to="'/user/' + articleInfo.authorID">
+          <n-thing>
+            <template #avatar>
+              <n-avatar round :src="userInfo.avatar"></n-avatar>
+            </template>
+            <template #header>{{ userInfo.name }}</template>
+            <template #description> {{ userInfo.description }} </template>
+          </n-thing>
+        </router-link>
+        <n-divider />
+        <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
+      </n-card>
+      <div id="like-zone">
+        <n-card class="flex m-auto rounded-md">
+          <article-info-panel :article-info="articleInfo" ref="infoPanel"></article-info-panel>
+        </n-card>
+      </div>
+
+      <div id="comment-zone">
+        <n-card class="flex m-auto rounded-md">
+          <comment-overview :comment-num="articleInfo.comments"></comment-overview>
+        </n-card>
+      </div>
+    </n-space>
+    <div>
+      <n-space vertical size="large" class="sticky top-2/3 pl-10">
+        <n-button
+          class="shadow-md"
+          type="primary"
+          size="large"
+          :secondary="!infoPanel?.liked"
+          circle
+          @click="handleLike"
+        >
+          <n-icon size="26"> <like-icon /> </n-icon>
+        </n-button>
+        <n-button class="shadow-md" type="info" size="large" secondary circle @click="scrollToComment">
+          <n-icon size="24"> <comment-icon /> </n-icon>
+        </n-button>
+        <n-button
+          class="shadow-md"
+          type="warning"
+          size="large"
+          :secondary="!infoPanel?.collected"
+          circle
+          @click="handleCollect"
+        >
+          <n-icon size="26"> <collection-icon /> </n-icon>
+        </n-button>
+      </n-space>
+    </div>
+  </div>
 </template>
 <script lang="ts">
 import { ref, onMounted, defineComponent, provide } from 'vue';
@@ -44,14 +67,15 @@ import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
 import { RouterLink } from 'vue-router';
-import { CaretUpOutline as LikeIcon, CaretDownOutline as DislikeIcon, Star as CollectionIcon } from '@vicons/ionicons5';
+import { CaretUpOutline as LikeIcon, ChatboxEllipses as CommentIcon, Star as CollectionIcon } from '@vicons/ionicons5';
+import type ArticleInfoPanel from '@/components/article/ArticleInfoPanel.vue';
 
 export default defineComponent({
   components: {
     MarkdownItVue,
     RouterLink,
     LikeIcon,
-    DislikeIcon,
+    CommentIcon,
     CollectionIcon,
   },
   setup() {
@@ -99,6 +123,23 @@ export default defineComponent({
     };
 
     const authorID = ref(0);
+    const infoPanel = ref<InstanceType<typeof ArticleInfoPanel> | null>(null);
+    const liked = ref();
+    const collected = ref(infoPanel.value?.collected);
+
+    const scrollToComment = () => {
+      document.querySelector('#comment-zone')?.scrollIntoView({
+        behavior: 'auto',
+      });
+    };
+    const handleLike = () => {
+      infoPanel.value?.handleLike();
+    };
+
+    const handleCollect = () => {
+      infoPanel.value?.handleCollect();
+    };
+
     provide('authorID', authorID);
     onMounted(() => {
       getArticle(route.params.id as string)
@@ -126,6 +167,12 @@ export default defineComponent({
       articleInfo,
       articleContent,
       options,
+      infoPanel,
+      liked,
+      collected,
+      scrollToComment,
+      handleLike,
+      handleCollect,
     };
   },
 });
@@ -150,14 +197,14 @@ export default defineComponent({
   max-height: 800px;
 }
 
-.markdown :deep(.toc) {
+/* .markdown :deep(.toc) {
   position: fixed;
   right: 30px;
   bottom: 23%;
   padding: 14px 24px 0;
   height: 400px;
   overflow-y: scroll;
-}
+} */
 
 .markdown :deep(img) {
   border-radius: 8px;

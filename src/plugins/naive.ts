@@ -64,6 +64,8 @@ import {
   NH1,
   NText,
   NUpload,
+  NCarousel,
+  NCarouselItem,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -83,6 +85,8 @@ export default function setupNaiveUI(app: App) {
       NCollapse,
       NCollapseItem,
       NCountdown,
+      NCarousel,
+      NCarouselItem,
       NDataTable,
       NDescriptions,
       NDescriptionsItem,
