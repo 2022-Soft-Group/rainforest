@@ -9,7 +9,7 @@
       </n-gi>
     </n-grid>
     <template #title>
-      <div style="text-decoration: none; color: inherit">我的成就</div>
+      <div style="text-decoration: none; color: inherit">成就</div>
     </template>
 
     <template #avatar>
