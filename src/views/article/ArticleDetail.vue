@@ -133,8 +133,19 @@ export default defineComponent({
   border-radius: 8px;
   max-height: 800px;
 }
+
 .markdown :deep(.toc) {
-  font-weight: bold;
+  position: fixed;
+  z-index: 88;
+  right: 0;
+  bottom: 23%;
+  padding: 14px 24px 0;
+  box-shadow: 0 4px 38px 0 rgba(242, 242, 242, 0.2);
+  border-radius: 10px 0 0 10px;
+  background-color: rgba(255, 255, 255, 1);
+}
+.markdown :deep(.toc)-wechat:hover .code {
+  display: block;
 }
 .markdown :deep(img) {
   border-radius: 8px;
