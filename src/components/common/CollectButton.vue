@@ -6,7 +6,7 @@
     @click="handleCollect"
   >
     <n-icon size="small"><collect-icon /></n-icon>
-    <span v-if="collected"> 已收藏</span>
+    <span v-if="collected"> 取消收藏</span>
     <span v-else> 收藏</span>
   </div>
 </template>

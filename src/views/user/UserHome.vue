@@ -3,7 +3,7 @@
     <profiler-header :articleNum="userFeature.articleNum" :userInfo="(userInfo as User)" />
   </n-card>
 
-  <div class="flex flex-y-auto">
+  <div class="flex">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="关注">
