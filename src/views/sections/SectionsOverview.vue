@@ -1,9 +1,17 @@
 <template>
   <div class="flex">
     <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
-    <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
-      <router-view></router-view>
-    </n-card>
+    <div>
+      <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
+        <router-view></router-view>
+      </n-card>
+      <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
+        <n-space class="mx-2">
+          <n-button type="primary"> 新建板块 </n-button>
+          <n-button type="primary" @click="handleCreateTag"> 新建标签 </n-button>
+        </n-space>
+      </n-card>
+    </div>
   </div>
 </template>
 
@@ -28,6 +36,9 @@ const sectionInfo = ref<Array<SectionInfo>>([]);
 function handleUpdateValue(key: string, item: MenuOption) {
   router.push({ path: `/sections/${key}` });
 }
+const handleCreateTag = () => {
+  router.push({ name: 'write' });
+};
 
 onMounted(() => {
   reload();

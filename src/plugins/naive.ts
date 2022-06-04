@@ -137,6 +137,8 @@ export default function setupNaiveUI(app: App) {
       NH1,
       NText,
       NUpload,
+      NCarousel,
+      NCarouselItem,
     ],
   });
   app.use(naive);

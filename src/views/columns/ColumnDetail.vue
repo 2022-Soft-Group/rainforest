@@ -2,12 +2,11 @@
   <n-card class="flex m-auto rounded-md w-200">
     <n-thing>
       <template #avatar>
-        <n-avatar object-fit="cover" :size="150" :src="columnInfo.imgSrc"> </n-avatar>
+        <n-avatar object-fit="cover" :size="150" :src="columnInfo.img"> </n-avatar>
       </template>
       <template #header>
         <n-h1>{{ columnInfo.title }}</n-h1>
       </template>
-
       <template #description>
         <div class="text-gray-400">
           {{ columnInfo.description }}
@@ -29,8 +28,7 @@ const isLoading = ref(false);
 const articles = ref<Array<ArticlesListItem>>([]);
 const columnInfo = ref<ColumnListItem>({
   id: 0,
-  href: '',
-  imgSrc: '',
+  img: '',
   title: '',
   description: '',
   followerNum: 0,
