@@ -6,7 +6,6 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { NUpload, NButton } from 'naive-ui';
 import type { UploadFileInfo } from 'naive-ui';
 
 const emit = defineEmits(['change']);

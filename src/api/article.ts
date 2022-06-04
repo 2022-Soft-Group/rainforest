@@ -8,7 +8,7 @@ export function getArticle(articleID: string) {
   return backend.get(`article/${articleID}`);
 }
 
-export function getUserLikeStatus(articleID: number) {
+export function getUserArticleStatus(articleID: number) {
   return backend.get(`article/${articleID}/status`);
 }
 
@@ -18,6 +18,10 @@ export function likeArticle(articleID: string) {
 
 export function dislikeArticle(articleID: string) {
   return backend.put(`article/${articleID}/dislike`);
+}
+
+export function collectArticle(artcicleID: string) {
+  return backend.put(`article/${artcicleID}/collect`);
 }
 
 export function addArticle(article: ArticleUpload) {

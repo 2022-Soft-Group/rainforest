@@ -5,7 +5,7 @@
     target="_blank"
     :to="'/columns/' + columnInfo.id"
   >
-    <n-image class="Avatar" width="50" height="48" :src="columnInfo.img" object-fit="cover"></n-image>
+    <n-avatar :src="columnInfo.img" round></n-avatar>
     <div class="ColumnHomeColumnCard-info">
       <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
       <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
@@ -30,7 +30,7 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
   margin: 0 8px 16px;
 }
 .ColumnHomeColumnCard {
-  border-radius: 4px;
+  border-radius: 10px;
   -webkit-box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
   box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
   -webkit-box-sizing: border-box;
@@ -56,18 +56,12 @@ a {
   text-decoration: none;
 }
 .ColumnHomeColumnCard-info {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  height: 150px;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
+
   flex-direction: column;
-  -webkit-box-flex: 1;
-  -ms-flex-positive: 1;
+
   flex-grow: 1;
   padding: 0 16px;
 }
@@ -135,6 +129,5 @@ a {
 
 .Avatar {
   background: #fff;
-  border-radius: 50%;
 }
 </style>

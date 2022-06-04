@@ -20,6 +20,7 @@ type User = {
   coin: number;
   createTime: string;
   modifyTime: string;
+  isAdmin: boolean;
 };
 
 type UserFeature = {

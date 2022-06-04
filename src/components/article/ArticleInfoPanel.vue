@@ -20,15 +20,15 @@
       </div>
       <div class="text-gray-400 mt-1">
         <n-icon size="small"><collection-icon /></n-icon>
-        {{ articleInfo.collection }} 次收藏
+        {{ collectNum }} 次收藏
       </div>
     </n-space>
     <div class="text-gray-400">
       <n-space class="ml-2">
         <n-icon size="small" class="mt-2"><tags-icon /></n-icon>
         <div v-for="item in articleInfo.tags">
-          <router-link :to="'/sections/' + item.id">
-            <n-tag type="primary" class="cursor-pointer" target="_blank">{{ item.title }}</n-tag>
+          <router-link :to="'/tag/' + item.id">
+            <n-tag type="primary" class="cursor-pointer">{{ item.title }}</n-tag>
           </router-link>
         </div>
       </n-space>
@@ -38,21 +38,24 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
-import { dislikeArticle, getUserLikeStatus, likeArticle } from '@/api/article';
+import { collectArticle, dislikeArticle, getUserArticleStatus, likeArticle } from '@/api/article';
 import {
   CaretUpOutline as LikeIcon,
   CaretDownOutline as DislikeIcon,
-  FolderOpen as CollectionIcon,
+  Star as CollectionIcon,
   Pricetags as TagsIcon,
   ChatboxEllipses as CommentIcon,
 } from '@vicons/ionicons5';
 
 const props = defineProps<{ articleInfo: ArticlesListItem }>();
+
 const liked = ref(false);
 const disliked = ref(false);
+const collected = ref(false);
 const likeNum = ref(0);
+const collectNum = ref(0);
 const router = useRouter();
 const { isLogin } = useAuthStore();
 
@@ -92,16 +95,32 @@ const handleDislike = () => {
   }
 };
 
-watch(
-  () => props.articleInfo,
-  () => {
-    likeNum.value = props.articleInfo.like;
-    getUserLikeStatus(props.articleInfo.articleID).then((res) => {
+const handleCollect = () => {
+  if (isLogin) {
+    collectArticle(props.articleInfo.articleID.toString()).then((res) => {
       if (res.data.status == 0) {
-        liked.value = res.data.data.liked;
-        disliked.value = res.data.data.disliked;
+        collectNum.value = collectNum.value ? collectNum.value - 1 : collectNum.value + 1;
+        collected.value = !collected.value;
+      } else {
+        window.$message.error('现在不能收藏');
       }
     });
+  } else {
+    router.push({ name: 'login' });
   }
-);
+};
+
+function reload() {
+  likeNum.value = props.articleInfo.like;
+  collectNum.value = props.articleInfo.collection;
+  getUserArticleStatus(props.articleInfo.articleID).then((res) => {
+    if (res.data.status == 0) {
+      liked.value = res.data.data.liked;
+      disliked.value = res.data.data.disliked;
+      collected.value = res.data.data.collected;
+    }
+  });
+}
+defineExpose({ reload, handleCollect, handleLike, liked, collected });
+watch(() => props.articleInfo, reload);
 </script>
