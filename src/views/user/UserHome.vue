@@ -3,7 +3,7 @@
     <profiler-header :articleNum="userFeature.articleNum" :userInfo="(userInfo as User)" />
   </n-card>
 
-  <div class="flex">
+  <div class="flex -mr-1.5">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="关注">
@@ -21,7 +21,7 @@
         <n-tab-pane name="资源">我的资源</n-tab-pane>
       </n-tabs>
     </n-card>
-    <div class="flex-col basis-2/7">
+    <div class="flex-col basis-2/7 ml-1">
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
         <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
       </n-card>
