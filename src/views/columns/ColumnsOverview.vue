@@ -5,10 +5,14 @@
       prev-slide-style="transform: translateX(-150%) translateZ(-800px);"
       next-slide-style="transform: translateX(50%) translateZ(-800px);"
       style="height: 400px"
-      :show-dots="true"
+      :show-dots="false"
     >
       <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg" />
+        <router-link></router-link>
+        <img
+          class="carousel-img"
+          src="https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg"
+        />
       </n-carousel-item>
       <n-carousel-item :style="{ width: '60%' }">
         <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg" />
@@ -20,7 +24,13 @@
         <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg" />
       </n-carousel-item>
     </n-carousel>
-
+    <!-- <div>
+      <n-button quaternary class="main-descript">
+        <router-link to="/homepage" target="_blank" class="font-bold text-xl hover:text-[#18a058]">
+          轮播图介绍
+        </router-link></n-button
+      >
+    </div> -->
     <n-button strong secondary round type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
     <!-- <n-button class="Button--plain Button--green"> 申请开通专栏 </n-button> -->
     <n-modal
@@ -407,14 +417,22 @@ a {
   border-color: #8590a6;
 }
 .carousel-img {
-  margin: 0 auto;
+  margin-top: 15px;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  border-radius: 10px;
 }
 .main {
   text-align: center;
   margin-top: 50px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.main-descript {
+  text-align: center;
+  margin-top: 15px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
