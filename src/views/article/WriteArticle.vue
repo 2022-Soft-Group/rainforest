@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full">
+  <n-space vertical class="h-full">
     <n-card class="flex m-auto mt-4 rounded-md">
       <n-input
         class="bg-light-300 text-2xl"
@@ -9,8 +9,8 @@
         @change="addTitle"
       ></n-input>
       <div ref="domRef"></div>
+      <n-card v-if="isLoading" class="h-900 bg-light-400"></n-card>
     </n-card>
-    <n-divider />
 
     <n-card class="flex m-auto mt-4 rounded-md">
       <n-h2 class="flex m-4 font-semibold">发布选项</n-h2>
@@ -56,7 +56,7 @@
         </n-space>
       </n-space>
     </n-card>
-  </div>
+  </n-space>
 </template>
 
 <script setup lang="ts">
@@ -67,6 +67,7 @@ import 'vditor/src/assets/scss/index.scss';
 import { uploadImage } from '@/api/asset';
 import { addArticle } from '@/api/article';
 import { addArticleToColumn } from '@/api/columns';
+import { useLoadingBar } from 'naive-ui';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -78,14 +79,14 @@ const article = ref<ArticleUpload>({
   title: '',
   content: '',
   description: '',
-  image: '',
   tags: [],
   private: false,
-  imageID: 0,
 });
 const isPublish = ref(false);
 const selectedColumnID = ref(7);
 const isPrivate = ref(false);
+const isLoading = ref(false);
+const loadingBar = useLoadingBar();
 
 function addTitle() {
   let lines = vditor.value?.getValue() as string;
@@ -95,6 +96,8 @@ function addTitle() {
 
 function renderVditor() {
   if (!domRef.value) return;
+  loadingBar.start();
+  isLoading.value = true;
   vditor.value = new Vditor(domRef.value, {
     minHeight: 900,
     theme: 'classic', //主题
@@ -115,8 +118,13 @@ function renderVditor() {
       type: 'text',
     },
     cdn: 'http://kurino.top/cdn',
+    after: () => {
+      loadingBar.finish();
+      isLoading.value = false;
+    },
+
     upload: {
-      accept: 'image/*,.wav,.jpg,.png,.jpeg,.svg',
+      accept: 'image/*,.jpg,.png,.jpeg,.svg',
       max: 10 * 1024 * 1024,
       multiple: false,
       url: 'http://kurino.top/api/asset/uploadimg',
@@ -164,10 +172,14 @@ function uploadArticle() {
     .replace(new RegExp('!\\[.*]\\(.*\\)', 'g'), '')
     .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
     .substring(0, 50);
-  article.value.image = image.value;
+
   article.value.tags = [];
   article.value.private = isPrivate.value;
-  article.value.imageID = imageID;
+  if (image.value != '') {
+    article.value.imageID = imageID;
+    article.value.image = image.value;
+  }
+
   addArticle(article.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章上传成功');

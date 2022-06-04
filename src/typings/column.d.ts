@@ -1,7 +1,6 @@
 type ColumnListItem = {
   id: number;
-  href: string;
-  imgSrc: string;
+  img: string;
   title: string;
   description: string;
   followerNum: number;
@@ -9,7 +8,7 @@ type ColumnListItem = {
 };
 
 type ColumnUpload = {
-  imgSrc: string;
+  img: string;
   title: string;
   description: string;
 };

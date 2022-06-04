@@ -97,15 +97,12 @@ watch(
   () => props.articleInfo,
   () => {
     likeNum.value = props.articleInfo.like;
-    getUserLikeStatus(props.articleInfo.articleID.toString()).then((res) => {
+    getUserLikeStatus(props.articleInfo.articleID).then((res) => {
       if (res.data.status == 0) {
         liked.value = res.data.data.liked;
         disliked.value = res.data.data.disliked;
       }
     });
-  },
-  {
-    deep: true,
   }
 );
 </script>

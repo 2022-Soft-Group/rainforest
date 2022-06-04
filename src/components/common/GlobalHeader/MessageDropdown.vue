@@ -39,7 +39,7 @@
           <n-tab-pane name="comment" tab="评论">
             <n-scrollbar style="max-height: 240px">
               <n-list v-if="commentsList.length != 0">
-                <n-list-item v-for="item in commentsList">
+                <n-list-item v-for="(item, index) in commentsList">
                   <router-link
                     :to="'/user/' + item.userID"
                     class="hover:text-[#18a058]"
@@ -65,7 +65,7 @@
           <n-tab-pane name="follow" tab="关注">
             <n-scrollbar style="max-height: 240px">
               <n-list v-if="followList.length != 0">
-                <n-list-item v-for="item in followList">
+                <n-list-item v-for="(item, index) in followList">
                   <router-link
                     :to="'/user/' + item.userID"
                     class="flex hover:text-[#18a058]"

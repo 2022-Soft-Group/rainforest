@@ -1,16 +1,14 @@
 <template>
-  <!-- {{ selectedSectionName }} -->
-  <tag-list :tags="tags"></tag-list>
+  <tag-list :tags="tags" :vertical="false"></tag-list>
 </template>
 
 <script setup lang="tsx">
-import { computed, h, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { getTags } from '../../api/sections';
 
 const route = useRoute();
 const tags = ref<Array<TagItem>>([]);
-// const selectedSectionName = ref<string>(route.params.sectionKey as string);
 watch(
   () => route.params,
   async (curVal, preVal) => {

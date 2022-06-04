@@ -56,9 +56,8 @@ const clickUploadImage = () => {
   const file = upload.value?.file as File;
   // 此处上传的图片会在评论区显示
   uploadImage(file, 240, 192).then((res) => {
-    console.log(res);
     if (res.data.status == 0) {
-      commentInfo.value.image = res.data.data.url;
+      image.value = res.data.data.url;
     } else {
       window.$message.error('图片上传失败');
     }
