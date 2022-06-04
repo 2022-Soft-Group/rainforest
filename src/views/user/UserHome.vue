@@ -3,19 +3,21 @@
     <profiler-header :articleNum="userFeature.articleNum" :userInfo="(userInfo as User)" />
   </n-card>
 
-  <div class="flex flex-y-auto">
+  <div class="flex">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="关注">
-          <user-list :users="userListFollowing" :is-loading="userListFollowingIsLoading" />
+          <user-list :users="userListFollowing" :is-loading="userListFollowingIsLoading" list-type="following" />
         </n-tab-pane>
         <n-tab-pane name="粉丝">
-          <user-list :users="userListFollowed" :is-loading="userListFollowedIsLoading" />
+          <user-list :users="userListFollowed" :is-loading="userListFollowedIsLoading" list-type="fan" />
         </n-tab-pane>
         <n-tab-pane name="文章">
           <articles-list :articles="articles" :is-loading="isLoading" />
         </n-tab-pane>
-        <n-tab-pane name="收藏">我的收藏</n-tab-pane>
+        <n-tab-pane name="收藏">
+          <collect-button :article-id="4" />
+        </n-tab-pane>
         <n-tab-pane name="资源">我的资源</n-tab-pane>
       </n-tabs>
     </n-card>

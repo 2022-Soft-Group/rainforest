@@ -8,17 +8,20 @@
     </template>
     <template #extra>
       <n-space>
-        <n-button :bordered="false" color="gray"> 已关注 </n-button>
+        <!-- <follow-button :target-user-id="userFeature.id" /> -->
+        <follow-button :target-user-id="userFeature.id" />
       </n-space>
     </template>
     <template #footer>
       <div class="text-gray-500 leading-3">
-        {{ userFeature.articleNum }} 篇文章 · {{ userFeature.followedNum }} 关注着 · {{ userFeature.likedNum }} 点赞
+        {{ userFeature.articleNum }} 篇文章 · {{ userFeature.followedNum }} 关注者 · {{ userFeature.likedNum }} 点赞
       </div>
     </template>
   </n-page-header>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{ userFeature: UserFeature; isLoading: boolean }>();
+import { useAuthStore } from '@/store/auth';
+const { userID } = useAuthStore();
+const props = defineProps<{ userFeature: UserFeature; isLoading: boolean; listType: String }>();
 </script>
