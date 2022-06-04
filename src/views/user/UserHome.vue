@@ -13,7 +13,7 @@
           <user-list :users="userListFollowed" :is-loading="userListFollowedIsLoading" list-type="fan" />
         </n-tab-pane>
         <n-tab-pane name="文章">
-          <articles-list :articles="articles" :is-loading="isLoading" />
+          <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
         </n-tab-pane>
         <n-tab-pane name="收藏">
           <collect-button :article-id="4" />
@@ -25,7 +25,7 @@
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
         <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
       </n-card>
-      <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
+      <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
         <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
       </n-card>
     </div>
@@ -36,8 +36,9 @@
 </template>
 
 <script setup lang="ts">
-import { getArticleListRecommand } from '@/api/article';
+import { getUserArticleList } from '@/api/user';
 import { ref, onMounted } from 'vue';
+import { useLoadingBar } from 'naive-ui';
 import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
@@ -46,15 +47,33 @@ import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed 
 import { useAuthStore } from '@/store/auth';
 import UserFollowNum from './UserFollowNum.vue';
 
+let currentPage = 0;
+const loadingBar = useLoadingBar();
 const { userID } = useAuthStore();
+
+function handleRequest() {
+  isLoading.value = true;
+  loadingBar.start();
+  getUserArticleList({ size: 10, page: ++currentPage }, userID).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.articleInfos.forEach((element: any) => {
+        articles.value.push(element);
+      });
+      isLoading.value = false;
+      loadingBar.finish();
+    }
+  });
+}
 function reload() {
   isLoading.value = true;
   userListFollowingIsLoading.value = true;
   userListFollowedIsLoading.value = true;
-  getArticleListRecommand({ size: 10, page: 0 }).then((res) => {
+  loadingBar.start();
+  getUserArticleList({ size: 10, page: currentPage }, userID).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
       isLoading.value = false;
+      loadingBar.finish();
     } else {
       window.$message.error('获取推荐列表失败');
     }

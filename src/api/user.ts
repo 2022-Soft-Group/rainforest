@@ -1,4 +1,8 @@
-import { backend } from './utils/request';
+import { backend, jsonBackend } from './utils/request';
+
+export function getUserArticleList(data: { size: number; page: number }, userID: string) {
+  return backend.get(`article/list/${userID}`, { params: data });
+}
 
 export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
