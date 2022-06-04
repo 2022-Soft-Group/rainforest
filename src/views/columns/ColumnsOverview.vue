@@ -8,7 +8,6 @@
       :show-dots="false"
     >
       <n-carousel-item :style="{ width: '60%' }">
-        <router-link></router-link>
         <img
           class="carousel-img"
           src="https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg"
@@ -32,7 +31,6 @@
       >
     </div> -->
     <n-button strong secondary round type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
-    <!-- <n-button class="Button--plain Button--green"> 申请开通专栏 </n-button> -->
     <n-modal
       v-model:show="showModal"
       :mask-closable="false"
@@ -83,9 +81,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { defineComponent, computed } from 'vue';
-import { useAuthStore } from '@/store/auth';
-import { useRouter } from 'vue-router';
+import { useRouter, RouterLink } from 'vue-router';
 import { addColumn, getColumnListRecommand } from '@/api/columns';
 
 const route = useRouter();
