@@ -15,12 +15,7 @@
     <n-card class="flex m-auto mt-4 rounded-md">
       <n-h2 class="flex m-4 font-semibold">发布选项</n-h2>
       <n-space justify="space-around">
-        <upload-button
-          class="w-60 h-48 m-4 border-2 border-dashed rounded-md"
-          :show-file-list="false"
-          ref="upload"
-          @change="clickUploadImage"
-        >
+        <upload-button class="w-60 h-48 m-4 border-2 border-dashed rounded-md" ref="upload" @change="clickUploadImage">
           <div v-if="image == ''" class="m-18 text-gray-400">
             <div>点击上传封面</div>
             <div>.jpeg/.png/.svg</div>
@@ -68,6 +63,7 @@ import { uploadImage } from '@/api/asset';
 import { addArticle } from '@/api/article';
 import { addArticleToColumn } from '@/api/columns';
 import { useLoadingBar } from 'naive-ui';
+import { useRouter } from 'vue-router';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -87,6 +83,7 @@ const selectedColumnID = ref(7);
 const isPrivate = ref(false);
 const isLoading = ref(false);
 const loadingBar = useLoadingBar();
+const router = useRouter();
 
 function addTitle() {
   let lines = vditor.value?.getValue() as string;
@@ -142,7 +139,6 @@ function renderVditor() {
 
       success(editor, msg) {
         let responseData = JSON.parse(msg);
-        console.log(responseData);
         let imageUrl = responseData.data.url;
         let succFileText = '';
         if (vditor && vditor.value?.getCurrentMode() === 'wysiwyg') {
@@ -167,6 +163,7 @@ function uploadArticle() {
   }
   article.value.title = title.value;
   article.value.content = vditor.value?.getValue() as string;
+  console.log(article.value.content);
   article.value.description = article.value.content
     .substring(article.value.content.indexOf('\n') + 1)
     .replace(new RegExp('!\\[.*]\\(.*\\)', 'g'), '')
@@ -199,7 +196,6 @@ function uploadArticle() {
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
   uploadImage(file, null, null).then((res) => {
-    console.log(res);
     if (res.data.status == 0) {
       image.value = res.data.data.url;
       imageID = res.data.data.id;
