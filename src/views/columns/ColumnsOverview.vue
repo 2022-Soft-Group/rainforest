@@ -8,7 +8,6 @@
       :show-dots="false"
     >
       <n-carousel-item :style="{ width: '60%' }">
-        <router-link></router-link>
         <img
           class="carousel-img"
           src="https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg"
