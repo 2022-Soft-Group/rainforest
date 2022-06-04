@@ -27,3 +27,11 @@ export function cancelFollowUser(userID: string) {
 export function getFollowUserStatus(userID: string) {
   return backend.get(`user/fanstatus/${userID}`);
 }
+
+export function collectArticle(articleID: string) {
+  return backend.put(`user/collect/${articleID}`);
+}
+
+export function getCollectStatus(articleID: string) {
+  return backend.get(`user/collectStatus/${articleID}`);
+}

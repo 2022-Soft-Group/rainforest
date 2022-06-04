@@ -22,6 +22,7 @@
         <n-icon size="small"><collection-icon /></n-icon>
         {{ articleInfo.collection }} 次收藏
       </div>
+      <collect-button :article-id="1"></collect-button>
     </n-space>
     <div class="text-gray-400">
       <n-space class="ml-2">

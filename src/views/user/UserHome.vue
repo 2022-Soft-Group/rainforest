@@ -16,7 +16,7 @@
           <articles-list :articles="articles" :is-loading="isLoading" />
         </n-tab-pane>
         <n-tab-pane name="收藏">
-          <collect-button :target-user-id="1" />
+          <collect-button :article-id="4" />
         </n-tab-pane>
         <n-tab-pane name="资源">我的资源</n-tab-pane>
       </n-tabs>

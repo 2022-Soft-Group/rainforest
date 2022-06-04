@@ -3,51 +3,38 @@
     :class="buttonColor"
     @mouseleave="buttonColor = 'text-gray-400 mt-1'"
     @mouseenter="buttonColor = 'text-gray-500 mt-1'"
+    @click="handleCollect"
   >
     <n-icon size="small"><collect-icon /></n-icon>
-    收藏
+    <span v-if="collected"> 已收藏</span>
+    <span v-else> 收藏</span>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { Add as addIcon } from '@vicons/ionicons5';
 import { Star as CollectIcon } from '@vicons/ionicons5';
-import { followUser, cancelFollowUser, getFollowUserStatus } from '@/api/user';
-const props = defineProps<{ targetUserId: number }>();
-const followed = ref(true);
-const buttonText = ref('已关注');
-const buttonColor = ref('');
+import { collectArticle, getCollectStatus, followUser } from '@/api/user';
+const props = defineProps<{ articleId: number }>();
+const collected = ref(true);
+const buttonColor = ref('text-gray-400 mt-1');
 
-const handleFollow = () => {
-  followUser(props.targetUserId.toString()).then((res) => {
-    if (res.data.status == 0 && res.data.data.isFan == true) {
-      followed.value = true;
+const handleCollect = () => {
+  collectArticle(props.articleId.toString()).then((res) => {
+    if (res.data.status == 0) {
+      collected.value = !collected.value;
     } else {
-      window.$message.error('现在不能关注该用户');
-    }
-  });
-};
-
-const handleCancelFollow = () => {
-  cancelFollowUser(props.targetUserId.toString()).then((res) => {
-    if (res.data.status == 0 && res.data.data.isFan == false) {
-      followed.value = false;
-    } else {
-      window.$message.error('现在不能取消关注该用户');
+      window.$message.error('现在不能收藏该文章');
     }
   });
 };
 
 watch(
-  () => followed.value,
+  () => collected.value,
   () => {
-    getFollowUserStatus(props.targetUserId.toString()).then((res) => {
+    getCollectStatus(props.articleId.toString()).then((res) => {
       if (res.data.status == 0) {
-        followed.value = res.data.data.isFan;
-        if (followed.value == true) {
-          buttonText.value = '已关注';
-        }
+        collected.value = res.data.data.isCollected;
       }
     });
   },
