@@ -31,11 +31,8 @@
       <span>
         <span class="text-2xl">{{ userInfo.name }}</span>
         <br /><br />
-        <div v-if="userInfo.sex == 1">
-          <n-icon size="25"><man-icon /></n-icon>
-        </div>
-        <div v-else>
-          <n-icon size="25"><woman-icon /></n-icon>
+        <div class="text-base">
+          <n-icon><today-icon /></n-icon> 在语林: {{ 2023 - Number(userInfo.createTime.substring(0, 4)) }}年
         </div>
       </span>
     </template>
@@ -63,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import { followUser } from '@/api/user';
 import {
@@ -72,6 +70,7 @@ import {
   Woman as WomanIcon,
   Sparkles as PointIcon,
   Add as addIcon,
+  Today as todayIcon,
 } from '@vicons/ionicons5';
 
 const { userID } = useAuthStore();

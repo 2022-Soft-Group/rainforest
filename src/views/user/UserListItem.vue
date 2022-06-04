@@ -1,5 +1,5 @@
 <template>
-  <n-page-header subtitle="已认证账号">
+  <n-page-header subtitle="">
     <template #title>
       <div class="text-lg font-bold">{{ userFeature.name }}</div>
     </template>
