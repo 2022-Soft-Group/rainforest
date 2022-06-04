@@ -63,6 +63,8 @@ import {
   NAnchorLink,
   NH1,
   NText,
+  NCarousel,
+  NCarouselItem,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -131,6 +133,8 @@ export default function setupNaiveUI(app: App) {
       NAnchorLink,
       NH1,
       NText,
+      NCarousel,
+      NCarouselItem,
     ],
   });
   app.use(naive);

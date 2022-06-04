@@ -1,10 +1,28 @@
 <template>
-  <div class="ColumnHomeTop">
-    <h1 class="ColumnHomeTop-logo"></h1>
-    <h2 class="ColumnHomeTop-subTitle">想写就写，想抄就抄</h2>
-    <n-button @click="showModal = true" class="ColumnHomeTop-requestButton Button--plain Button--green">
-      申请开通专栏
-    </n-button>
+  <div>
+    <n-carousel
+      effect="card"
+      prev-slide-style="transform: translateX(-150%) translateZ(-800px);"
+      next-slide-style="transform: translateX(50%) translateZ(-800px);"
+      style="height: 400px"
+      :show-dots="true"
+    >
+      <n-carousel-item :style="{ width: '60%' }">
+        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg" />
+      </n-carousel-item>
+      <n-carousel-item :style="{ width: '60%' }">
+        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg" />
+      </n-carousel-item>
+      <n-carousel-item :style="{ width: '60%' }">
+        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg" />
+      </n-carousel-item>
+      <n-carousel-item :style="{ width: '60%' }">
+        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg" />
+      </n-carousel-item>
+    </n-carousel>
+
+    <n-button strong secondary round type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
+    <!-- <n-button class="Button--plain Button--green"> 申请开通专栏 </n-button> -->
     <n-modal
       v-model:show="showModal"
       :mask-closable="false"
@@ -55,9 +73,11 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'vue-router';
 import { addColumn, getColumnListRecommand } from '@/api/columns';
+
 const route = useRouter();
 const columnList = ref<Array<ColumnListItem>>([]);
 let currentPage = 0;
@@ -89,7 +109,7 @@ const title = ref('');
 const description = ref('');
 const imgSrc = ref('');
 const column = ref<ColumnUpload>({
-  imgSrc: '',
+  img: '',
   title: '',
   description: '',
 });
@@ -99,7 +119,7 @@ function onPositiveClick() {
   }
   column.value.title = title.value;
   column.value.description = description.value;
-  column.value.imgSrc = imgSrc.value;
+  column.value.img = imgSrc.value;
   showModal.value = false;
   addColumn(column.value).then((res) => {
     if (res.data.status == 0) {
@@ -111,7 +131,7 @@ function onPositiveClick() {
 }
 </script>
 
-<style>
+<style scoped>
 .ColumnHomeTop {
   background: url() 50% no-repeat;
   height: 470px;
@@ -385,5 +405,18 @@ a {
 .Button--grey {
   color: #8590a6;
   border-color: #8590a6;
+}
+.carousel-img {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.main {
+  text-align: center;
+  margin-top: 50px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
