@@ -24,8 +24,8 @@ import { useRoute } from 'vue-router';
 import { getColumnArticleList, getColumnDetail } from '@/api/columns';
 const route = useRoute();
 let currentPage = 0;
-const isLoading = ref(true);
-const articles = ref<Array<ArticlesListItem>>([]);
+const isLoading = ref(false);
+const articles = ref<Array<ArticleItem>>([]);
 const columnInfo = ref<ColumnListItem>({
   id: 0,
   img: '',
@@ -46,7 +46,7 @@ function reload() {
   isLoading.value = true;
   getColumnArticleList({ size: 10, page: currentPage, id: columnInfo.value.id }).then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
     } else {
       window.$message.error('获取文章列表失败');
