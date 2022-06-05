@@ -359,12 +359,9 @@ function onPositiveClick() {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-
   flex-wrap: wrap;
 }
-/* .ColumnHomeRecommendation-cardContainer:hover {
-  opacity: 0.85;
-} */
+
 .ColumnHomeRecommendation-card {
   margin: 0 8px 16px;
 }

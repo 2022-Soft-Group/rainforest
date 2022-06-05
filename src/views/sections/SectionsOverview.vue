@@ -3,7 +3,7 @@
     <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
 
     <div>
-      <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15 opacity-70 hover:opacity-85">
+      <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
         <router-view></router-view>
       </n-card>
 
@@ -182,11 +182,6 @@ const clickUploadImage = () => {
   height: 100%;
   margin-top: 17px;
   border-radius: 6px;
-  background: white;
-  opacity: 0.4;
-}
-.Menu:hover {
-  opacity: 0.8;
 }
 
 .modalCard {

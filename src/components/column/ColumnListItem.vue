@@ -1,6 +1,6 @@
 <template>
-  <router-link
-    class="ColumnHomeColumnCard ColumnHomeRecommendation-card bg-black"
+  ><router-link
+    class="ColumnHomeColumnCard ColumnHomeRecommendation-card"
     tag="a"
     target="_blank"
     :to="'/columns/' + columnInfo.id"
@@ -32,22 +32,16 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
 .ColumnHomeColumnCard {
   border-radius: 10px;
 
-  box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
-
   box-sizing: border-box;
-  display: -webkit-box;
-  display: -ms-flexbox;
+
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
+  background: #000;
   flex-direction: column;
   padding: 26px 0 23px;
   width: 206px;
 }
 .ColumnHomeColumnCard {
   align-items: center;
-  background: #fff;
 }
 a {
   color: inherit;
@@ -73,6 +67,7 @@ a {
   font-weight: 600;
   font-synthesis: style;
   font-size: large;
+  color: #fff;
 }
 .ColumnHomeColumnCard-description {
   font-size: 14px;
@@ -85,6 +80,7 @@ a {
   overflow: hidden;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  color: #fff;
 }
 .ColumnHomeColumnCard-meta {
   font-size: 14px;
