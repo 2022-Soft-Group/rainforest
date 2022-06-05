@@ -1,6 +1,6 @@
 <template>
   <router-link
-    class="ColumnHomeColumnCard ColumnHomeRecommendation-card"
+    class="ColumnHomeColumnCard ColumnHomeRecommendation-card hover:opacity-90"
     tag="a"
     target="_blank"
     :to="'/columns/' + columnInfo.id"
@@ -31,9 +31,9 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
 }
 .ColumnHomeColumnCard {
   border-radius: 10px;
-  -webkit-box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
+
   box-shadow: 0 8px 18px rgb(0 0 0 / 6%);
-  -webkit-box-sizing: border-box;
+
   box-sizing: border-box;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -46,8 +46,6 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
   width: 206px;
 }
 .ColumnHomeColumnCard {
-  -webkit-box-align: center;
-  -ms-flex-align: center;
   align-items: center;
   background: #fff;
 }

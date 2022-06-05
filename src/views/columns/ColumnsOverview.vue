@@ -86,7 +86,7 @@
     </h3>
     <div class="ColumnHomeRecommendation-cardContainer">
       <div v-for="item in columnList">
-        <column-list-item :column-info="item"></column-list-item>
+        <column-list-item :column-info="item" class="opacity-70"></column-list-item>
       </div>
     </div>
     <button
@@ -355,9 +355,12 @@ function onPositiveClick() {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
+
   flex-wrap: wrap;
 }
+/* .ColumnHomeRecommendation-cardContainer:hover {
+  opacity: 0.85;
+} */
 .ColumnHomeRecommendation-card {
   margin: 0 8px 16px;
 }
