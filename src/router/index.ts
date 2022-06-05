@@ -37,7 +37,6 @@ const routes: RouteRecordRaw[] = [
     path: '/sections',
     name: 'sections',
     component: () => import('../views/sections/SectionsOverview.vue'),
-    // redirect: { path: '/sections/' },
     children: [
       {
         path: ':sectionKey',

@@ -4,14 +4,12 @@
     :bordered="false"
     color="gray"
     @mouseenter.native="buttonText = '取消关注'"
-    @mouseleave.native="buttonText = '已关注'"
+    @mouseleave.native="buttonText = '\xa0 已关注 \xa0'"
     @click="handleCancelFollow"
   >
     {{ buttonText }}
   </n-button>
-  <n-button v-else :bordered="false" type="primary" @click="handleFollow">
-    <n-icon><add-icon /></n-icon> 关注
-  </n-button>
+  <n-button v-else :bordered="false" type="primary" @click="handleFollow"> {{ buttonText2 }} </n-button>
 </template>
 
 <script setup lang="ts">
@@ -20,7 +18,8 @@ import { Add as addIcon } from '@vicons/ionicons5';
 import { followUser, cancelFollowUser, getFollowUserStatus } from '@/api/user';
 const props = defineProps<{ targetUserId: number }>();
 const followed = ref(true);
-const buttonText = ref('已关注');
+const buttonText = ref('\xa0 已关注 \xa0');
+const buttonText2 = ref('\xa0 + 关注 \xa0');
 
 const handleFollow = () => {
   followUser(props.targetUserId.toString()).then((res) => {
@@ -49,7 +48,7 @@ watch(
       if (res.data.status == 0) {
         followed.value = res.data.data.isFan;
         if (followed.value == true) {
-          buttonText.value = '已关注';
+          buttonText.value = '\xa0 已关注 \xa0';
         }
       }
     });

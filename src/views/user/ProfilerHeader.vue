@@ -30,12 +30,11 @@
     <template #title>
       <span>
         <span class="text-2xl">{{ userInfo.name }}</span>
+        <n-icon size="medium" class="text-gray-400" v-if="userInfo.sex == 0"><male-icon /></n-icon>
+        <n-icon size="medium" class="text-gray-400" v-else><female-icon /></n-icon>
         <br /><br />
-        <div v-if="userInfo.sex == 1">
-          <n-icon size="25"><man-icon /></n-icon>
-        </div>
-        <div v-else>
-          <n-icon size="25"><woman-icon /></n-icon>
+        <div class="text-base">
+          <n-icon><today-icon /></n-icon> 在语林: {{ 2023 - Number(userInfo.createTime.substring(0, 4)) }}年
         </div>
       </span>
     </template>
@@ -45,7 +44,7 @@
     </template>
     <template #extra>
       <n-space>
-        <n-button type="primary" ghost> 编辑资料 </n-button>
+        <edit-info :user-info="userInfo" @update-info="emits('update-info')" class="rounded-md shadow-sm" />
         <!-- <n-button v-if="userID == userInfo.id.toString()" type="primary" ghost> 编辑资料 </n-button> -->
         <!-- <n-button v-else :bordered="false" type="primary" @click="handleFollow">
           <n-icon><add-icon /></n-icon> 关注
@@ -63,17 +62,21 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import { followUser } from '@/api/user';
 import {
   Mail as MailIcon,
   Pencil as PencilIcon,
-  Man as ManIcon,
-  Woman as WomanIcon,
+  Male as MaleIcon,
+  Female as FemaleIcon,
   Sparkles as PointIcon,
   Add as addIcon,
+  Today as todayIcon,
 } from '@vicons/ionicons5';
+import EditInfo from './EditInfo.vue';
 
+const emits = defineEmits(['update-info']);
 const { userID } = useAuthStore();
 const props = defineProps<{ articleNum: number; userInfo: User }>();
 </script>

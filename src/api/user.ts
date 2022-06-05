@@ -1,7 +1,15 @@
-import { backend } from './utils/request';
+import { backend, jsonBackend } from './utils/request';
+
+export function getUserArticleList(data: { size: number; page: number }, userID: string) {
+  return backend.get(`article/list/${userID}`, { params: data });
+}
 
 export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
+}
+
+export function updateUserInfo(data: { sex: number; name: string; email: string; phone: string; description: string }) {
+  return backend.post(`user/update`, data);
 }
 
 export function getUserFeature(userID: string) {
