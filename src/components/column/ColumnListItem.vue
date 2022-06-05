@@ -1,5 +1,5 @@
 <template>
-  ><router-link
+  .<router-link
     class="ColumnHomeColumnCard ColumnHomeRecommendation-card"
     tag="a"
     target="_blank"
