@@ -122,5 +122,5 @@ function reload() {
   });
 }
 defineExpose({ reload, handleCollect, handleLike, liked, collected });
-watch(() => props.articleInfo, reload);
+watch(() => props.articleInfo, reload, { immediate: true });
 </script>

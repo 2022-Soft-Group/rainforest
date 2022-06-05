@@ -7,11 +7,16 @@
     </div>
   </div>
   <div class="w-40 fixed right-0 bottom-10">
-    <n-rate color="#70c0e8" @update-value="handleChangeRainAmount" :value="rainAmount * 5" allow-half>
-      <n-icon size="20">
-        <rain-icon />
-      </n-icon>
-    </n-rate>
+    <n-tooltip trigger="hover">
+      <template #trigger>
+        <n-rate color="#70c0e8" @update-value="handleChangeRainAmount" :value="rainAmount * 5" allow-half>
+          <n-icon size="20">
+            <rain-icon />
+          </n-icon>
+        </n-rate>
+      </template>
+      雨量
+    </n-tooltip>
   </div>
 </template>
 
