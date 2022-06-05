@@ -1,5 +1,5 @@
 <template>
-  <n-button @click="handleInit"> 没什么的 </n-button>
+  <n-button @click="handleInit"> 编辑资料 </n-button>
   <n-modal v-model:show="showModal" transform-origin="center">
     <n-card
       style="width: 700px"
