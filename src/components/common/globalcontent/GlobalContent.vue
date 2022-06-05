@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen" ref="globalContent">
     <div class="fixed h-full w-full" id="rain"></div>
-    <div :class="{ 'w-260': showPadding, 'w-full': !showPadding }" class="z-200 h-full mx-auto">
+    <div class="w-260 z-200 h-full mx-auto">
       <div class="h-10"></div>
       <slot></slot>
     </div>
@@ -22,7 +22,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { ChevronUp as BackupIcon, Water as RainIcon } from '@vicons/ionicons5';
+import { Water as RainIcon } from '@vicons/ionicons5';
 import * as THREE from 'three';
 import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import Vert from '@/shader/planeShaderVert';

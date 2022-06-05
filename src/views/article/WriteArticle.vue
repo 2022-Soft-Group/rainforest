@@ -126,6 +126,10 @@ function renderVditor() {
         enable: true,
         style: 'github',
       },
+      theme: {
+        path: 'http://kurino.top/cdn/dist/css/content-theme',
+        current: 'dark',
+      },
     },
 
     counter: {
