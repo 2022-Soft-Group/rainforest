@@ -1,6 +1,6 @@
 <template>
   <router-link
-    class="ColumnHomeColumnCard ColumnHomeRecommendation-card hover:opacity-90"
+    class="ColumnHomeColumnCard ColumnHomeRecommendation-card bg-black"
     tag="a"
     target="_blank"
     :to="'/columns/' + columnInfo.id"

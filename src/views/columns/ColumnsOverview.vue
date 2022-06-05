@@ -86,7 +86,7 @@
     </h3>
     <div class="ColumnHomeRecommendation-cardContainer">
       <div v-for="item in columnList">
-        <column-list-item :column-info="item" class="opacity-70"></column-list-item>
+        <column-list-item :column-info="item"></column-list-item>
       </div>
     </div>
     <button
