@@ -28,7 +28,7 @@ import TagListVue from '@/components/tag/TagList.vue';
 const route = useRoute();
 const isLoading = ref(false);
 let currentPage = 0;
-const articles = ref<Array<ArticlesListItem>>([]);
+const articles = ref<Array<ArticleItem>>([]);
 const tagInfo = ref<TagItem>({
   sectionKey: '',
   title: '',
@@ -48,7 +48,7 @@ function reload() {
   isLoading.value = true;
   getTagArticleList({ size: 10, page: currentPage, id: tagInfo.value.id }).then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
     } else {
       window.$message.error('获取文章列表失败');

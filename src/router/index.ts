@@ -20,6 +20,16 @@ const routes: RouteRecordRaw[] = [
         name: 'write',
         component: () => import('../views/article/WriteArticle.vue'),
       },
+      {
+        path: 'write/:type/:id',
+        name: 'modify',
+        component: () => import('../views/article/WriteArticle.vue'),
+      },
+      {
+        path: 'draft',
+        name: 'draft',
+        component: () => import('../views/article/DraftBox.vue'),
+      },
     ],
   },
   {
@@ -37,6 +47,7 @@ const routes: RouteRecordRaw[] = [
     path: '/sections',
     name: 'sections',
     component: () => import('../views/sections/SectionsOverview.vue'),
+    redirect: '/sections/计算机',
     children: [
       {
         path: ':sectionKey',

@@ -1,4 +1,4 @@
-type ArticlesListItem = {
+type ArticleItem = {
   title: string;
   author: string;
   authorID: number;
@@ -12,6 +12,16 @@ type ArticlesListItem = {
   articleID: number;
   thumbnail: string | null;
   columns: ColumnListItem[]; //只是在这里加了，还没有全面加
+};
+
+type DraftItem = {
+  title: string;
+  authorID: number;
+  tags: TagItem[];
+  image: string;
+  thumbnail: string;
+  draftID: number;
+  description: string;
 };
 
 type ArticleUpload = {

@@ -68,14 +68,8 @@ import { computed, h, onMounted, ref } from 'vue';
 import { NIcon } from 'naive-ui';
 import type { MenuOption } from 'naive-ui';
 import type { Component } from 'vue';
-import { RouterLink } from 'vue-router';
-import {
-  BookOutline as BookIcon,
-  PersonOutline as PersonIcon,
-  WineOutline as WineIcon,
-  HomeOutline as HomeIcon,
-  Accessibility as AccessIcon,
-} from '@vicons/ionicons5';
+import { RouterView } from 'vue-router';
+import { BookOutline as BookIcon } from '@vicons/ionicons5';
 import { addTag, getSections } from '@/api/sections';
 import { useRouter, useRoute } from 'vue-router';
 import { addColumn } from '@/api/columns';
