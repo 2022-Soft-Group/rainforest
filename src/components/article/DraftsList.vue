@@ -7,9 +7,7 @@
     </div>
   </div>
   <div v-else>
-    <div v-if="drafts.length == 0">
-      <n-empty description="还没有草稿哦"></n-empty>
-    </div>
+    <n-empty v-if="drafts.length == 0" description="还没有草稿哦"></n-empty>
     <div v-for="(item, index) in drafts">
       <n-divider v-if="index != 0"></n-divider>
       <draft-list-item :is-loading="isLoading" :draft-info="item" />

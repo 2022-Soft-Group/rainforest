@@ -7,9 +7,7 @@
     </div>
   </div>
   <div v-else>
-    <div v-if="articles.length == 0">
-      <n-empty description="还没有文章哦"></n-empty>
-    </div>
+    <n-empty v-if="articles.length == 0" description="还没有文章哦"></n-empty>
     <div v-for="(item, index) in articles">
       <n-divider v-if="index != 0"></n-divider>
       <articles-list-item :is-loading="isLoading" :article-info="item" />

@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <n-space vertical>
-      <n-card class="flex m-auto rounded-md w-240">
+      <n-card class="flex m-auto rounded-md w-230">
         <template #cover v-if="articleInfo.image != ''">
           <img class="max-h-400" :src="articleInfo.image" />
         </template>
@@ -23,15 +23,14 @@
           <article-info-panel :article-info="articleInfo" ref="infoPanel"></article-info-panel>
         </n-card>
       </div>
-
       <div id="comment-zone">
         <n-card class="flex m-auto rounded-md">
           <comment-overview :comment-num="articleInfo.comments"></comment-overview>
         </n-card>
       </div>
     </n-space>
-    <div>
-      <n-space vertical size="large" class="sticky top-2/3 pl-10">
+    <div class="w-0">
+      <n-space vertical size="large" class="sticky top-2/3 ml-5">
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
             <n-button
@@ -252,6 +251,7 @@ export default defineComponent({
 
 .markdown :deep(img) {
   border-radius: 8px;
+  margin: auto;
   pointer-events: none;
 }
 </style>

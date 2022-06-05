@@ -80,7 +80,6 @@ const article = ref<ArticleUpload>({
 });
 const isColumn = ref(false);
 const selectedColumnID = ref(0);
-const modifyID = ref(0);
 const isPrivate = ref(false);
 const isLoading = ref(false);
 const router = useRouter();
@@ -251,14 +250,13 @@ function fullfillArticle() {
   }
   article.value.title = title.value;
   article.value.content = vditor.value?.getValue() as string;
-  console.log(article.value.content);
   article.value.description = article.value.content
     .substring(article.value.content.indexOf('\n') + 1)
     .replace(new RegExp('!\\[.*]\\(.*\\)', 'g'), '')
     .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
-    .substring(0, 50);
+    .substring(0, 120);
 
-  article.value.tags = [];
+  article.value.tags = tags.value;
   article.value.private = isPrivate.value;
   if (image.value != '') {
     article.value.imageID = imageID;
