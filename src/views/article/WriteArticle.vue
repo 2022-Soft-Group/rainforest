@@ -22,15 +22,15 @@
           </div>
           <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="image" />
         </upload-button>
-        <n-space vertical class="my-4 mx-10">
+        <n-space vertical class="my-4 mx-10 w-65">
           <n-space>
             <n-radio :checked="!isColumn" @change="isColumn = !isColumn"> 不发布到专栏 </n-radio>
             <n-radio :checked="isColumn" @change="isColumn = !isColumn"> 发布到专栏 </n-radio>
           </n-space>
           <n-select v-if="isColumn"></n-select>
           <n-space>
-            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不发布到标签 </n-radio>
-            <n-radio :checked="isTag" @change="isTag = !isTag"> 发布到标签 </n-radio>
+            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不关联到标签 </n-radio>
+            <n-radio :checked="isTag" @change="isTag = !isTag"> 关联到标签 </n-radio>
           </n-space>
 
           <n-select
@@ -41,7 +41,7 @@
             tag
             :options="options"
             clearable
-            :max-tag-count="5"
+            :consistent-menu-width="false"
           />
         </n-space>
         <n-space vertical class="my-4 mx-10">
@@ -254,6 +254,7 @@ function uploadArticle() {
           }
         });
       }
+
       router.push({ name: 'homepage' });
     } else {
       window.$message.error('文章发布失败');
@@ -317,7 +318,7 @@ onMounted(() => {
 
 //select tag
 const value = ref('');
-const multipleSelectValue = ref(null);
+const multipleSelectValue = ref([]); //要关联的tag的id在这里
 const options: { label: string; value: string; type: 'group'; children: Array<SelectOption> }[] = [];
 
 let tagsGet = <Array<TagItem>>[];
@@ -328,13 +329,13 @@ function reload() {
   getSections().then((res) => {
     if (res.data.status == 0) {
       res.data.data.sections.forEach((elm: string) => {
-        const optionsChildren: { label: string; value: string }[] = [];
+        const optionsChildren: { label: string; value: number }[] = [];
         getTags({ sectionName: elm as string, size: 2, page: 0 }).then((res) => {
           if (res.data.status == 0) {
             res.data.data.tags.forEach((elen: TagItem) => {
               optionsChildren.push({
                 label: elen.title,
-                value: elen.title,
+                value: elen.id,
               });
             });
           } else {
@@ -354,5 +355,6 @@ function reload() {
     }
   });
 }
+//创建标签
 </script>
 <style scoped></style>
