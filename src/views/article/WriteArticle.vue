@@ -28,6 +28,11 @@
             <n-radio :checked="isColumn" @change="isColumn = !isColumn"> 发布到专栏 </n-radio>
           </n-space>
           <n-select v-if="isColumn"></n-select>
+          <n-space>
+            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不发布到标签 </n-radio>
+            <n-radio :checked="isTag" @change="isTag = !isTag"> 发布到标签 </n-radio>
+          </n-space>
+          <n-select v-if="isTag"></n-select>
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -79,6 +84,7 @@ const article = ref<ArticleUpload>({
   private: false,
 });
 const isColumn = ref(false);
+const isTag = ref(false);
 const selectedColumnID = ref(0);
 const isPrivate = ref(false);
 const isLoading = ref(false);
