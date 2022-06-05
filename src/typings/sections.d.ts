@@ -5,9 +5,8 @@ type SectionInfo = {
 };
 
 type TagItem = {
-  sectionKey: string;
+  sectionName: string;
   title: string;
   img: string;
   description: string;
-  id: number;
 };

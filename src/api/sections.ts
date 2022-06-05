@@ -17,3 +17,7 @@ export function getTagDetail(tagid: string) {
 export function getTagArticleList(data: { size: number; page: number; id: number }) {
   return backend.get(`sections/tag/${data.id}/articles`, { params: data });
 }
+
+export function addTag(tag: TagItem) {
+  return backend.post(`/sections/tag`, tag);
+}

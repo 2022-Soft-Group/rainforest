@@ -46,7 +46,7 @@
         <n-h1 class="text-center">新建专栏</n-h1>
 
         <n-space vertical size="large">
-          <n-input v-model:value="title" type="text" placeholder="请输入标签名称" class="mt-6" />
+          <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" class="mt-6" />
           <n-input
             type="textarea"
             placeholder="请输入一句话介绍"
@@ -117,9 +117,9 @@ const carouselItem = [
     title: 'iOS到底强在哪里',
   },
   {
-    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg',
-    id: 15,
-    title: 'iOS到',
+    imgSrc: 'http://n.sinaimg.cn/finance/transform/55/w550h305/20180528/USaQ-hcaquev2296731.jpg',
+    id: 20,
+    title: '区块链的前世与今生',
   },
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg',
