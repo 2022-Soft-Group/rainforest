@@ -1,7 +1,11 @@
 import { backend, jsonBackend } from './utils/request';
 
 export function getArticleListRecommand(data: { size: number; page: number }) {
-  return backend.get('article/list/recommend', { params: data });
+  return backend.get(`article/list/recommend`, { params: data });
+}
+
+export function getDraftList(data: { size: number; page: number }) {
+  return backend.get(`article/list/draft`, { params: data });
 }
 
 export function getArticle(articleID: string) {
@@ -26,6 +30,26 @@ export function collectArticle(artcicleID: string) {
 
 export function addArticle(article: ArticleUpload) {
   return jsonBackend.post(`article`, article);
+}
+
+export function getDraft(draftID: string) {
+  return backend.get(`article/draft/${draftID}`);
+}
+
+export function addDraft(article: ArticleUpload) {
+  return jsonBackend.post(`article/draft`, article);
+}
+
+export function modifyArticle(article: ArticleUpload, artcicleID: number) {
+  return jsonBackend.put(`article/${artcicleID}`, article);
+}
+
+export function modifyDraft(article: ArticleUpload, draftID: number) {
+  return jsonBackend.put(`article/draft/${draftID}`, article);
+}
+
+export function publishDraft(draftID: number) {
+  return backend.post(`article/draft/${draftID}/publish`);
 }
 
 export function getComments(data: { size: number; page: number; toCommentID: number | null }, articleID: number) {

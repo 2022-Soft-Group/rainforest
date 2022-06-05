@@ -14,6 +14,8 @@ declare module 'vue' {
     CommentItem: typeof import('./src/components/comments/CommentItem.vue')['default']
     CommentList: typeof import('./src/components/comments/CommentList.vue')['default']
     CommentOverview: typeof import('./src/components/comments/CommentOverview.vue')['default']
+    DraftListItem: typeof import('./src/components/article/DraftListItem.vue')['default']
+    DraftsList: typeof import('./src/components/article/DraftsList.vue')['default']
     FollowButton: typeof import('./src/components/common/FollowButton.vue')['default']
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/globalheader/GlobalHeader.vue')['default']

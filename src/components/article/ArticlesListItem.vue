@@ -28,6 +28,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const props = defineProps<{ isLoading: boolean; articleInfo: ArticlesListItem }>();
+const props = defineProps<{ isLoading: boolean; articleInfo: ArticleItem }>();
 const articleDirection = ref('/article/' + props.articleInfo.articleID);
 </script>

@@ -32,29 +32,59 @@
     </n-space>
     <div>
       <n-space vertical size="large" class="sticky top-2/3 pl-10">
-        <n-button
-          class="shadow-md"
-          type="primary"
-          size="large"
-          :secondary="!infoPanel?.liked"
-          circle
-          @click="handleLike"
-        >
-          <n-icon size="26"> <like-icon /> </n-icon>
-        </n-button>
-        <n-button class="shadow-md" type="info" size="large" secondary circle @click="scrollToComment">
-          <n-icon size="24"> <comment-icon /> </n-icon>
-        </n-button>
-        <n-button
-          class="shadow-md"
-          type="warning"
-          size="large"
-          :secondary="!infoPanel?.collected"
-          circle
-          @click="handleCollect"
-        >
-          <n-icon size="26"> <collection-icon /> </n-icon>
-        </n-button>
+        <n-tooltip trigger="hover" placement="right">
+          <template #trigger>
+            <n-button
+              class="shadow-md"
+              type="primary"
+              size="large"
+              :secondary="!infoPanel?.liked"
+              circle
+              @click="handleLike"
+            >
+              <n-icon size="26"> <like-icon /> </n-icon>
+            </n-button>
+          </template>
+          点赞
+        </n-tooltip>
+        <n-tooltip trigger="hover" placement="right">
+          <template #trigger>
+            <n-button class="shadow-md" type="info" size="large" secondary circle @click="scrollToComment">
+              <n-icon size="24"> <comment-icon /> </n-icon>
+            </n-button>
+          </template>
+          评论
+        </n-tooltip>
+        <n-tooltip trigger="hover" placement="right">
+          <template #trigger>
+            <n-button
+              class="shadow-md"
+              type="warning"
+              size="large"
+              :secondary="!infoPanel?.collected"
+              circle
+              @click="handleCollect"
+            >
+              <n-icon size="25"> <collection-icon /> </n-icon>
+            </n-button>
+          </template>
+          收藏
+        </n-tooltip>
+        <n-tooltip trigger="hover" placement="right">
+          <template #trigger>
+            <n-button
+              class="clip shadow-md"
+              color="#a29bfe"
+              size="large"
+              :secondary="!infoPanel?.collected"
+              circle
+              @click=""
+            >
+              <n-icon size="25"> <share-icon /> </n-icon>
+            </n-button>
+          </template>
+          分享
+        </n-tooltip>
       </n-space>
     </div>
   </div>
@@ -67,8 +97,14 @@ import { getUserInfo } from '@/api/user';
 import { useRoute } from 'vue-router';
 import { getArticle } from '@/api/article';
 import { RouterLink } from 'vue-router';
-import { CaretUpOutline as LikeIcon, ChatboxEllipses as CommentIcon, Star as CollectionIcon } from '@vicons/ionicons5';
+import {
+  CaretUpOutline as LikeIcon,
+  ChatboxEllipses as CommentIcon,
+  Star as CollectionIcon,
+  PaperPlane as ShareIcon,
+} from '@vicons/ionicons5';
 import type ArticleInfoPanel from '@/components/article/ArticleInfoPanel.vue';
+import ClipBoardJS from 'clipboard';
 
 export default defineComponent({
   components: {
@@ -77,6 +113,7 @@ export default defineComponent({
     LikeIcon,
     CommentIcon,
     CollectionIcon,
+    ShareIcon,
   },
   setup() {
     const route = useRoute();
@@ -94,7 +131,7 @@ export default defineComponent({
       isAdmin: false,
     });
     const articleContent = ref('');
-    const articleInfo = ref<ArticlesListItem>({
+    const articleInfo = ref<ArticleItem>({
       title: '',
       author: '',
       authorID: 0,
@@ -140,6 +177,12 @@ export default defineComponent({
       infoPanel.value?.handleCollect();
     };
 
+    const handleShare = () => {
+      const clipboard = new ClipBoardJS('.clip');
+      clipboard.on;
+      window.$message.info('网址已复制');
+    };
+
     provide('authorID', authorID);
     onMounted(() => {
       getArticle(route.params.id as string)
@@ -164,6 +207,7 @@ export default defineComponent({
     });
     return {
       userInfo,
+      route,
       articleInfo,
       articleContent,
       options,

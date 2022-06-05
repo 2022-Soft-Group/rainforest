@@ -7,5 +7,5 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-const hotArticles = ref<Array<ArticlesListItem>>([]);
+const hotArticles = ref<Array<ArticleItem>>([]);
 </script>

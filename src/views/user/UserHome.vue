@@ -53,7 +53,7 @@ function reload() {
   userListFollowedIsLoading.value = true;
   getArticleListRecommand({ size: 10, page: 0 }).then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
     } else {
       window.$message.error('获取推荐列表失败');
@@ -93,7 +93,7 @@ function reload() {
 
 // 我的文章
 const isLoading = ref(false);
-const articles = ref<Array<ArticlesListItem>>([]);
+const articles = ref<Array<ArticleItem>>([]);
 
 // 我的个人信息
 const userInfo = ref<User>({
