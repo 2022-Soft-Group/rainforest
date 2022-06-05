@@ -2,6 +2,7 @@ export default `
 uniform vec2 iResolution;
 uniform float iTime;
 uniform vec2 iMouse;
+uniform sampler2D iChannel0;
 
 #define S(a, b, t) smoothstep(a, b, t)
 //#define CHEAP_NORMALS
@@ -103,18 +104,18 @@ void main( )
 {
 	vec2 uv = (gl_FragCoord.xy-.5*iResolution.xy) / iResolution.y;
     vec2 UV = gl_FragCoord.xy/iResolution.xy;
-    vec3 M = iMouse.xy/iResolution.xy;
+    vec2 M = iMouse.xy/iResolution.xy;
     float T = iTime+M.x*2.;
     
     #ifdef HAS_HEART
     T = mod(iTime, 102.);
-    T = mix(T, M.x*102., M.z>0.?1.:0.);
+    T = mix(T, M.x*102., 1.);
     #endif
     
     
     float t = T*.2;
     
-    float rainAmount = iMouse.z>0. ? M.y : sin(T*.05)*.3+.7;
+    float rainAmount =  0.8;
     
     float maxBlur = mix(3., 6., rainAmount);
     float minBlur = 2.;
@@ -122,33 +123,9 @@ void main( )
     float story = 0.;
     float heart = 0.;
     
-    #ifdef HAS_HEART
-    story = S(0., 70., T);
     
-    t = min(1., T/70.);						// remap drop time so it goes slower when it freezes
-    t = 1.-t;
-    t = (1.-t*t)*70.;
-    
-    float zoom= mix(.3, 1.2, story);		// slowly zoom out
-    uv *=zoom;
-    minBlur = 4.+S(.5, 1., story)*3.;		// more opaque glass towards the end
-    maxBlur = 6.+S(.5, 1., story)*1.5;
-    
-    vec2 hv = uv-vec2(.0, -.1);				// build heart
-    hv.x *= .5;
-    float s = S(110., 70., T);				// heart gets smaller and fades towards the end
-    hv.y-=sqrt(abs(hv.x))*.5*s;
-    heart = length(hv);
-    heart = S(.4*s, .2*s, heart)*s;
-    rainAmount = heart;						// the rain is where the heart is
-    
-    maxBlur-=heart;							// inside the heart slighly less foggy
-    uv *= 1.5;								// zoom out a bit more
-    t *= .25;
-    #else
-    float zoom = -cos(T*.2);
+    float zoom = T > 2.5 * 3.14 ? 0.0 : -cos(T*.2);
     uv *= .7+zoom*.3;
-    #endif
     UV = (UV-.5)*(.9+zoom*.1)+.5;
     
     float staticDrops = S(-.5, 1., rainAmount)*2.;
@@ -173,7 +150,7 @@ void main( )
     #endif
     
     float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
-    vec3 col = textureLod(iChannel0, UV+n, focus).rgb;
+    vec3 col = texture2DLodEXT(iChannel0, UV+n, focus).rgb;
     
     
     #ifdef USE_POST_PROCESSING

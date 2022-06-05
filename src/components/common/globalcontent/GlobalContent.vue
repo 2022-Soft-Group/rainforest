@@ -19,7 +19,7 @@ import { ChevronUp as BackupIcon } from '@vicons/ionicons5';
 import * as THREE from 'three';
 import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import Vert from '@/shader/planeShaderVert';
-import Frag from '@/shader/planeShaderFrag';
+import Frag from '@/shader/rainshader';
 
 const props = defineProps<{ showPadding: boolean }>();
 const globarContent = ref<HTMLElement>(null as unknown as HTMLElement);
@@ -56,7 +56,10 @@ function onWindowResize() {
 function backgroundVFX() {
   setupThreeEnv();
   var geometry = new THREE.PlaneBufferGeometry(2, 2);
-
+  var loader = new THREE.TextureLoader();
+  var texture = loader.load('/resource/bgimg.jpg');
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
   uniforms = {
     resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
     iTime: {
@@ -70,6 +73,10 @@ function backgroundVFX() {
     iMouse: {
       type: 'v2',
       value: new THREE.Vector2(),
+    },
+    iChannel0: {
+      type: 't',
+      value: texture,
     },
   };
 
