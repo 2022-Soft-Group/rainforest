@@ -24,7 +24,7 @@ import { useRoute } from 'vue-router';
 import { getColumnArticleList, getColumnDetail } from '@/api/columns';
 const route = useRoute();
 let currentPage = 0;
-const isLoading = ref(false);
+const isLoading = ref(true);
 const articles = ref<Array<ArticlesListItem>>([]);
 const columnInfo = ref<ColumnListItem>({
   id: 0,

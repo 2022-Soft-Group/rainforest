@@ -57,7 +57,7 @@ a {
 }
 .ColumnHomeColumnCard-info {
   align-items: center;
-  height: 150px;
+  height: 100px;
   display: flex;
 
   flex-direction: column;

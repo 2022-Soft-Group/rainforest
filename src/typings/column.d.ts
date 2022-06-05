@@ -8,7 +8,8 @@ type ColumnListItem = {
 };
 
 type ColumnUpload = {
-  img: string;
+  cover?: string;
   title: string;
-  description: string;
+  description?: string;
+  private?: number;
 };

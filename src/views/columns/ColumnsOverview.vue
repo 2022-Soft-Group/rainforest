@@ -2,40 +2,38 @@
   <div>
     <n-carousel
       effect="card"
+      :current-index="index"
       prev-slide-style="transform: translateX(-150%) translateZ(-800px);"
       next-slide-style="transform: translateX(50%) translateZ(-800px);"
       style="height: 400px"
-      :show-dots="false"
+      :show-dots="true"
+      @update-current-index="handleCurrentIndex"
     >
-      <n-carousel-item :style="{ width: '60%' }">
+      <n-carousel-item :style="{ width: '60%' }" v-for="item in carouselItem">
         <img
-          class="carousel-img"
-          src="https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg"
+          class="carousel-img cursor-pointer"
+          :src="item.imgSrc"
+          @click="router.push({ path: `/columns/${item.id}` })"
+          :title="item.title"
         />
       </n-carousel-item>
-      <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg" />
-      </n-carousel-item>
-      <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg" />
-      </n-carousel-item>
-      <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg" />
-      </n-carousel-item>
     </n-carousel>
-    <!-- <div>
+    <div>
       <n-button quaternary class="main-descript">
-        <router-link to="/homepage" target="_blank" class="font-bold text-xl hover:text-[#18a058]">
-          轮播图介绍
-        </router-link></n-button
+        <div
+          class="font-bold text-xl hover:text-[#18a058]"
+          @click="router.push({ path: `/columns/${carouselItem[index].id}` })"
+        >
+          {{ currentTitle }}
+        </div></n-button
       >
-    </div> -->
+    </div>
+
     <n-button strong secondary round type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
-    <!-- <n-button class="Button--plain Button--green"> 申请开通专栏 </n-button> -->
+
     <n-modal
       v-model:show="showModal"
       :mask-closable="false"
-      preset="dialog"
       :style="bodyStyle"
       title="新建专栏"
       size="huge"
@@ -45,17 +43,41 @@
       @positive-click="onPositiveClick"
       @negative-click="onNegativeClick"
     >
-      <n-space vertical size="large">
-        <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" />
-        <n-input
-          type="textarea"
-          placeholder="请输入一句话介绍"
-          v-model:value="description"
-          :autosize="{
-            minRows: 3,
-          }"
-        />
-      </n-space>
+      <n-card class="modalCard">
+        <n-h1 class="text-center">新建专栏</n-h1>
+
+        <n-space vertical size="large">
+          <n-input v-model:value="title" type="text" placeholder="请输入标签名称" class="mt-6" />
+          <n-input
+            type="textarea"
+            placeholder="请输入一句话介绍"
+            v-model:value="description"
+            :autosize="{
+              minRows: 3,
+            }"
+            class="mt-10"
+          />
+          <div>
+            <upload-button
+              class="w-138 h-48 border-2 border-dashed rounded-md"
+              :show-file-list="false"
+              ref="upload"
+              @change="clickUploadImage"
+            >
+              <div v-if="imgSrc == ''" class="text-center mt-20 text-gray-400">
+                <div>点击上传封面</div>
+                <div>.jpeg/.png/.svg</div>
+              </div>
+              <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="imgSrc" />
+            </upload-button>
+          </div>
+        </n-space>
+
+        <div class="flex-auto mt-10 justify-between">
+          <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
+          <n-button type="primary" @click="onPositiveClick" class="w-67">新建专栏</n-button>
+        </div>
+      </n-card>
     </n-modal>
   </div>
   <div class="ColumnHomeRecommendation">
@@ -86,10 +108,40 @@ import { defineComponent, computed } from 'vue';
 import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'vue-router';
 import { addColumn, getColumnListRecommand } from '@/api/columns';
-
-const route = useRouter();
+import type UploadButton from '@/components/common/UploadButton.vue';
+import { uploadImage } from '@/api/asset';
+const index = ref(0);
+const router = useRouter();
 const columnList = ref<Array<ColumnListItem>>([]);
+const carouselItem = [
+  {
+    imgSrc: 'https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg',
+    id: 15,
+    title: 'iOS到底强在哪里',
+  },
+  {
+    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg',
+    id: 15,
+    title: 'iOS到',
+  },
+  {
+    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg',
+    id: 15,
+    title: 'iO',
+  },
+  {
+    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg',
+    id: 15,
+    title: 'i',
+  },
+];
 let currentPage = 0;
+const currentTitle = computed(() => {
+  return carouselItem[index.value].title;
+});
+function handleCurrentIndex(currentIndex: number, lastIndex: number) {
+  index.value = currentIndex;
+}
 onMounted(reload);
 function reload() {
   getColumnListRecommand({ size: 8, page: currentPage }).then((res) => {
@@ -114,13 +166,31 @@ const showModal = ref(false);
 function onNegativeClick() {
   showModal.value = false;
 }
+//上传图片
+let imageID = 0;
+const upload = ref<InstanceType<typeof UploadButton> | null>(null);
+const clickUploadImage = () => {
+  const file = upload.value?.file as File;
+  uploadImage(file, null, null).then((res) => {
+    console.log(res);
+    if (res.data.status == 0) {
+      imgSrc.value = res.data.data.url;
+      imageID = res.data.data.id;
+    } else {
+      window.$message.error('图片上传失败');
+    }
+  });
+  upload.value?.clearFile();
+};
 const title = ref('');
 const description = ref('');
 const imgSrc = ref('');
+
 const column = ref<ColumnUpload>({
-  img: '',
+  cover: '',
   title: '',
   description: '',
+  private: 0,
 });
 function onPositiveClick() {
   if (title.value == '') {
@@ -128,7 +198,7 @@ function onPositiveClick() {
   }
   column.value.title = title.value;
   column.value.description = description.value;
-  column.value.img = imgSrc.value;
+  column.value.cover = imgSrc.value;
   showModal.value = false;
   addColumn(column.value).then((res) => {
     if (res.data.status == 0) {
@@ -435,5 +505,10 @@ a {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+.modalCard {
+  width: 100px;
+  height: 600px;
+  border-radius: 10px;
 }
 </style>
