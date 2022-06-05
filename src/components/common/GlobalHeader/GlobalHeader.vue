@@ -1,5 +1,5 @@
 <template>
-  <div class="global-header sticky top-0 bg-light-200">
+  <div class="global-header w-full top-0 bg-transparent">
     <div class="flex w-300 m-auto justify-between pr-30 py-1">
       <router-link to="/homepage" class="flex self-center h-9 w-20 ml-10 mr-5">
         <img :src="BrandImg" />
@@ -110,6 +110,7 @@ onMounted(() => {
 
 <style scoped>
 .global-header {
+  position: fixed;
   box-shadow: 0 3px 5px rgba(0, 10, 20, 0.08);
 }
 </style>

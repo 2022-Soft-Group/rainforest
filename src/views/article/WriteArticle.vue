@@ -28,6 +28,21 @@
             <n-radio :checked="isColumn" @change="isColumn = !isColumn"> 发布到专栏 </n-radio>
           </n-space>
           <n-select v-if="isColumn"></n-select>
+          <n-space>
+            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不发布到标签 </n-radio>
+            <n-radio :checked="isTag" @change="isTag = !isTag"> 发布到标签 </n-radio>
+          </n-space>
+
+          <n-select
+            v-model:value="multipleSelectValue"
+            v-if="isTag"
+            filterable
+            multiple
+            tag
+            :options="options"
+            clearable
+            :max-tag-count="5"
+          />
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -63,6 +78,8 @@ import { uploadImage } from '@/api/asset';
 import { addArticle, addDraft, getArticle, getDraft, modifyArticle, modifyDraft, publishDraft } from '@/api/article';
 import { addArticleToColumn } from '@/api/columns';
 import { useRoute, useRouter } from 'vue-router';
+import type { SelectGroupOption, SelectOption } from 'naive-ui/lib/select';
+import { getSections, getTags } from '@/api/sections';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -79,6 +96,7 @@ const article = ref<ArticleUpload>({
   private: false,
 });
 const isColumn = ref(false);
+const isTag = ref(false);
 const selectedColumnID = ref(0);
 const isPrivate = ref(false);
 const isLoading = ref(false);
@@ -296,5 +314,44 @@ onMounted(() => {
     }
   }
 });
+
+//select tag
+const multipleSelectValue = ref([]);
+const options: { label: string; value: string; type: 'group'; children: Array<SelectOption> }[] = [];
+
+let tagsGet = <Array<TagItem>>[];
+onMounted(() => {
+  reload();
+});
+function reload() {
+  getSections().then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.sections.forEach((elm: string) => {
+        const optionsChildren: { label: string; value: string }[] = [];
+        getTags({ sectionName: elm as string, size: 2, page: 0 }).then((res) => {
+          if (res.data.status == 0) {
+            res.data.data.tags.forEach((elen: TagItem) => {
+              optionsChildren.push({
+                label: elen.title,
+                value: elen.title,
+              });
+            });
+          } else {
+            window.$message.error('获取二级列表失败');
+          }
+        });
+        ////////
+        options.push({
+          label: elm,
+          value: elm,
+          type: 'group',
+          children: optionsChildren,
+        });
+      });
+    } else {
+      window.$message.error('获取Section失败');
+    }
+  });
+}
 </script>
 <style scoped></style>
