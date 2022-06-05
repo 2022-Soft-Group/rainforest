@@ -135,6 +135,7 @@ const tag = ref<TagItem>({
   title: '',
   description: '',
   sectionName: '',
+  id: 0,
 });
 function onPositiveClick() {
   if (title.value == '') {
