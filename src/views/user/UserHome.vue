@@ -1,6 +1,10 @@
 <template>
   <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
-    <profiler-header :articleNum="userFeature.articleNum" :userInfo="(userInfo as User)" />
+    <profiler-header
+      :articleNum="userFeature.articleNum"
+      :userInfo="(userInfo as User)"
+      @update-info="handleUpdateInfo"
+    />
   </n-card>
 
   <div class="flex -mr-1.5">
@@ -64,6 +68,17 @@ function handleRequest() {
     }
   });
 }
+
+function handleUpdateInfo() {
+  getUserInfo(userID).then((res) => {
+    if (res.data.status == 0) {
+      userInfo.value = res.data.data.user as User;
+    } else {
+      window.$message.error('修改用户信息失败');
+    }
+  });
+}
+
 function reload() {
   isLoading.value = true;
   userListFollowingIsLoading.value = true;

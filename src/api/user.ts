@@ -8,6 +8,10 @@ export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
 }
 
+export function updateUserInfo(data: { sex: number; name: string; email: string; phone: string; description: string }) {
+  return backend.post(`user/update`, data);
+}
+
 export function getUserFeature(userID: string) {
   return backend.get(`user/${userID}/feature`);
 }
