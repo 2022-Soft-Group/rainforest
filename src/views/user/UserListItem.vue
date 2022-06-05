@@ -9,7 +9,11 @@
     <template #extra>
       <n-space>
         <!-- <follow-button :target-user-id="userFeature.id" /> -->
-        <follow-button :target-user-id="userFeature.id" />
+        <follow-button
+          :target-user-id="userFeature.id"
+          :change-count="changeCount"
+          @change-follow="emits('change-follow')"
+        />
       </n-space>
     </template>
     <template #footer>
@@ -23,5 +27,6 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/store/auth';
 const { userID } = useAuthStore();
-const props = defineProps<{ userFeature: UserFeature; isLoading: boolean; listType: String }>();
+const props = defineProps<{ userFeature: UserFeature; isLoading: boolean; listType: String; changeCount: number }>();
+const emits = defineEmits(['change-follow']);
 </script>

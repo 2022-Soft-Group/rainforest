@@ -10,11 +10,23 @@
   <div class="flex -mr-1.5">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
-        <n-tab-pane name="关注">
-          <user-list :users="userListFollowing" :is-loading="userListFollowingIsLoading" list-type="following" />
+        <n-tab-pane name="关注" display-directive="if">
+          <user-list
+            :users="userListFollowing"
+            :is-loading="userListFollowingIsLoading"
+            :change-count="changeCount"
+            list-type="following"
+            @change-follow="handleChangeFollow"
+          />
         </n-tab-pane>
-        <n-tab-pane name="粉丝">
-          <user-list :users="userListFollowed" :is-loading="userListFollowedIsLoading" list-type="fan" />
+        <n-tab-pane name="粉丝" display-directive="show:lazy">
+          <user-list
+            :users="userListFollowed"
+            :is-loading="userListFollowedIsLoading"
+            :change-count="changeCount"
+            list-type="fan"
+            @change-follow="handleChangeFollow"
+          />
         </n-tab-pane>
         <n-tab-pane name="文章">
           <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
@@ -52,6 +64,7 @@ import { useAuthStore } from '@/store/auth';
 import UserFollowNum from './UserFollowNum.vue';
 
 let currentPage = 0;
+const changeCount = ref(0);
 const loadingBar = useLoadingBar();
 const { userID } = useAuthStore();
 
@@ -77,6 +90,18 @@ function handleUpdateInfo() {
       window.$message.error('修改用户信息失败');
     }
   });
+}
+
+function handleChangeFollow() {
+  getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
+    if (res.data.status == 0) {
+      userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
+      userListFollowingIsLoading.value = false;
+    } else {
+      window.$message.error('获取我关注的用户失败');
+    }
+  });
+  changeCount.value++;
 }
 
 function reload() {
