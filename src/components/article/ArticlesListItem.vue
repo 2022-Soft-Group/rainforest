@@ -4,7 +4,7 @@
     <n-skeleton text style="width: 60%" />
   </div>
   <div v-else>
-    <router-link tag="a" target="_blank" :to="articleDirection" class="font-bold text-xl m-2 mt-0 hover:text-[#18a058]">
+    <router-link tag="a" target="_blank" :to="articleDirection" class="font-bold text-xl m-2 mt-0 hover:text-[#63e2b7]">
       {{ articleInfo.title }}
     </router-link>
     <div class="flex justify-between mx-2 my-4">

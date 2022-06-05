@@ -3,6 +3,7 @@ uniform vec2 iResolution;
 uniform float iTime;
 uniform vec2 iMouse;
 uniform sampler2D iChannel0;
+uniform float rainAmount;
 
 #define S(a, b, t) smoothstep(a, b, t)
 //#define CHEAP_NORMALS
@@ -105,17 +106,10 @@ void main( )
 	vec2 uv = (gl_FragCoord.xy-.5*iResolution.xy) / iResolution.y;
     vec2 UV = gl_FragCoord.xy/iResolution.xy;
     vec2 M = iMouse.xy/iResolution.xy;
-    float T = iTime+M.x*2.;
-    
-    #ifdef HAS_HEART
-    T = mod(iTime, 102.);
-    T = mix(T, M.x*102., 1.);
-    #endif
-    
+    M.y = 1.0 - M.y;
+    float T = iTime;
     
     float t = T*.2;
-    
-    float rainAmount =  0.8;
     
     float maxBlur = mix(3., 6., rainAmount);
     float minBlur = 2.;
@@ -124,9 +118,9 @@ void main( )
     float heart = 0.;
     
     
-    float zoom = T > 2.5 * 3.14 ? 0.0 : -cos(T*.2);
+    float zoom = T > 5.0 * 3.14 ? 1.0 : -cos(T*.2);
     uv *= .7+zoom*.3;
-    UV = (UV-.5)*(.9+zoom*.1)+.5;
+    UV = (UV-.68)*(.7+zoom*.1)+0.55;
     
     float staticDrops = S(-.5, 1., rainAmount)*2.;
     float layer1 = S(.25, .75, rainAmount);
@@ -143,32 +137,27 @@ void main( )
     	vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals
     #endif
     
+    vec3 col;
+    if(rainAmount > 0.101){
+        float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
+        col = texture2DLodEXT(iChannel0, UV+n, focus).rgb;
+    }
+    else {
+        col = texture2D(iChannel0, UV).rgb; 
+    }
     
-    #ifdef HAS_HEART
-    n *= 1.-S(60., 85., T);
-    c.y *= 1.-S(80., 100., T)*.8;
-    #endif
     
-    float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
-    vec3 col = texture2DLodEXT(iChannel0, UV+n, focus).rgb;
-    
+
     
     #ifdef USE_POST_PROCESSING
     t = (T+3.)*.5;										// make time sync with first lightnoing
     float colFade = sin(t*.2)*.5+.5+story;
     col *= mix(vec3(1.), vec3(.8, .9, 1.3), colFade);	// subtle color shift
     float fade = S(0., 10., T);							// fade in at the start
-    float lightning = 1.0;				// lighting flicker
-    col *= 1.-dot(UV-=.5, UV);							// vignette
-    											
-    #ifdef HAS_HEART
-    	col = mix(pow(col, vec3(1.2)), col, heart);
-    	fade *= S(102., 97., T);
-    #endif
+    col *= 1.-dot(UV-=.5, UV);							// vignette   									
     
     col *= fade;										// composite start and end fade
     #endif
     
-    //col = vec3(heart);
     gl_FragColor = vec4(col, 1.);
 }`;

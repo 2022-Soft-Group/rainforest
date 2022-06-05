@@ -67,6 +67,7 @@ import {
   NUpload,
   NCarousel,
   NCarouselItem,
+  NRate,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -118,6 +119,7 @@ export default function setupNaiveUI(app: App) {
       NPageHeader,
       NRadio,
       NRadioGroup,
+      NRate,
       NScrollbar,
       NSelect,
       NSkeleton,

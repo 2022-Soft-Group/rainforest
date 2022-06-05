@@ -2,14 +2,14 @@
   <n-space vertical class="h-full">
     <n-card class="flex m-auto mt-4 rounded-md">
       <n-input
-        class="bg-light-300 text-2xl"
+        class="text-2xl"
         size="large"
         placeholder="请输入文章标题"
         v-model:value="title"
         @change="addTitle"
       ></n-input>
       <div ref="domRef"></div>
-      <n-card v-if="isLoading" class="h-900 bg-light-400"></n-card>
+      <n-card v-if="isLoading" class="h-900"></n-card>
     </n-card>
 
     <n-card class="flex m-auto mt-4 rounded-md">
@@ -143,7 +143,7 @@ function renderVditor() {
   isLoading.value = true;
   vditor.value = new Vditor(domRef.value, {
     minHeight: 900,
-    theme: 'classic', //主题
+    theme: 'dark', //主题
     cache: {
       enable: false,
     },
@@ -156,6 +156,7 @@ function renderVditor() {
         style: 'github',
       },
     },
+
     counter: {
       enable: true,
       type: 'text',
@@ -347,7 +348,7 @@ onMounted(() => {
 
 //select tag
 const value = ref('');
-const multipleSelectValue = ref([]); //要关联的tag的id在这里
+const multipleSelectValue = ref([]);
 const options: { label: string; value: string; type: 'group'; children: Array<SelectOption> }[] = [];
 
 let tagsGet = <Array<TagItem>>[];

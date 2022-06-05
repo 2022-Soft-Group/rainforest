@@ -1,31 +1,62 @@
 <template>
-  <n-back-top :listen-to="target" :bottom="20" :right="10" :visibility-height="0">
-    <div style="width: 40px; height: 40px; line-height: 40px; text-align: center; font-size: 14px">
-      <n-icon size="36"><backup-icon /></n-icon>
-    </div>
-  </n-back-top>
-
-  <div class="flex min-h-screen bg-light-500" ref="globalContent">
-    <div class="fixed z-10 h-full w-full" id="rain"></div>
+  <div class="flex min-h-screen" ref="globalContent">
+    <div class="fixed h-full w-full" id="rain"></div>
     <div :class="{ 'w-260': showPadding, 'w-full': !showPadding }" class="z-200 h-full mx-auto">
+      <div class="h-10"></div>
       <slot></slot>
     </div>
+  </div>
+  <div class="w-40 fixed right-0 bottom-10">
+    <n-rate color="#70c0e8" @update-value="handleChangeRainAmount" :value="rainAmount * 5" allow-half>
+      <n-icon size="20">
+        <rain-icon />
+      </n-icon>
+    </n-rate>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { ChevronUp as BackupIcon } from '@vicons/ionicons5';
+import { ChevronUp as BackupIcon, Water as RainIcon } from '@vicons/ionicons5';
 import * as THREE from 'three';
 import type { PerspectiveCamera, Scene, WebGLRenderer } from 'three';
 import Vert from '@/shader/planeShaderVert';
 import Frag from '@/shader/rainshader';
 
 const props = defineProps<{ showPadding: boolean }>();
-const globarContent = ref<HTMLElement>(null as unknown as HTMLElement);
-const target = () => globarContent.value;
+const globalContent = ref<HTMLElement>(null as unknown as HTMLElement);
+const target = () => globalContent.value;
 
-var camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer, uniforms: any, bgimg;
+var loader = new THREE.TextureLoader();
+var texture = loader.load('/resource/bgimg.jpg');
+texture.wrapS = THREE.RepeatWrapping;
+texture.wrapT = THREE.RepeatWrapping;
+const rainAmount = ref(0.8);
+const handleChangeRainAmount = (value: number) => {
+  rainAmount.value = value / 5.0;
+  uniforms.rainAmount.value = rainAmount.value;
+};
+var camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer, bgimg;
+var uniforms = {
+  resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+  iTime: {
+    type: 'f',
+    value: 1.0,
+  },
+  iResolution: {
+    type: 'v2',
+    value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+  },
+  iChannel0: {
+    type: 't',
+    value: texture,
+  },
+  rainAmount: {
+    type: 'f',
+    value: rainAmount.value,
+  },
+};
+
 function setupThreeEnv() {
   bgimg = document.getElementById('rain');
   camera = new THREE.PerspectiveCamera();
@@ -56,39 +87,12 @@ function onWindowResize() {
 function backgroundVFX() {
   setupThreeEnv();
   var geometry = new THREE.PlaneBufferGeometry(2, 2);
-  var loader = new THREE.TextureLoader();
-  var texture = loader.load('/resource/bgimg.jpg');
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  uniforms = {
-    resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-    iTime: {
-      type: 'f',
-      value: 1.0,
-    },
-    iResolution: {
-      type: 'v2',
-      value: new THREE.Vector2(window.innerWidth, window.innerHeight),
-    },
-    iMouse: {
-      type: 'v2',
-      value: new THREE.Vector2(),
-    },
-    iChannel0: {
-      type: 't',
-      value: texture,
-    },
-  };
-
   var material = new THREE.ShaderMaterial({
     uniforms: uniforms,
     vertexShader: Vert,
     fragmentShader: Frag,
   });
-  window.addEventListener('touchmove', function (evt) {
-    uniforms.imouse.x = evt['touches'][0].clientX;
-    uniforms.imouse.y = evt['touches'][0].clientY;
-  });
+
   window.addEventListener('resize', onWindowResize, false);
   var mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
