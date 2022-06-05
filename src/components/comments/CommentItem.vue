@@ -5,7 +5,7 @@
         <n-avatar round :src="userInfo.avatar"></n-avatar>
       </template>
       <template #header>
-        <router-link :to="'/user/' + userInfo.id" class="hover:text-[#18a058]">
+        <router-link :to="'/user/' + userInfo.id" class="hover:text-[#63e2b7]">
           <span v-if="userInfo.id == authorID" class="font-semibold">{{ userInfo.name }}(作者)</span>
           <span v-else>{{ userInfo.name }}</span>
         </router-link>

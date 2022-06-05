@@ -21,7 +21,7 @@
     <div>
       <n-button quaternary class="main-descript">
         <div
-          class="font-bold text-xl hover:text-[#18a058]"
+          class="font-bold text-xl hover:text-[#63e2b7]"
           @click="router.push({ path: `/columns/${carouselItem[index].id}` })"
         >
           {{ currentTitle }}
@@ -208,6 +208,10 @@ function onPositiveClick() {
 </script>
 
 <style scoped>
+.carousel-img {
+  margin-top: 15px;
+  object-fit: fill;
+}
 .ColumnHomeTop {
   background: url() 50% no-repeat;
   height: 470px;
@@ -481,13 +485,6 @@ a {
 .Button--grey {
   color: #8590a6;
   border-color: #8590a6;
-}
-.carousel-img {
-  margin-top: 15px;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
 }
 .main {
   text-align: center;

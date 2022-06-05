@@ -1,20 +1,20 @@
 <template>
   <n-popselect trigger="manual" :show="showPopover" @clickoutside="showPopover = false">
-    <div class="flex-center h-full cursor-pointer hover:bg-[#f6f6f6] dark:hover:bg-[#333]" @click="handleClickLoad">
+    <div class="flex-center h-full">
       <n-badge :value="count">
-        <n-icon size="25">
-          <trend-icon class="text-gray-600 hover:text-gray-700"></trend-icon>
+        <n-icon class="cursor-pointer" size="22" @click="handleClickLoad">
+          <trend-icon class="text-gray-300 hover:text-gray-400"></trend-icon>
         </n-icon>
       </n-badge>
     </div>
     <template #empty>
       <n-list>
         <n-list-item v-for="item in messagesList">
-          <router-link :to="'/user/' + item.userID" class="hover:text-[#18a058]">
+          <router-link :to="'/user/' + item.userID" class="hover:text-[#63e2b7]">
             {{ item.userName }}
           </router-link>
           {{ item.actions }}了你的文章
-          <router-link :to="'/article/' + item.articleID" class="hover:text-[#18a058]">
+          <router-link :to="'/article/' + item.articleID" class="hover:text-[#63e2b7]">
             {{ item.articleTitle }}
           </router-link>
         </n-list-item>

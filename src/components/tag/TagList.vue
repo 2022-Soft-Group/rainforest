@@ -3,7 +3,7 @@
     <n-grid-item v-for="item in tags">
       <div class="p-2 items-center bg-light-700 rounded-lg" :class="{ 'w-96': !vertical }">
         <div class="grid-title">
-          <router-link :to="'/tag/' + item.id" target="_blank" class="font-bold text-xl hover:text-[#18a058] m-2 pl-2">
+          <router-link :to="'/tag/' + item.id" target="_blank" class="font-bold text-xl hover:text-[#63e2b7] m-2 pl-2">
             {{ item.title }}
           </router-link>
         </div>
