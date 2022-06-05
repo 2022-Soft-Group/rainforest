@@ -359,9 +359,9 @@ function onPositiveClick() {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+
 .ColumnHomeRecommendation-card {
   margin: 0 8px 16px;
 }

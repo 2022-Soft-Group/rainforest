@@ -1,6 +1,7 @@
 <template>
   <div class="flex">
     <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
+
     <div>
       <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
         <router-view></router-view>
@@ -178,8 +179,11 @@ const clickUploadImage = () => {
   position: relative;
   left: -50px;
   width: 220px;
-  margin-top: 20px;
+  height: 100%;
+  margin-top: 17px;
+  border-radius: 6px;
 }
+
 .modalCard {
   width: 100px;
   height: 600px;

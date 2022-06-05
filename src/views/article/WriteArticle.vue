@@ -43,6 +43,35 @@
             clearable
             :consistent-menu-width="false"
           />
+          <n-button type="primary" @click="showModal = true" class="ml-30"> 新建标签 </n-button>
+          <n-modal
+            v-model:show="showModal"
+            :mask-closable="false"
+            :style="bodyStyle"
+            title="新建标签"
+            size="huge"
+            :bordered="true"
+            positive-text="新建标签"
+            negative-text="取消"
+            @positive-click="onPositiveClick"
+            @negative-click="onNegativeClick"
+          >
+            <n-card class="modalCard">
+              <n-h1 class="text-center">新建标签</n-h1>
+
+              <n-space vertical size="large">
+                <n-input v-model:value="newTagTitle" type="text" placeholder="请输入标签名称" class="mt-6" />
+                <n-select v-model:value="newTagValue" :options="newTagOptions" class="mt-6" />
+
+                <div></div>
+              </n-space>
+
+              <div class="flex-auto mt-10 justify-between">
+                <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
+                <n-button type="primary" @click="onPositiveClick" class="w-67">新建标签</n-button>
+              </div>
+            </n-card>
+          </n-modal>
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -361,5 +390,14 @@ function reload() {
   });
 }
 //创建标签
+const showModal = ref(false);
+const bodyStyle = { width: '600px' };
+const newTagTitle = ref('');
+const newTagOptions: { label: string; value: string }[] = []; //模态框里里面的n-select数组
+const newTagValue = ref('');
+function onNegativeClick() {
+  showModal.value = false;
+}
+function onPositiveClick() {}
 </script>
 <style scoped></style>
