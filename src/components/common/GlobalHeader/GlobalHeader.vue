@@ -1,27 +1,39 @@
 <template>
-  <div class="global-header w-full top-0 bg-transparent">
+  <div class="global-header w-full top-0 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60">
     <div class="flex w-300 m-auto justify-between pr-30 py-1">
       <router-link to="/homepage" class="flex self-center h-9 w-20 ml-10 mr-5">
         <img :src="BrandImg" />
       </router-link>
-      <div class="text-base font-medium text-center">
+      <div class="text-base text-gray-300 font-medium text-center">
         <router-link
-          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
-          :class="{ 'text-[#18a058]': homepageSelected, 'border-[#18a058]': homepageSelected }"
+          class="inline-block px-4 py-2"
+          :class="{
+            'text-[#63e2b7]': homepageSelected,
+            'border-[#63e2b7]': homepageSelected,
+            'border-b-2': homepageSelected,
+          }"
           to="/homepage"
         >
           首页
         </router-link>
         <router-link
-          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
-          :class="{ 'text-[#18a058]': sectionSelected, 'border-[#18a058]': sectionSelected }"
+          class="inline-block px-4 py-2"
+          :class="{
+            'text-[#63e2b7]': sectionSelected,
+            'border-[#63e2b7]': sectionSelected,
+            'border-b-2': sectionSelected,
+          }"
           to="/sections"
         >
           板块
         </router-link>
         <router-link
-          class="inline-block px-4 py-2 border-b-2 hover:bg-gray-100"
-          :class="{ 'text-[#18a058]': columnSelected, 'border-[#18a058]': columnSelected }"
+          class="inline-block px-4 py-2"
+          :class="{
+            'text-[#63e2b7]': columnSelected,
+            'border-[#63e2b7]': columnSelected,
+            'border-b-2': columnSelected,
+          }"
           to="/columns"
         >
           专栏

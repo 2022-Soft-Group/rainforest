@@ -8,6 +8,7 @@
   <div class="flex min-h-screen bg-light-500" ref="globalContent">
     <div class="fixed z-10 h-full w-full" id="rain"></div>
     <div :class="{ 'w-260': showPadding, 'w-full': !showPadding }" class="z-200 h-full mx-auto">
+      <div class="h-10"></div>
       <slot></slot>
     </div>
   </div>

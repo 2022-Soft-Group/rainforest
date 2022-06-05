@@ -49,7 +49,7 @@ import {
   ChatboxEllipses as CommentIcon,
 } from '@vicons/ionicons5';
 
-const props = defineProps<{ articleInfo: ArticlesListItem }>();
+const props = defineProps<{ articleInfo: ArticleItem }>();
 
 const liked = ref(false);
 const disliked = ref(false);

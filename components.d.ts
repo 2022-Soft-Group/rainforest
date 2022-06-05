@@ -19,6 +19,7 @@ declare module 'vue' {
     FollowButton: typeof import('./src/components/common/FollowButton.vue')['default']
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/globalheader/GlobalHeader.vue')['default']
+    GlossyCard: typeof import('./src/components/common/GlossyCard.vue')['default']
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     MessageDropdown: typeof import('./src/components/common/globalheader/MessageDropdown.vue')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']

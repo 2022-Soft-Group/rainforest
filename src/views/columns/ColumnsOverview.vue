@@ -10,22 +10,31 @@
       <n-carousel-item :style="{ width: '60%' }">
         <img
           class="carousel-img"
-          src="https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg"
+          src="https://pic1.zhimg.com/80/v2-02e7fb50ac0f4d77f2902fc8aee32655_r.jpg?source=32738c0c"
         />
       </n-carousel-item>
       <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg" />
+        <img
+          class="carousel-img rounded-md"
+          src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg"
+        />
       </n-carousel-item>
       <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg" />
+        <img
+          class="carousel-img rounded-md"
+          src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg"
+        />
       </n-carousel-item>
       <n-carousel-item :style="{ width: '60%' }">
-        <img class="carousel-img" src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg" />
+        <img
+          class="carousel-img rounded-md"
+          src="https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg"
+        />
       </n-carousel-item>
     </n-carousel>
     <!-- <div>
       <n-button quaternary class="main-descript">
-        <router-link to="/homepage" target="_blank" class="font-bold text-xl hover:text-[#18a058]">
+        <router-link to="/homepage" target="_blank" class="font-bold text-xl hover:text-[#63e2b7]">
           轮播图介绍
         </router-link></n-button
       >
@@ -138,6 +147,10 @@ function onPositiveClick() {
 </script>
 
 <style scoped>
+.carousel-img {
+  margin-top: 15px;
+  object-fit: fill;
+}
 .ColumnHomeTop {
   background: url() 50% no-repeat;
   height: 470px;
@@ -411,13 +424,6 @@ a {
 .Button--grey {
   color: #8590a6;
   border-color: #8590a6;
-}
-.carousel-img {
-  margin-top: 15px;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
 }
 .main {
   text-align: center;
