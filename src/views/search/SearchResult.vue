@@ -19,6 +19,7 @@
             <div v-for="item in columns">
               <column-list-item :column-info="item"></column-list-item>
             </div>
+            <n-empty v-if="columns.length == 0" description="还没有专栏哦"></n-empty>
           </div>
         </n-tab-pane>
       </n-tabs>
@@ -42,7 +43,7 @@ let currentPage = [0, 0, 0];
 const route = useRoute();
 const loadingBar = useLoadingBar();
 const isLoading = ref(false);
-const articles = ref<Array<ArticlesListItem>>([]);
+const articles = ref<Array<ArticleItem>>([]);
 const tags = ref<Array<TagItem>>([]);
 const columns = ref<Array<ColumnListItem>>([]);
 let loaded = [false, false, false];

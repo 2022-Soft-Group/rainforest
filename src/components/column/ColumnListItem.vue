@@ -13,7 +13,7 @@
     <div class="ColumnHomeColumnCard-meta">
       {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.ArticleNum }} 篇文章
     </div>
-    <button type="button" class="Button ColumnHomeColumnCard-followButton Button--green">进入专栏</button>
+    <n-button class="Button ColumnHomeColumnCard-followButton Button--green" type="primary">进入专栏</n-button>
   </router-link>
 </template>
 
@@ -57,7 +57,7 @@ a {
 }
 .ColumnHomeColumnCard-info {
   align-items: center;
-  height: 150px;
+  height: 100px;
   display: flex;
 
   flex-direction: column;
@@ -101,11 +101,12 @@ a {
   flex-shrink: 0;
 }
 .Button--green {
+  background-color: rgba(133, 144, 166, 0.06);
   color: #11a668;
   border-color: #11a668;
 }
 .Button--green:hover {
-  background-color: rgba(133, 144, 166, 0.06);
+  color: black;
 }
 .Button {
   display: inline-block;
@@ -115,7 +116,7 @@ a {
   text-align: center;
   cursor: pointer;
   background: none;
-  border: 1px solid;
+
   border-radius: 3px;
 }
 

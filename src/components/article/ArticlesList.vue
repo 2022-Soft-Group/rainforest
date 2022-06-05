@@ -7,18 +7,18 @@
     </div>
   </div>
   <div v-else>
-    <div v-for="(item, index) in articles" ref="listContext">
+    <n-empty v-if="articles.length == 0" description="还没有文章哦"></n-empty>
+    <div v-for="(item, index) in articles">
       <n-divider v-if="index != 0"></n-divider>
       <articles-list-item :is-loading="isLoading" :article-info="item" />
     </div>
   </div>
   <n-divider />
-  <n-button text @click="emits('request-articles')" class="flex m-auto"> 浏览更多</n-button>
+  <n-button v-if="articles.length != 0" text @click="emits('request-articles')" class="flex m-auto"> 浏览更多</n-button>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const props = defineProps<{ articles: Array<ArticlesListItem>; isLoading: boolean }>();
+defineProps<{ articles: Array<ArticleItem>; isLoading: boolean }>();
 const emits = defineEmits(['request-articles']);
 </script>
 

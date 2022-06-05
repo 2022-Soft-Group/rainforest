@@ -11,9 +11,9 @@
       <n-image
         v-if="articleInfo.thumbnail != null"
         preview-disabled
-        width="200"
+        width="150"
         object-fit="cover"
-        class="h-40 flex-none rounded-md"
+        class="h-30 flex-none rounded-md"
         :src="articleInfo.thumbnail"
       ></n-image>
       <div class="w-full ml-4 text-base self-center">
@@ -28,6 +28,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const props = defineProps<{ isLoading: boolean; articleInfo: ArticlesListItem }>();
+const props = defineProps<{ isLoading: boolean; articleInfo: ArticleItem }>();
 const articleDirection = ref('/article/' + props.articleInfo.articleID);
 </script>

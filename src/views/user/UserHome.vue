@@ -111,7 +111,7 @@ function reload() {
   loadingBar.start();
   getUserArticleList({ size: 10, page: currentPage }, userID).then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
       loadingBar.finish();
     } else {
@@ -152,7 +152,7 @@ function reload() {
 
 // 我的文章
 const isLoading = ref(false);
-const articles = ref<Array<ArticlesListItem>>([]);
+const articles = ref<Array<ArticleItem>>([]);
 
 // 我的个人信息
 const userInfo = ref<User>({

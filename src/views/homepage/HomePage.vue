@@ -8,12 +8,14 @@
       <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
     </n-card>
     <div class="flex-col basis-2/7">
-      <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
-        <quick-guider />
-      </n-card>
-      <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        <ranking-list />
-      </n-card>
+      <div class="sticky top-16">
+        <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
+          <quick-guider />
+        </n-card>
+        <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
+          <ranking-list />
+        </n-card>
+      </div>
     </div>
   </div>
 </template>
@@ -44,7 +46,7 @@ function reload() {
   loadingBar.start();
   getArticleListRecommand({ size: 10, page: currentPage }).then((res) => {
     if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticlesListItem>;
+      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
       loadingBar.finish();
     } else {
@@ -53,7 +55,7 @@ function reload() {
   });
 }
 const isLoading = ref(false);
-const articles = ref<Array<ArticlesListItem>>([]);
+const articles = ref<Array<ArticleItem>>([]);
 onMounted(reload);
 </script>
 
