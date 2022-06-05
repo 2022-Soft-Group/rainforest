@@ -30,7 +30,6 @@
     </div>
 
     <n-button strong secondary round type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
-
     <n-modal
       v-model:show="showModal"
       :mask-closable="false"
@@ -103,10 +102,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { defineComponent, computed } from 'vue';
-import { useAuthStore } from '@/store/auth';
-import { useRouter } from 'vue-router';
+import { computed, onMounted, ref } from 'vue';
+import { useRouter, RouterLink } from 'vue-router';
 import { addColumn, getColumnListRecommand } from '@/api/columns';
 import type UploadButton from '@/components/common/UploadButton.vue';
 import { uploadImage } from '@/api/asset';
