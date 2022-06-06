@@ -19,7 +19,7 @@
       <div v-if="image == ''" class="m-7 mt-9 text-gray-400">
         <div>上传图片</div>
       </div>
-      <n-image v-else width="120" object-fit="cover" class="h-24 flex-none rounded-md" :src="image" />
+      <n-image v-else preview-disabled width="120" object-fit="cover" class="h-24 flex-none rounded-md" :src="image" />
     </upload-button>
   </n-card>
 </template>

@@ -67,7 +67,14 @@
                 <div>点击上传封面</div>
                 <div>.jpeg/.png/.svg</div>
               </div>
-              <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="imgSrc" />
+              <n-image
+                v-else
+                preview-disabled
+                width="240"
+                object-fit="cover"
+                class="h-48 flex-none rounded-md"
+                :src="imgSrc"
+              />
             </upload-button>
           </div>
         </n-space>
