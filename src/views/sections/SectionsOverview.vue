@@ -1,63 +1,11 @@
 <template>
   <div class="flex">
     <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
+
     <div>
       <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
         <router-view></router-view>
       </n-card>
-
-      <n-space class="mx-2">
-        <n-button type="primary" @click="showModal = true" class="ml-30"> 新建标签 </n-button>
-        <n-modal
-          v-model:show="showModal"
-          :mask-closable="false"
-          :style="bodyStyle"
-          title="新建标签"
-          size="huge"
-          :bordered="true"
-          positive-text="新建标签"
-          negative-text="取消"
-          @positive-click="onPositiveClick"
-          @negative-click="onNegativeClick"
-        >
-          <n-card class="modalCard">
-            <n-h1 class="text-center">新建标签</n-h1>
-
-            <n-space vertical size="large">
-              <n-input v-model:value="title" type="text" placeholder="请输入标签名称" class="mt-6" />
-              <n-select v-model:value="value" :options="options" class="mt-6" />
-              <n-input
-                type="textarea"
-                placeholder="请输入一句话介绍"
-                v-model:value="description"
-                :autosize="{
-                  minRows: 3,
-                }"
-                class="mt-6"
-              />
-              <div>
-                <upload-button
-                  class="w-138 h-40 border-2 border-dashed rounded-md"
-                  :show-file-list="false"
-                  ref="upload"
-                  @change="clickUploadImage"
-                >
-                  <div v-if="imgSrc == ''" class="text-center mt-20 text-gray-400">
-                    <div>点击上传封面</div>
-                    <div>.jpeg/.png/.svg</div>
-                  </div>
-                  <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="imgSrc" />
-                </upload-button>
-              </div>
-            </n-space>
-
-            <div class="flex-auto mt-10 justify-between">
-              <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
-              <n-button type="primary" @click="onPositiveClick" class="w-67">新建标签</n-button>
-            </div>
-          </n-card>
-        </n-modal>
-      </n-space>
     </div>
   </div>
 </template>
@@ -178,8 +126,11 @@ const clickUploadImage = () => {
   position: relative;
   left: -50px;
   width: 220px;
-  margin-top: 20px;
+  height: 100%;
+  margin-top: 17px;
+  border-radius: 6px;
 }
+
 .modalCard {
   width: 100px;
   height: 600px;

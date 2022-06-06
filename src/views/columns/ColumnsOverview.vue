@@ -90,14 +90,11 @@
       </div>
     </div>
     <button
-      class="Button ColumnHomeRecommendation-refreshButton Button--withIcon Button--withLabel"
+      class="Button ColumnHomeRecommendation-refreshButton Button--withIcon Button--withLabel mb-2"
       @click="handleRequest"
     >
       浏览更多
     </button>
-  </div>
-  <div class="ColumnHomeBottom ColumnHome-HomeBttom">
-    <h3 class="ColumnHomeBottom-title">在语林创作</h3>
   </div>
 </template>
 
@@ -359,9 +356,9 @@ function onPositiveClick() {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+
 .ColumnHomeRecommendation-card {
   margin: 0 8px 16px;
 }
