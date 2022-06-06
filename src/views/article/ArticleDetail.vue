@@ -214,8 +214,9 @@ export default defineComponent({
 });
 </script>
 <style scoped>
-.markdown {
+.markdown :deep(.markdown-body) {
   font-family: Arial, Helvetica, sans-serif;
+  color: rgb(213, 213, 213);
 }
 .markdown :deep(h1):first-of-type {
   display: none;
@@ -231,16 +232,19 @@ export default defineComponent({
 .markdown :deep(code) {
   border-radius: 8px;
   max-height: 800px;
+  color: rgb(213, 213, 213);
 }
 
-/* .markdown :deep(.toc) {
-  position: fixed;
-  right: 30px;
-  bottom: 23%;
-  padding: 14px 24px 0;
-  height: 400px;
-  overflow-y: scroll;
-} */
+.markdown :deep(.hljs) {
+  background: #34343c;
+}
+.markdown :deep(.toc) {
+  font-weight: bold;
+}
+
+.markdown :deep(thead tr) {
+  background: #34343c;
+}
 
 .markdown :deep(img) {
   border-radius: 8px;

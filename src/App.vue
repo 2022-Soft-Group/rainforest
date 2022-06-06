@@ -1,7 +1,7 @@
 <template>
   <div>
     <global-header class="relative z-300" v-if="!isLoginPage" />
-    <global-content class="relative z-0" :show-padding="!isLoginPage">
+    <global-content class="relative z-0">
       <router-view />
     </global-content>
   </div>

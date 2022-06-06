@@ -6,7 +6,7 @@
       <slot></slot>
     </div>
   </div>
-  <div class="flex justify-between w-40 fixed right-10 bottom-10">
+  <div class="flex justify-between w-40 z-201 fixed right-10 bottom-10">
     <n-rate color="#63e2b7" @update-value="handleChangeRainAmount" :value="rainAmount * 5" allow-half>
       <n-icon size="20">
         <rain-icon />
@@ -35,8 +35,8 @@ let uniforms: {
   iChannel0: any;
   rainAmount: any;
   iTime: any;
-  resolution?: { value: THREE.Vector2 };
-  iResolution?: { type: string; value: THREE.Vector2 };
+  resolution: { value: THREE.Vector2 };
+  iResolution: { type: string; value: THREE.Vector2 };
 };
 let currentBgImg = 0;
 let maxBgImgNum = 4;
@@ -112,6 +112,8 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  uniforms.iResolution.value.x = window.innerWidth;
+  uniforms.iResolution.value.y = window.innerHeight;
 }
 
 function backgroundVFX() {

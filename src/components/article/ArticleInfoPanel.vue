@@ -113,6 +113,7 @@ const handleCollect = () => {
 function reload() {
   likeNum.value = props.articleInfo.like;
   collectNum.value = props.articleInfo.collection;
+  if (props.articleInfo.articleID == 0) return;
   getUserArticleStatus(props.articleInfo.articleID).then((res) => {
     if (res.data.status == 0) {
       liked.value = res.data.data.liked;
