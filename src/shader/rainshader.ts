@@ -120,7 +120,9 @@ void main( )
     
     float zoom = T > 5.0 * 3.14 ? 1.0 : -cos(T*.2);
     uv *= .7+zoom*.3;
-    UV = (UV-.68)*(.7+zoom*.1)+0.55;
+    UV = (UV-.68)*(.65+zoom*.1)+0.55;
+    UV.y *= 0.95;
+    
     
     float staticDrops = S(-.5, 1., rainAmount)*2.;
     float layer1 = S(.25, .75, rainAmount);
