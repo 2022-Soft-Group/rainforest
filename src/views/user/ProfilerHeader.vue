@@ -41,16 +41,17 @@
     </template>
 
     <template #avatar>
-      <n-avatar :size="150" :src="userInfo.avatar" />
+      <n-avatar :size="150" :src="userInfo.avatar" class="ring-3 ring-white" />
     </template>
     <template #extra>
-      <n-space>
+      <span>
+        <br /><br />
         <edit-info :user-info="userInfo" @update-info="emits('update-info')" class="rounded-md shadow-sm" />
         <!-- <n-button v-if="userID == userInfo.id.toString()" type="primary" ghost> 编辑资料 </n-button> -->
         <!-- <n-button v-else :bordered="false" type="primary" @click="handleFollow">
           <n-icon><add-icon /></n-icon> 关注
         </n-button> -->
-      </n-space>
+      </span>
     </template>
     <template #footer>
       <n-collapse>

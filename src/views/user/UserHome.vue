@@ -7,10 +7,11 @@
       :articleNum="userFeature.articleNum"
       :userInfo="(userInfo as User)"
       @update-info="handleUpdateInfo"
+      class="-mt-22"
     />
   </n-card>
 
-  <div class="flex -mr-1.5">
+  <div class="flex -mr-1.5 -mt-2">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs type="line" size="large" class="mb-6">
         <n-tab-pane name="关注" display-directive="if">
@@ -44,7 +45,7 @@
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
         <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
       </n-card>
-      <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
+      <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
         <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
       </n-card>
     </div>
