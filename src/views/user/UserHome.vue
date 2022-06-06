@@ -60,13 +60,13 @@ import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
-import { useAuthStore } from '@/store/auth';
+
 import UserFollowNum from './UserFollowNum.vue';
 
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
-const { userID } = useAuthStore();
+const userID = localStorage.getItem('userID') as string;
 
 function handleRequest() {
   isLoading.value = true;

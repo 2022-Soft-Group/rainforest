@@ -30,11 +30,9 @@ import { Image as ImageIcon } from '@vicons/ionicons5';
 import { uploadImage } from '@/api/asset';
 import type UploadButton from '@/components/common/UploadButton.vue';
 import { commentArticleComments } from '@/api/article';
-import { useAuthStore } from '@/store/auth';
 import { getNowDate } from './CommentUtils';
 const props = defineProps<{ articleId: number; toCommentId: number | null; toCommentorName: string | null }>();
 const emits = defineEmits(['comment-success']);
-const { userID } = useAuthStore();
 const commentInfo = ref<CommentListItem>({
   commentorID: 0,
   content: '',
@@ -77,7 +75,7 @@ const handleUploadComment = () => {
   }).then((res) => {
     if (res.data.status == 0) {
       commentInfo.value.commentID = res.data.data.commentID;
-      commentInfo.value.commentorID = parseInt(userID);
+      commentInfo.value.commentorID = parseInt(localStorage.getItem('userID') as string);
       commentInfo.value.toCommentID = props.toCommentId;
       commentInfo.value.content = content.value;
       commentInfo.value.image = image.value;

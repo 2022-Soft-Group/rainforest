@@ -25,8 +25,6 @@
 </template>
 
 <script setup lang="ts">
-import { useAuthStore } from '@/store/auth';
-const { userID } = useAuthStore();
 const props = defineProps<{ userFeature: UserFeature; isLoading: boolean; listType: String; changeCount: number }>();
 const emits = defineEmits(['change-follow']);
 </script>
