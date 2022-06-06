@@ -1,5 +1,5 @@
 <template>
-  <n-popselect trigger="manual" :show="showPopover" @clickoutside="showPopover = false">
+  <n-popselect trigger="manual" :show="showPopover" @clickoutside="handleMarkRead">
     <div class="flex-center h-full">
       <n-badge :value="count">
         <n-icon class="cursor-pointer" size="22" @click="handleClickLoad">
@@ -8,17 +8,22 @@
       </n-badge>
     </div>
     <template #empty>
-      <n-list>
-        <n-list-item v-for="item in messagesList">
-          <router-link :to="'/user/' + item.userID" class="hover:text-[#63e2b7]">
-            {{ item.userName }}
-          </router-link>
-          {{ item.actions }}了你的文章
-          <router-link :to="'/article/' + item.articleID" class="hover:text-[#63e2b7]">
-            {{ item.articleTitle }}
-          </router-link>
-        </n-list-item>
-      </n-list>
+      <n-scrollbar style="max-height: 240px">
+        <n-list v-if="trends.length != 0">
+          <n-list-item v-for="(item, index) in trends">
+            <router-link :to="'/user/' + item.authorID" target="_blank" class="hover:text-[#63e2b7]">
+              {{ item.author }}
+            </router-link>
+            发布了文章
+            <router-link :to="'/article/' + item.articleID" target="_blank" class="hover:text-[#63e2b7]">
+              {{ item.title }}
+            </router-link>
+          </n-list-item>
+        </n-list>
+        <div class="my-4" v-else>
+          <n-empty description="还没有新动态哦"></n-empty>
+        </div>
+      </n-scrollbar>
     </template>
     <template #action>
       <n-button size="medium" text @click="handleMarkRead">
@@ -32,20 +37,23 @@
 </template>
 
 <script setup lang="tsx">
+import { markReadTrends } from '@/api/message';
 import { MailOpen as MarkReadIcon, Compass as TrendIcon } from '@vicons/ionicons5';
 import { ref } from 'vue';
-const props = defineProps<{ messages: Array<MessageInfo>; count: number }>();
+import { RouterLink } from 'vue-router';
+const props = defineProps<{ trends: Array<ArticleItem>; count: number }>();
 const emits = defineEmits(['mark-read']);
 
-const messagesList = ref<Array<MessageInfo>>([]);
+const trendsList = ref<Array<ArticleItem>>([]);
 const showPopover = ref(false);
 const handleMarkRead = () => {
   showPopover.value = false;
+  markReadTrends();
   emits('mark-read');
 };
 
 const handleClickLoad = () => {
   showPopover.value = true;
-  messagesList.value = props.messages;
+  trendsList.value = props.trends;
 };
 </script>
