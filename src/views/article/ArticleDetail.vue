@@ -33,39 +33,45 @@
       <n-space vertical size="large" class="sticky top-2/3 ml-5">
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button
-              class="shadow-md"
-              type="primary"
-              size="large"
-              :secondary="!infoPanel?.liked"
-              circle
-              @click="handleLike"
-            >
-              <n-icon size="26"> <like-icon /> </n-icon>
-            </n-button>
+            <n-badge :value="infoPanel?.likeNum" color="#63e2b7">
+              <n-button
+                class="shadow-md"
+                type="primary"
+                size="large"
+                :secondary="!infoPanel?.liked"
+                circle
+                @click="handleLike"
+              >
+                <n-icon size="26"> <like-icon /> </n-icon>
+              </n-button>
+            </n-badge>
           </template>
           点赞
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button class="shadow-md" type="error" size="large" secondary circle @click="scrollToComment">
-              <n-icon size="24"> <comment-icon /> </n-icon>
-            </n-button>
+            <n-badge :value="infoPanel?.commentNum" color="#e88080">
+              <n-button class="shadow-md" type="error" size="large" secondary circle @click="scrollToComment">
+                <n-icon size="24"> <comment-icon /> </n-icon>
+              </n-button>
+            </n-badge>
           </template>
           评论
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button
-              class="shadow-md"
-              type="warning"
-              size="large"
-              :secondary="!infoPanel?.collected"
-              circle
-              @click="handleCollect"
-            >
-              <n-icon size="25"> <collection-icon /> </n-icon>
-            </n-button>
+            <n-badge :value="infoPanel?.collectNum" color="#f2c97d">
+              <n-button
+                class="shadow-md"
+                type="warning"
+                size="large"
+                :secondary="!infoPanel?.collected"
+                circle
+                @click="handleCollect"
+              >
+                <n-icon size="25"> <collection-icon /> </n-icon>
+              </n-button>
+            </n-badge>
           </template>
           收藏
         </n-tooltip>
