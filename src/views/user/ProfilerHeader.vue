@@ -29,6 +29,7 @@
     </n-grid>
     <template #title>
       <span>
+        <br /><br />
         <span class="text-2xl">{{ userInfo.name }}</span>
         <n-icon size="medium" class="text-gray-400" v-if="userInfo.sex == 0"><male-icon /></n-icon>
         <n-icon size="medium" class="text-gray-400" v-else><female-icon /></n-icon>
@@ -40,7 +41,7 @@
     </template>
 
     <template #avatar>
-      <n-avatar :size="100" :src="userInfo.avatar" />
+      <n-avatar :size="150" :src="userInfo.avatar" />
     </template>
     <template #extra>
       <n-space>
@@ -80,3 +81,5 @@ const emits = defineEmits(['update-info']);
 const { userID } = useAuthStore();
 const props = defineProps<{ articleNum: number; userInfo: User }>();
 </script>
+
+<style scoped></style>

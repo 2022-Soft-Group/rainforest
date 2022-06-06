@@ -4,7 +4,7 @@
       <div class="text-lg font-bold">{{ userFeature.name }}</div>
     </template>
     <template #avatar>
-      <n-avatar :src="userFeature.avatar" :size="60" />
+      <n-avatar :src="userFeature.avatar" :size="60" id="avatar" />
     </template>
     <template #extra>
       <n-space>

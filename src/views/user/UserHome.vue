@@ -1,5 +1,8 @@
 <template>
   <n-card title="   " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
+    <template #cover>
+      <img id="pic1" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
+    </template>
     <profiler-header
       :articleNum="userFeature.articleNum"
       :userInfo="(userInfo as User)"
@@ -194,5 +197,9 @@ onMounted(reload);
 <style scoped>
 #userHeader {
   margin-top: 15px;
+}
+#pic1 {
+  width: 100%;
+  height: 200px;
 }
 </style>

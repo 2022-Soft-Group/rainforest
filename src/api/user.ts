@@ -9,7 +9,11 @@ export function getUserInfo(userID: string) {
 }
 
 export function updateUserInfo(data: { sex: number; name: string; email: string; phone: string; description: string }) {
-  return backend.post(`user/update`, data);
+  return jsonBackend.post(`user/update`, data);
+}
+
+export function changePasswd(data: { oldPasswd: string; newPasswd: string }) {
+  return backend.put(`user/changePasswd`, { params: data });
 }
 
 export function getUserFeature(userID: string) {
