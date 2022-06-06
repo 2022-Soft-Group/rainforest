@@ -42,20 +42,30 @@ function reload() {
     } else {
       window.$message.error('获取二级列表失败');
     }
+    isLoading.value = true;
+    getColumnArticleList({ size: 10, page: currentPage, columnID: columnInfo.value.id }).then((res) => {
+      if (res.data.status == 0) {
+        articles.value = res.data.data.articleInfos as Array<ArticleItem>;
+        isLoading.value = false;
+      } else {
+        window.$message.info('33333333');
+      }
+    });
   });
-  isLoading.value = true;
-  getColumnArticleList({ size: 10, page: currentPage, id: columnInfo.value.id }).then((res) => {
-    if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
-      isLoading.value = false;
-    } else {
-      window.$message.error('获取文章列表失败');
-    }
-  });
+
+  // getColumnArticleList({ size: 10, page: currentPage, columnID: columnInfo.value.id }).then((res) => {
+  //   if (res.data.status == 0) {
+  //     articles.value = res.data.data.articleInfos as Array<ArticleItem>;
+  //     window.$message.info('22222');
+  //     isLoading.value = false;
+  //   } else {
+  //     window.$message.info('33333333');
+  //   }
+  // });
 }
 function handleRequest() {
   isLoading.value = true;
-  getColumnArticleList({ size: 10, page: ++currentPage, id: columnInfo.value.id }).then((res) => {
+  getColumnArticleList({ size: 10, page: ++currentPage, columnID: columnInfo.value.id }).then((res) => {
     if (res.data.status == 0) {
       res.data.data.articleInfos.forEach((element: any) => {
         articles.value.push(element);
