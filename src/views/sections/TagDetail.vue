@@ -22,15 +22,13 @@
 <script setup lang="ts">
 import { ref, onMounted, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
-import { CashOutline as CashIcon } from '@vicons/ionicons5';
-import { getSections, getTagArticleList, getTagDetail, getTags } from '@/api/sections';
-import TagListVue from '@/components/tag/TagList.vue';
+import { getTagArticleList, getTagDetail } from '@/api/sections';
 const route = useRoute();
 const isLoading = ref(false);
 let currentPage = 0;
 const articles = ref<Array<ArticleItem>>([]);
 const tagInfo = ref<TagItem>({
-  sectionKey: '',
+  sectionName: '',
   title: '',
   img: '',
   description: '',

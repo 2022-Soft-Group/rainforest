@@ -66,13 +66,6 @@ export default defineConfig({
         'error-pressed': 'var(--error-color-pressed)',
         'error-active': 'var(--error-color-active)',
       },
-      backgroundColor: {
-        dark: '#18181c',
-        'dark-base': '#101014',
-      },
-      backgroundImage: {
-        'login-pattern': "url('/resource/bgimg.jpg')",
-      },
       textColor: {
         'black-base': '#333639',
         'white-base': 'rgba(255, 255, 255, 0.82)',

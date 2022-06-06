@@ -21,7 +21,7 @@
     <div>
       <n-button quaternary class="main-descript">
         <div
-          class="font-bold text-xl hover:text-[#18a058]"
+          class="font-bold text-xl hover:text-[#63e2b7]"
           @click="router.push({ path: `/columns/${carouselItem[index].id}` })"
         >
           {{ currentTitle }}
@@ -90,14 +90,11 @@
       </div>
     </div>
     <button
-      class="Button ColumnHomeRecommendation-refreshButton Button--withIcon Button--withLabel"
+      class="Button ColumnHomeRecommendation-refreshButton Button--withIcon Button--withLabel mb-2"
       @click="handleRequest"
     >
       浏览更多
     </button>
-  </div>
-  <div class="ColumnHomeBottom ColumnHome-HomeBttom">
-    <h3 class="ColumnHomeBottom-title">在语林创作</h3>
   </div>
 </template>
 
@@ -208,6 +205,10 @@ function onPositiveClick() {
 </script>
 
 <style scoped>
+.carousel-img {
+  margin-top: 15px;
+  object-fit: fill;
+}
 .ColumnHomeTop {
   background: url() 50% no-repeat;
   height: 470px;
@@ -355,9 +356,9 @@ function onPositiveClick() {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
+
 .ColumnHomeRecommendation-card {
   margin: 0 8px 16px;
 }
@@ -481,13 +482,6 @@ a {
 .Button--grey {
   color: #8590a6;
   border-color: #8590a6;
-}
-.carousel-img {
-  margin-top: 15px;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
 }
 .main {
   text-align: center;

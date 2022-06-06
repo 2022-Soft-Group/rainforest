@@ -1,8 +1,8 @@
 <template>
-  <div class="flex flex-col h-screen my-auto items-center bg-login-pattern bg-cover">
+  <div class="flex flex-col h-screen my-auto items-center bg-cover">
     <div class="relative flex-center wh-full">
-      <n-card :bordered="false" size="large" class="w-100 rounded-10px shadow-sm">
-        <n-gradient-text type="primary" :size="28">语林</n-gradient-text>
+      <div class="w-100 p-10 rounded-xl shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60">
+        <n-gradient-text class="align-middle" type="primary" :size="28">语林</n-gradient-text>
         <main class="pt-24px">
           <n-tabs
             class="card-tabs"
@@ -20,7 +20,7 @@
             </n-tab-pane>
           </n-tabs>
         </main>
-      </n-card>
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { backend } from '@/api/utils/request';
 import { useAuthStore } from '@/store/auth';
+
 const router = useRouter();
 const { signOut } = useAuthStore();
 const tabValue = ref('signin');

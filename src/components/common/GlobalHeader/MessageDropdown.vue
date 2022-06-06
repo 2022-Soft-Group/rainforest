@@ -3,7 +3,7 @@
     <div class="flex-center h-full">
       <n-badge :value="count">
         <n-icon class="cursor-pointer" size="22" @click="handleClickLoad">
-          <notification-icon class="text-gray-600 hover:text-gray-700"></notification-icon>
+          <notification-icon class="text-gray-300 hover:text-gray-400"></notification-icon>
         </n-icon>
       </n-badge>
     </div>
@@ -16,7 +16,7 @@
                 <n-list-item v-for="(item, index) in likesList">
                   <router-link
                     :to="'/user/' + item.userID"
-                    class="hover:text-[#18a058]"
+                    class="hover:text-[#63e2b7]"
                     @click="handleMarkRead(index, 0)"
                   >
                     {{ item.userName }}
@@ -24,7 +24,7 @@
                   点赞了你的文章
                   <router-link
                     :to="'/article/' + item.articleID"
-                    class="hover:text-[#18a058]"
+                    class="hover:text-[#63e2b7]"
                     @click="handleMarkRead(index, 0)"
                   >
                     {{ item.articleTitle }}
@@ -42,7 +42,7 @@
                 <n-list-item v-for="(item, index) in commentsList">
                   <router-link
                     :to="'/user/' + item.userID"
-                    class="hover:text-[#18a058]"
+                    class="hover:text-[#63e2b7]"
                     @click="handleMarkRead(index, 1)"
                   >
                     {{ item.userName }}
@@ -50,7 +50,7 @@
                   评论了你的文章
                   <router-link
                     :to="'/article/' + item.articleID"
-                    class="hover:text-[#18a058]"
+                    class="hover:text-[#63e2b7]"
                     @click="handleMarkRead(index, 1)"
                   >
                     {{ item.articleTitle }}
@@ -68,7 +68,7 @@
                 <n-list-item v-for="(item, index) in followList">
                   <router-link
                     :to="'/user/' + item.userID"
-                    class="flex hover:text-[#18a058]"
+                    class="flex hover:text-[#63e2b7]"
                     @click="handleMarkRead(index, 2)"
                   >
                     <n-avatar :src="item.userAvatar"></n-avatar>

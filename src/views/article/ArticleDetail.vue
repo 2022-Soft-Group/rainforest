@@ -48,7 +48,7 @@
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button class="shadow-md" type="info" size="large" secondary circle @click="scrollToComment">
+            <n-button class="shadow-md" type="error" size="large" secondary circle @click="scrollToComment">
               <n-icon size="24"> <comment-icon /> </n-icon>
             </n-button>
           </template>
@@ -71,14 +71,7 @@
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button
-              class="clip shadow-md"
-              color="#a29bfe"
-              size="large"
-              :secondary="!infoPanel?.collected"
-              circle
-              @click=""
-            >
+            <n-button class="clip shadow-md" color="#a29bfe" size="large" circle @click="">
               <n-icon size="25"> <share-icon /> </n-icon>
             </n-button>
           </template>

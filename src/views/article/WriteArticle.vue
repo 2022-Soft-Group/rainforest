@@ -2,14 +2,14 @@
   <n-space vertical class="h-full">
     <n-card class="flex m-auto mt-4 rounded-md">
       <n-input
-        class="bg-light-300 text-2xl"
+        class="text-2xl"
         size="large"
         placeholder="请输入文章标题"
         v-model:value="title"
         @change="addTitle"
       ></n-input>
       <div ref="domRef"></div>
-      <n-card v-if="isLoading" class="h-900 bg-light-400"></n-card>
+      <n-card v-if="isLoading" class="h-900"></n-card>
     </n-card>
 
     <n-card class="flex m-auto mt-4 rounded-md">
@@ -22,17 +22,80 @@
           </div>
           <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="image" />
         </upload-button>
-        <n-space vertical class="my-4 mx-10">
+        <n-space vertical class="my-4 mx-10 w-65">
           <n-space>
             <n-radio :checked="!isColumn" @change="isColumn = !isColumn"> 不发布到专栏 </n-radio>
             <n-radio :checked="isColumn" @change="isColumn = !isColumn"> 发布到专栏 </n-radio>
           </n-space>
           <n-select v-if="isColumn"></n-select>
           <n-space>
-            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不发布到标签 </n-radio>
-            <n-radio :checked="isTag" @change="isTag = !isTag"> 发布到标签 </n-radio>
+            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不关联到标签 </n-radio>
+            <n-radio :checked="isTag" @change="isTag = !isTag"> 关联到标签 </n-radio>
           </n-space>
-          <n-select v-if="isTag"></n-select>
+
+          <n-select
+            v-model:value="multipleSelectValue"
+            v-if="isTag"
+            filterable
+            multiple
+            tag
+            :options="options"
+            clearable
+            :consistent-menu-width="false"
+          />
+          <n-space class="pt-22"
+            ><n-button type="primary" @click="showModal = true" class="ml-30"> 新建标签 </n-button></n-space
+          >
+
+          <n-modal
+            v-model:show="showModal"
+            :mask-closable="false"
+            :style="bodyStyle"
+            title="新建标签"
+            size="huge"
+            :bordered="true"
+            positive-text="新建标签"
+            negative-text="取消"
+            @positive-click="onPositiveClick"
+            @negative-click="onNegativeClick"
+          >
+            <n-card class="modalCard">
+              <n-h1 class="text-center">新建标签</n-h1>
+
+              <n-space vertical size="large">
+                <n-input v-model:value="newTagTitle" type="text" placeholder="请输入标签名称" class="mt-6" />
+                <n-select v-model:value="newTagValue" :options="newTagOptions" class="mt-6" />
+                <n-input
+                  type="textarea"
+                  placeholder="请输入一句话介绍"
+                  v-model:value="newTagDescription"
+                  :autosize="{
+                    minRows: 3,
+                  }"
+                  class="mt-6"
+                />
+                <div>
+                  <upload-button
+                    class="w-138 h-40 border-2 border-dashed rounded-md"
+                    :show-file-list="false"
+                    ref="upload"
+                    @change="clickUploadNewTagImage"
+                  >
+                    <div v-if="newTagImg == ''" class="text-center mt-20 text-gray-400">
+                      <div>点击上传封面</div>
+                      <div>.jpeg/.png/.svg</div>
+                    </div>
+                    <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="newTagImg" />
+                  </upload-button>
+                </div>
+              </n-space>
+
+              <div class="flex-auto mt-10 justify-between">
+                <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
+                <n-button type="primary" @click="onPositiveClick" class="w-67">新建标签</n-button>
+              </div>
+            </n-card>
+          </n-modal>
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -68,6 +131,8 @@ import { uploadImage } from '@/api/asset';
 import { addArticle, addDraft, getArticle, getDraft, modifyArticle, modifyDraft, publishDraft } from '@/api/article';
 import { addArticleToColumn } from '@/api/columns';
 import { useRoute, useRouter } from 'vue-router';
+import type { SelectGroupOption, SelectOption } from 'naive-ui/lib/select';
+import { addTag, getSections, getTags } from '@/api/sections';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -102,7 +167,7 @@ function renderVditor() {
   isLoading.value = true;
   vditor.value = new Vditor(domRef.value, {
     minHeight: 900,
-    theme: 'classic', //主题
+    theme: 'dark', //主题
     cache: {
       enable: false,
     },
@@ -114,7 +179,12 @@ function renderVditor() {
         enable: true,
         style: 'github',
       },
+      theme: {
+        path: 'http://kurino.top/cdn/dist/css/content-theme',
+        current: 'dark',
+      },
     },
+
     counter: {
       enable: true,
       type: 'text',
@@ -242,6 +312,7 @@ function uploadArticle() {
           }
         });
       }
+
       router.push({ name: 'homepage' });
     } else {
       window.$message.error('文章发布失败');
@@ -302,5 +373,100 @@ onMounted(() => {
     }
   }
 });
+
+//select tag
+const value = ref('');
+const multipleSelectValue = ref([]);
+const options: { label: string; value: string; type: 'group'; children: Array<SelectOption> }[] = [];
+
+let tagsGet = <Array<TagItem>>[];
+onMounted(() => {
+  reload();
+});
+function reload() {
+  getSections().then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.sections.forEach((elm: string) => {
+        newTagOptions.push({
+          label: elm,
+          value: elm,
+        });
+        const optionsChildren: { label: string; value: number }[] = [];
+        getTags({ sectionName: elm as string, size: 2, page: 0 }).then((res) => {
+          if (res.data.status == 0) {
+            res.data.data.tags.forEach((elen: TagItem) => {
+              optionsChildren.push({
+                label: elen.title,
+                value: elen.id,
+              });
+            });
+          } else {
+            window.$message.error('获取二级列表失败');
+          }
+        });
+        ////////
+        options.push({
+          label: elm,
+          value: elm,
+          type: 'group',
+          children: optionsChildren,
+        });
+      });
+    } else {
+      window.$message.error('获取Section失败');
+    }
+  });
+}
+//创建标签
+const showModal = ref(false);
+const bodyStyle = { width: '600px' };
+const newTagTitle = ref('');
+const newTagDescription = ref('');
+const newTagOptions: { label: string; value: string }[] = []; //模态框里里面的n-select数组
+const newTagValue = ref('');
+const newTagImg = ref('');
+let newTagImgID;
+const tag = ref<TagItem>({
+  img: '',
+  title: '',
+  description: '',
+  sectionName: '',
+  id: 0,
+});
+const clickUploadNewTagImage = () => {
+  const file = upload.value?.file as File;
+  uploadImage(file, null, null).then((res) => {
+    if (res.data.status == 0) {
+      newTagImg.value = res.data.data.url;
+      newTagImgID = res.data.data.id;
+    } else {
+      window.$message.error('图片发布失败');
+    }
+  });
+  upload.value?.clearFile();
+};
+function onNegativeClick() {
+  showModal.value = false;
+}
+function onPositiveClick() {
+  if (newTagTitle.value == '') {
+    window.$message.warning('标题不能为空');
+  }
+  tag.value.title = newTagTitle.value;
+  tag.value.description = newTagDescription.value;
+
+  tag.value.img = newTagImg.value;
+  if (tag.value.img == '')
+    tag.value.img = 'https://avatar-static.segmentfault.com/401/950/4019500210-5640baf5641ed_huge100';
+  tag.value.sectionName = newTagValue.value;
+  showModal.value = false;
+  addTag(tag.value).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('创建标签成功');
+    } else {
+      window.$message.error('创建标签失败');
+    }
+  });
+}
 </script>
 <style scoped></style>
