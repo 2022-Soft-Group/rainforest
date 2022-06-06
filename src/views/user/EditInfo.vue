@@ -291,6 +291,7 @@ function handleUpdateInfo() {
     if (res.data.status == 0) {
       message.success('修改成功');
       emits('update-info');
+      showModal.value = false;
     } else {
       message.error('修改失败');
     }
