@@ -1,16 +1,59 @@
 <template>
   <div class="flex min-h-screen">
     <div class="fixed h-full w-full" id="rain"></div>
-    <div class="w-260 z-200 h-full mx-auto">
+    <div class="w-260 z-200 h-full mx-auto" id="global-content">
       <div class="h-10"></div>
       <slot></slot>
-      <div class="rain-slider h-30 z-400 fixed right-13.5 bottom-20 rounded-md">
-        <n-slider vertical @update-value="handleChangeRainAmount" v-model:value="rainAmount" />
-      </div>
-      <n-button class="fixed left-10 bottom-5" type="primary" size="large" secondary circle @click="handlePreImg">
+      <n-tooltip trigger="hover">
+        <template #trigger>
+          <n-button
+            v-if="!showSlider"
+            class="fixed right-10 bottom-35 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+            type="primary"
+            size="large"
+            secondary
+            circle
+            @click="scrollToTop"
+          >
+            <n-icon><back-top-icon /></n-icon>
+          </n-button>
+        </template>
+        返回顶部
+      </n-tooltip>
+      <n-button
+        v-if="!showSlider"
+        class="fixed right-10 bottom-20 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="showSlider = true"
+      >
+        <n-icon><rain-icon /></n-icon>
+      </n-button>
+      <glossy-card v-else class="z-400 fixed right-8 bottom-20" @mouseleave="showSlider = false">
+        <div class="rain-slider h-30 rounded-md">
+          <n-slider vertical @update-value="handleChangeRainAmount" v-model:value="rainAmount" />
+        </div>
+      </glossy-card>
+      <n-button
+        class="fixed left-10 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="handlePreImg"
+      >
         <n-icon><back-icon /></n-icon>
       </n-button>
-      <n-button class="fixed right-10 bottom-5" type="primary" size="large" secondary circle @click="handleNextImg">
+      <n-button
+        class="fixed right-10 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="handleNextImg"
+      >
         <n-icon><forward-icon /></n-icon>
       </n-button>
     </div>
@@ -23,7 +66,14 @@ import * as THREE from 'three';
 import type { PerspectiveCamera, Scene, Texture, WebGLRenderer } from 'three';
 import Vert from '@/shader/planeShaderVert';
 import Frag from '@/shader/rainshader';
-import { ChevronBackOutline as BackIcon, ChevronForwardOutline as ForwardIcon } from '@vicons/ionicons5';
+import {
+  ChevronBackOutline as BackIcon,
+  ChevronForwardOutline as ForwardIcon,
+  RainyOutline as RainIcon,
+  ChevronUp as BackTopIcon,
+} from '@vicons/ionicons5';
+
+const showSlider = ref(false);
 
 let texture: THREE.Texture;
 let uniforms: {
@@ -145,6 +195,12 @@ function backgroundVFX() {
   scene.add(mesh);
   animate();
 }
+
+const scrollToTop = () => {
+  document.querySelector('#global-content')?.scrollIntoView({
+    behavior: 'auto',
+  });
+};
 
 onMounted(() => {
   loaded.fill(false);

@@ -14,14 +14,7 @@
         </n-tab-pane>
       </n-tabs>
     </n-card>
-    <div class="flex-col basis-2/7">
-      <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
-        <quick-guider />
-      </n-card>
-      <n-card :bordered="false" class="sticky top-16 my-4 rounded-md shadow-sm">
-        <ranking-list />
-      </n-card>
-    </div>
+    <global-side />
   </div>
 </template>
 
