@@ -100,7 +100,7 @@ import {
 } from '@vicons/ionicons5';
 import EditInfo from './EditInfo.vue';
 
-const { userID } = useAuthStore();
+const userID = localStorage.getItem('userID') as string;
 const props = defineProps<{ articleNum: number; userInfo: User; changeCount: number }>();
 const emits = defineEmits(['update-info', 'change-follow']);
 </script>
