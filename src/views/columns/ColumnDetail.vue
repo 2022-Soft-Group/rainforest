@@ -51,6 +51,16 @@
           </template>
           收藏该专栏
         </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button size="small" @click="isAdd = !isAdd" class="ml-2"> 收录文章 </n-button>
+          </template>
+          选择要收录的文章
+        </n-tooltip>
+        <div class="flex mt-2">
+          <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
+          <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
+        </div>
       </template>
 
       <n-divider />
@@ -82,16 +92,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { deleteColumn, getColumnArticleList, getColumnDetail, collectColumn } from '@/api/columns';
+import { deleteColumn, getColumnArticleList, getColumnDetail, collectColumn, addArticleToColumn } from '@/api/columns';
 import { NewspaperOutline as paper, Albums, CloseSharp, CloseCircleOutline } from '@vicons/ionicons5';
 import { getUserInfo } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
+import { getMyArticle } from '@/api/article';
 import router from '@/router';
+
 const { isLogin } = useAuthStore();
 const route = useRoute();
 let currentPage = 0;
 const isLoading = ref(false);
 const articles = ref<Array<ArticleItem>>([]);
+const myArticles = ref<Array<ArticleItem>>([]);
 const columnInfo = ref<ColumnListItem>({
   id: 0,
   img: '',
@@ -142,6 +155,16 @@ function reload() {
         }
       });
     });
+  getMyArticle({ size: 99, page: 0 }).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.articleInfos.forEach((element: ArticleItem) => {
+        options.push({
+          value: element.articleID,
+          label: element.title,
+        });
+      });
+    }
+  });
 }
 function handleRequest() {
   isLoading.value = true;
@@ -189,4 +212,16 @@ const handleCollect = () => {
     router.push({ name: 'login' });
   }
 };
+const isAdd = ref(false);
+const value = ref();
+const options: { label: string; value: number }[] = [];
+function handlePutin() {
+  addArticleToColumn(value.value, columnInfo.value.id).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('收录文章成功');
+    } else {
+      window.$message.error('收录文章失败');
+    }
+  });
+}
 </script>

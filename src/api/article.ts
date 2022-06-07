@@ -11,6 +11,9 @@ export function getDraftList(data: { size: number; page: number }) {
 export function getArticle(articleID: string) {
   return backend.get(`article/${articleID}`);
 }
+export function getMyArticle(data: { size: number; page: number }) {
+  return backend.get(`/article/list`, { params: data });
+}
 
 export function getUserArticleStatus(articleID: number) {
   return backend.get(`article/${articleID}/status`);
