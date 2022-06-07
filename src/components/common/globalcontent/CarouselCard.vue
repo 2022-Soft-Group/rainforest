@@ -1,7 +1,8 @@
 <template>
   <n-carousel autoplay draggable>
     <n-carousel-item v-for="img in imgs">
-      <img :src="(img as string)" />
+      <n-image object-fit="cover" class="max-h-32" :src="(img as string)" />
+      <n-button class="w-full" tertiary type="primary">这是文章标题</n-button>
     </n-carousel-item>
   </n-carousel>
 </template>
