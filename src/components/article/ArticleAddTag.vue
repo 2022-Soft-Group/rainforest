@@ -8,6 +8,7 @@
     :options="options"
     clearable
     :consistent-menu-width="false"
+    @blur="emits('tag-finish')"
   />
 </template>
 <script setup lang="ts">
@@ -17,16 +18,16 @@ import { onMounted, ref } from 'vue';
 const props = defineProps<{ isTag: boolean }>();
 
 const multipleSelectValue = ref([]);
+defineExpose({ multipleSelectValue });
+const emits = defineEmits(['tag-finish']);
 const options: { label: string; value: string; type: 'group'; children: Array<SelectOption> }[] = [];
-onMounted(() => {
-  reload();
-});
+
 function reload() {
   getSections().then((res) => {
     if (res.data.status == 0) {
       res.data.data.sections.forEach((elm: string) => {
         const optionsChildren: { label: string; value: number }[] = [];
-        getTags({ sectionName: elm as string, size: 2, page: 0 }).then((res) => {
+        getTags({ sectionName: elm as string, size: 100, page: 0 }).then((res) => {
           if (res.data.status == 0) {
             res.data.data.tags.forEach((elen: TagItem) => {
               optionsChildren.push({
@@ -50,5 +51,7 @@ function reload() {
     }
   });
 }
+onMounted(() => {
+  reload();
+});
 </script>
-<style></style>
