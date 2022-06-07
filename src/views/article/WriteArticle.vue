@@ -42,7 +42,7 @@
 
           <article-add-tag :is-tag="isTag"></article-add-tag>
 
-          <!-- <add-tag-button></add-tag-button> -->
+          <add-tag-button></add-tag-button>
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>

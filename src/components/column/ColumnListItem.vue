@@ -35,7 +35,7 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
   box-sizing: border-box;
 
   display: flex;
-  background: #000;
+  background: #18181c;
   flex-direction: column;
   padding: 26px 0 23px;
   width: 206px;
