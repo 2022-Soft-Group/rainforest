@@ -7,6 +7,13 @@
       <template #header>
         <n-h1>{{ tagInfo.title }}</n-h1>
       </template>
+      <!-- <template #header-extra>
+        <n-button circle size="small">
+          <template #icon>
+            <Accessibility />
+          </template>
+        </n-button>
+      </template> -->
 
       <template #description>
         <div class="text-gray-400">
@@ -23,6 +30,7 @@
 import { ref, onMounted, defineComponent } from 'vue';
 import { useRoute } from 'vue-router';
 import { getTagArticleList, getTagDetail } from '@/api/sections';
+import { Accessibility } from '@vicons/ionicons5';
 const route = useRoute();
 const isLoading = ref(false);
 let currentPage = 0;

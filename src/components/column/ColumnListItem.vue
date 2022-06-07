@@ -1,10 +1,5 @@
 <template>
-  .<router-link
-    class="ColumnHomeColumnCard ColumnHomeRecommendation-card"
-    tag="a"
-    target="_blank"
-    :to="'/columns/' + columnInfo.id"
-  >
+  .<router-link class="ColumnHomeColumnCard ColumnHomeRecommendation-card" :to="'/columns/' + columnInfo.id">
     <n-avatar :src="columnInfo.img" round></n-avatar>
     <div class="ColumnHomeColumnCard-info">
       <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
@@ -13,7 +8,13 @@
     <div class="ColumnHomeColumnCard-meta">
       {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.articleNum }} 篇文章
     </div>
-    <n-button class="Button ColumnHomeColumnCard-followButton Button--green" type="primary">进入专栏</n-button>
+    <n-button
+      class="Button ColumnHomeColumnCard-followButton Button--green"
+      type="primary"
+      :to="'/columns/' + columnInfo.id"
+      target="_blank"
+      >进入专栏</n-button
+    >
   </router-link>
 </template>
 
@@ -39,10 +40,9 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
   flex-direction: column;
   padding: 26px 0 23px;
   width: 206px;
-}
-.ColumnHomeColumnCard {
   align-items: center;
 }
+
 a {
   color: inherit;
   text-decoration: none;
