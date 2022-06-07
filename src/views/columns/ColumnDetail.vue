@@ -174,10 +174,13 @@ const handleCollect = () => {
   if (isLogin) {
     collectColumn(columnInfo.value.id.toString()).then((res) => {
       if (res.data.status == 0) {
-        columnInfo.value.followerNum = columnInfo.value.followerNum
-          ? columnInfo.value.followerNum - 1
-          : columnInfo.value.followerNum + 1;
-        collected.value = !collected.value;
+        if (!collected.value) {
+          columnInfo.value.followerNum++;
+          collected.value = !collected.value;
+        } else {
+          columnInfo.value.followerNum--;
+          collected.value = !collected.value;
+        }
       } else {
         window.$message.error('现在不能收藏');
       }
