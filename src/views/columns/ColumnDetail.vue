@@ -1,5 +1,16 @@
 <template>
   <n-card class="flex m-auto rounded-md w-200">
+    <div>
+      <router-link :to="'/user/' + columnInfo.userID">
+        <n-thing>
+          <template #avatar>
+            <n-avatar round :src="userInfo.avatar"></n-avatar>
+          </template>
+          <template #header>{{ userInfo.name }}</template>
+        </n-thing>
+      </router-link>
+    </div>
+    <n-divider />
     <n-thing>
       <template #avatar>
         <n-avatar object-fit="cover" :size="150" :src="columnInfo.img"> </n-avatar>
@@ -12,20 +23,11 @@
           {{ columnInfo.description }}
         </div>
       </template>
-      <template #header-extra>
-        <router-link :to="'/user/' + columnInfo.userID">
-          <n-thing>
-            <template #avatar>
-              <n-avatar round :src="userInfo.avatar"></n-avatar>
-            </template>
-            <template #header>{{ userInfo.name }}</template>
-            <template #description> {{ userInfo.description }} </template>
-          </n-thing>
-        </router-link>
-      </template>
+      <template #header-extra> </template>
+      <n-divider />
       <template #footer>
         <div class="flex justify-around">
-          <n-statistic :value="[columnInfo.ArticleNum, '篇文章'].join('')">
+          <n-statistic :value="[columnInfo.articleNum, '篇文章'].join('')">
             <template #prefix>
               <n-icon size="30">
                 <paper></paper>
@@ -78,7 +80,7 @@ const columnInfo = ref<ColumnListItem>({
   title: '',
   description: '',
   followerNum: 0,
-  ArticleNum: 0,
+  articleNum: 0,
   userID: 0,
 });
 const userInfo = ref<User>({

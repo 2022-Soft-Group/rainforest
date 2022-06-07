@@ -4,7 +4,7 @@ type ColumnListItem = {
   title: string;
   description: string;
   followerNum: number;
-  ArticleNum: number;
+  articleNum: number;
   userID: number;
 };
 
