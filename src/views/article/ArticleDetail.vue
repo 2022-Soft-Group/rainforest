@@ -1,10 +1,7 @@
 <template>
   <div class="flex">
     <n-space vertical>
-      <n-spin v-if="isLoading" :show="isLoading" size="large">
-        <n-card class="w-230 h-400"></n-card>
-      </n-spin>
-      <n-card v-else class="flex m-auto rounded-md w-230">
+      <n-card class="flex m-auto rounded-md w-230">
         <template #cover v-if="articleInfo.image != ''">
           <img class="max-h-400" :src="articleInfo.image" />
         </template>
@@ -38,7 +35,7 @@
           <template #trigger>
             <n-badge :value="infoPanel?.likeNum" color="#63e2b7">
               <n-button
-                class="shadow-md"
+                class="shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
                 type="primary"
                 size="large"
                 :secondary="!infoPanel?.liked"
@@ -54,7 +51,14 @@
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
             <n-badge :value="infoPanel?.commentNum" color="#e88080">
-              <n-button class="shadow-md" type="error" size="large" secondary circle @click="scrollToComment">
+              <n-button
+                class="shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+                type="error"
+                size="large"
+                secondary
+                circle
+                @click="scrollToComment"
+              >
                 <n-icon size="24"> <comment-icon /> </n-icon>
               </n-button>
             </n-badge>
@@ -80,7 +84,13 @@
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button class="clip shadow-md" color="#a29bfe" size="large" circle @click="">
+            <n-button
+              class="clip shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+              color="#a29bfe"
+              size="large"
+              circle
+              @click="handleShare"
+            >
               <n-icon size="25"> <share-icon /> </n-icon>
             </n-button>
           </template>
@@ -224,6 +234,7 @@ export default defineComponent({
       scrollToComment,
       handleLike,
       handleCollect,
+      handleShare,
     };
   },
 });
