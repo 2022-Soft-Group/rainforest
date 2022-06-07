@@ -91,6 +91,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/user/UserHome.vue'),
       },
       {
+        path: 'direct/:target',
+        name: 'userDirect',
+        component: () => import('../views/user/UserHome.vue'),
+      },
+      {
         path: ':id',
         name: 'otherhome',
         component: () => import('../views/user/OtherHome.vue'),

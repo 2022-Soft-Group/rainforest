@@ -31,15 +31,15 @@
         </upload-button>
         <n-space vertical class="my-4 mx-10 w-65">
           <n-space>
-            <n-radio :checked="!isColumn" @change="isColumn = !isColumn"> 不发布到专栏 </n-radio>
-            <n-radio :checked="isColumn" @change="isColumn = !isColumn"> 发布到专栏 </n-radio>
+            <n-radio :checked="!isPubColumn" @change="isPubColumn = !isPubColumn"> 不发布到专栏 </n-radio>
+            <n-radio :checked="isPubColumn" @change="isPubColumn = !isPubColumn"> 发布到专栏 </n-radio>
           </n-space>
-          <n-select v-if="isColumn"></n-select>
+          <article-add-column :is-column="isPubColumn" @column-finsh="handleFinishColumn" />
           <n-space>
-            <n-radio :checked="!isTag" @change="isTag = !isTag"> 不关联到标签 </n-radio>
-            <n-radio :checked="isTag" @change="isTag = !isTag"> 关联到标签 </n-radio>
+            <n-radio :checked="!isPubTag" @change="isPubTag = !isPubTag"> 不关联到标签 </n-radio>
+            <n-radio :checked="isPubTag" @change="isPubTag = !isPubTag"> 关联到标签 </n-radio>
           </n-space>
-          <article-add-tag :is-tag="isTag" ref="addTags" @tag-finish="handleFinishTag"></article-add-tag>
+          <article-add-tag :is-tag="isPubTag" ref="addTags" @tag-finish="handleFinishTag"></article-add-tag>
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -76,6 +76,7 @@ import { addArticle, addDraft, getArticle, getDraft, modifyArticle, modifyDraft,
 import { addArticleToColumn } from '@/api/columns';
 import { useRoute, useRouter } from 'vue-router';
 import type ArticleAddTag from '@/components/articleUpload/ArticleAddTag.vue';
+import type ArticleAddColumn from '@/components/article/ArticleAddColumn.vue';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -85,6 +86,7 @@ const tags = ref<Array<TagItem>>([]);
 let imageID = 0;
 const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 const addTags = ref<InstanceType<typeof ArticleAddTag> | null>(null);
+const addColumns = ref<InstanceType<typeof ArticleAddColumn> | null>(null);
 const articleUpload = ref<ArticleUpload>({
   title: '',
   content: '',
@@ -92,9 +94,9 @@ const articleUpload = ref<ArticleUpload>({
   tags: [],
   private: false,
 });
-const isColumn = ref(false);
-const isTag = ref(false);
-const selectedColumnID = ref(0);
+const isPubColumn = ref(false);
+const isPubTag = ref(false);
+const multiSelectedColumnID = ref<Array<Number>>([]);
 const isPrivate = ref(false);
 const isLoading = ref(false);
 const router = useRouter();
@@ -102,8 +104,13 @@ const route = useRoute();
 
 function handleFinishTag() {
   addTags.value.multipleSelectValue.forEach((ele: any) => {
-    console.log(ele);
     articleUpload.value.tags.push(ele);
+  });
+}
+
+function handleFinishColumn() {
+  addColumns.value?.multipleSelectValue.forEach((ele: any) => {
+    multiSelectedColumnID.value.push(ele);
   });
 }
 
@@ -256,11 +263,13 @@ function uploadArticle() {
   addArticle(articleUpload.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章发布成功');
-      if (isColumn.value) {
-        addArticleToColumn(res.data.data.articleID, selectedColumnID.value).then((res) => {
-          if (res.data.status != 0) {
-            window.$message.error('添加专栏失败');
-          }
+      if (isPubColumn.value) {
+        multiSelectedColumnID.value.forEach((ele) => {
+          addArticleToColumn(res.data.data.articleID, ele as number).then((res) => {
+            if (res.data.status != 0) {
+              window.$message.error('添加专栏失败');
+            }
+          });
         });
       }
 

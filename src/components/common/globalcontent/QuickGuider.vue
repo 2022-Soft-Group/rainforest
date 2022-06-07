@@ -1,18 +1,18 @@
 <template>
   <div class="flex m-auto w-60 justify-around">
-    <n-button type="primary" size="large" secondary circle>
+    <n-button type="primary" size="large" secondary circle @click="handleUserDirect('article')">
       <div class="flex h-6 items-center flex-col">
         <n-icon size="24"> <article-icon /> </n-icon>
         <div class="text-xs mt-4">我的文章</div>
       </div>
     </n-button>
-    <n-button type="info" size="large" secondary circle>
+    <n-button type="info" size="large" secondary circle @click="handleUserDirect('resource')">
       <div class="flex h-6 items-center flex-col">
         <n-icon size="24"> <assets-icon /> </n-icon>
         <div class="text-xs mt-4">我的资源</div>
       </div>
     </n-button>
-    <n-button type="warning" size="large" secondary circle>
+    <n-button type="warning" size="large" secondary circle @click="handleUserDirect('collection')">
       <div class="flex h-6 items-center flex-col">
         <n-icon size="24"> <collection-icon /> </n-icon>
         <div class="text-xs mt-4">我的收藏</div>
@@ -46,5 +46,9 @@ const handleWriteArticle = () => {
 const handleDraftBox = () => {
   let routeUrl = router.resolve({ name: 'draft' });
   window.open(routeUrl.href, '_blank');
+};
+
+const handleUserDirect = (direct: string) => {
+  router.replace({ name: 'userDirect', params: { target: direct } });
 };
 </script>

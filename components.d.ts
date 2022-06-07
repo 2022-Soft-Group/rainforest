@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AddTagButton: typeof import('./src/components/tag/AddTagButton.vue')['default']
+    ArticleAddColumn: typeof import('./src/components/article/ArticleAddColumn.vue')['default']
     ArticleAddTag: typeof import('./src/components/article/ArticleAddTag.vue')['default']
     ArticleInfoPanel: typeof import('./src/components/article/ArticleInfoPanel.vue')['default']
     ArticlesList: typeof import('./src/components/article/ArticlesList.vue')['default']

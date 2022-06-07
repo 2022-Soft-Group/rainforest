@@ -5,6 +5,7 @@
     filterable
     multiple
     tag
+    :fallback-option="false"
     :options="options"
     clearable
     :consistent-menu-width="false"

@@ -13,8 +13,8 @@
   </n-card>
   <div class="flex -mr-1.5 -mt-2">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
-      <n-tabs type="line" size="large" class="mb-6">
-        <n-tab-pane name="关注" display-directive="if">
+      <n-tabs v-if="!isLoading" :default-value="defaultTabName" type="line" size="large" class="mb-6">
+        <n-tab-pane tab="关注" name="follow" display-directive="if">
           <user-list
             :users="userListFollowing"
             :is-loading="userListFollowingIsLoading"
@@ -23,7 +23,7 @@
             @change-follow="handleChangeFollow"
           />
         </n-tab-pane>
-        <n-tab-pane name="粉丝" display-directive="show:lazy">
+        <n-tab-pane tab="粉丝" name="fan" display-directive="show:lazy">
           <user-list
             :users="userListFollowed"
             :is-loading="userListFollowedIsLoading"
@@ -32,13 +32,13 @@
             @change-follow="handleChangeFollow"
           />
         </n-tab-pane>
-        <n-tab-pane name="文章">
+        <n-tab-pane tab="文章" name="article">
           <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
         </n-tab-pane>
-        <n-tab-pane name="收藏">
+        <n-tab-pane tab="收藏" name="collection">
           <collect-button :article-id="4" />
         </n-tab-pane>
-        <n-tab-pane name="资源">我的资源</n-tab-pane>
+        <n-tab-pane tab="资源" name="resource">我的资源</n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7 ml-1">
@@ -50,9 +50,6 @@
       </n-card>
     </div>
   </div>
-  <n-icon size="40">
-    <game-controller-outline />
-  </n-icon>
 </template>
 
 <script setup lang="ts">
@@ -67,11 +64,12 @@ import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed 
 
 import UserFollowNum from './UserFollowNum.vue';
 import { useRoute } from 'vue-router';
-
+const route = useRoute();
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
 const userID = localStorage.getItem('userID') as string;
+const defaultTabName = ref('article');
 
 function handleRequest() {
   isLoading.value = true;
@@ -193,7 +191,11 @@ const userListFollowing = ref<Array<UserFeature>>([]);
 const userListFollowedIsLoading = ref(false);
 const userListFollowed = ref<Array<UserFeature>>([]);
 
-onMounted(reload);
+onMounted(() => {
+  console.log(route.params.target);
+  defaultTabName.value = route.params.target as string;
+  reload();
+});
 </script>
 
 <style scoped>
