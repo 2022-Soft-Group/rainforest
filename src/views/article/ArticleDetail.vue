@@ -1,7 +1,10 @@
 <template>
   <div class="flex">
     <n-space vertical>
-      <n-card class="flex m-auto rounded-md w-230">
+      <n-spin v-if="isLoading" :show="isLoading" size="large">
+        <n-card class="w-230 h-400"></n-card>
+      </n-spin>
+      <n-card v-else class="flex m-auto rounded-md w-230">
         <template #cover v-if="articleInfo.image != ''">
           <img class="max-h-400" :src="articleInfo.image" />
         </template>
@@ -103,6 +106,7 @@ import {
 } from '@vicons/ionicons5';
 import type ArticleInfoPanel from '@/components/article/ArticleInfoPanel.vue';
 import ClipBoardJS from 'clipboard';
+import { useLoadingBar } from 'naive-ui';
 
 export default defineComponent({
   components: {
@@ -115,6 +119,8 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const loadingBar = useLoadingBar();
+    const isLoading = ref(false);
     const userInfo = ref<User>({
       name: '',
       description: '',
@@ -183,6 +189,7 @@ export default defineComponent({
 
     provide('authorID', authorID);
     onMounted(() => {
+      loadingBar.start();
       getArticle(route.params.id as string)
         .then((res) => {
           if (res.data.status == 0) {
@@ -197,6 +204,7 @@ export default defineComponent({
           getUserInfo(articleInfo.value.authorID.toString()).then((res) => {
             if (res.data.status == 0) {
               userInfo.value = res.data.data.user;
+              loadingBar.finish();
             } else {
               window.$message.error('获取用户信息失败');
             }
@@ -212,6 +220,7 @@ export default defineComponent({
       infoPanel,
       liked,
       collected,
+      isLoading,
       scrollToComment,
       handleLike,
       handleCollect,

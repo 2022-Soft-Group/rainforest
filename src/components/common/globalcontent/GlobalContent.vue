@@ -4,26 +4,21 @@
     <div class="w-260 z-200 h-full mx-auto">
       <div class="h-10"></div>
       <slot></slot>
+      <div class="rain-slider h-30 z-400 fixed right-13.5 bottom-20 rounded-md">
+        <n-slider vertical @update-value="handleChangeRainAmount" v-model:value="rainAmount" />
+      </div>
+      <n-button class="fixed left-10 bottom-5" type="primary" size="large" secondary circle @click="handlePreImg">
+        <n-icon><back-icon /></n-icon>
+      </n-button>
+      <n-button class="fixed right-10 bottom-5" type="primary" size="large" secondary circle @click="handleNextImg">
+        <n-icon><forward-icon /></n-icon>
+      </n-button>
     </div>
   </div>
-  <div class="flex justify-between w-40 z-201 fixed right-10 bottom-10">
-    <n-rate color="#63e2b7" @update-value="handleChangeRainAmount" :value="rainAmount * 5" allow-half>
-      <n-icon size="20">
-        <rain-icon />
-      </n-icon>
-    </n-rate>
-  </div>
-  <n-button class="fixed left-10 top-1/2" type="primary" size="large" secondary circle @click="handlePreImg">
-    <n-icon><back-icon /></n-icon>
-  </n-button>
-  <n-button class="fixed right-10 top-1/2" type="primary" size="large" secondary circle @click="handleNextImg">
-    <n-icon><forward-icon /></n-icon>
-  </n-button>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Water as RainIcon } from '@vicons/ionicons5';
 import * as THREE from 'three';
 import type { PerspectiveCamera, Scene, Texture, WebGLRenderer } from 'three';
 import Vert from '@/shader/planeShaderVert';
@@ -79,10 +74,10 @@ const handlePreImg = () => {
   console.log(currentBgImg);
 };
 
-const rainAmount = ref(0.8);
+const rainAmount = ref(80);
 const handleChangeRainAmount = (value: number) => {
-  rainAmount.value = value / 5.0;
-  uniforms.rainAmount.value = rainAmount.value;
+  rainAmount.value = value;
+  uniforms.rainAmount.value = rainAmount.value / 50.0;
 };
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer, bgimg;
@@ -134,7 +129,7 @@ function backgroundVFX() {
     },
     rainAmount: {
       type: 'f',
-      value: rainAmount.value,
+      value: rainAmount.value / 100,
     },
   };
 
@@ -161,3 +156,8 @@ onMounted(() => {
   backgroundVFX();
 });
 </script>
+<style scoped>
+.rain-slider {
+  background-color: rgba(99, 226, 183, 0.1);
+}
+</style>
