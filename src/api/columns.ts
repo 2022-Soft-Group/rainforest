@@ -19,3 +19,7 @@ export function addColumn(column: ColumnUpload) {
 export function getColumnArticleList(data: { size: number; page: number; columnID: number }) {
   return backend.get(`/column/${data.columnID}/articles`, { params: data });
 }
+
+export function deleteColumn(id: number) {
+  return backend.delete(`/column/${id}`);
+}

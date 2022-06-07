@@ -18,12 +18,19 @@
       <template #header>
         <n-h1>{{ columnInfo.title }}</n-h1>
       </template>
+      <template #header-extra
+        ><n-button circle size="small" title="删除该专栏" @click="handleClick">
+          <template #icon>
+            <ArrowRedo />
+          </template> </n-button
+      ></template>
+
       <template #description>
         <div class="text-gray-400">
           {{ columnInfo.description }}
         </div>
       </template>
-      <template #header-extra> </template>
+
       <n-divider />
       <template #footer>
         <div class="flex justify-around">
@@ -42,24 +49,10 @@
             </template>
           </n-statistic>
         </div>
-
-        <!-- <div class="text-gray-400">
-          {{ columnInfo.ArticleNum }}
-        </div> -->
       </template>
     </n-thing>
   </n-card>
-  <!-- <n-card class="flex m-auto mt-2 rounded-t-md w-200">
-    <router-link :to="'/user/' + columnInfo.userID">
-      <n-thing>
-        <template #avatar>
-          <n-avatar round :src="userInfo.avatar"></n-avatar>
-        </template>
-        <template #header>{{ userInfo.name }}</template>
-        <template #description> {{ userInfo.description }} </template>
-      </n-thing>
-    </router-link>
-  </n-card> -->
+
   <n-card class="flex m-auto mt-2 rounded-t-md w-200">
     <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
   </n-card>
@@ -67,9 +60,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getColumnArticleList, getColumnDetail } from '@/api/columns';
+import { deleteColumn, getColumnArticleList, getColumnDetail } from '@/api/columns';
 import { NewspaperOutline as paper, Albums } from '@vicons/ionicons5';
+import { ArrowRedo } from '@vicons/ionicons5';
 import { getUserInfo } from '@/api/user';
+import router from '@/router';
 const route = useRoute();
 let currentPage = 0;
 const isLoading = ref(false);
@@ -136,4 +131,18 @@ function handleRequest() {
     }
   });
 }
+
+const handleClick = () => {
+  deleteColumn(columnInfo.value.id)
+    .then((res) => {
+      if (res.data.status != 0) {
+        window.$message.error('删除专栏失败');
+      } else {
+        window.$message.info('删除专栏成功');
+      }
+    })
+    .finally(() => {
+      window.location.replace('/columns');
+    });
+};
 </script>
