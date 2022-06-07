@@ -5,6 +5,7 @@ type ColumnListItem = {
   description: string;
   followerNum: number;
   ArticleNum: number;
+  userID: number;
 };
 
 type ColumnUpload = {

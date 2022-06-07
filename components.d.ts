@@ -4,6 +4,8 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddTag: typeof import('./src/components/tag/AddTag.vue')['default']
+    Article2Tag: typeof import('./src/components/article/Article2Tag.vue')['default']
     ArticleInfoPanel: typeof import('./src/components/article/ArticleInfoPanel.vue')['default']
     ArticlesList: typeof import('./src/components/article/ArticlesList.vue')['default']
     ArticlesListItem: typeof import('./src/components/article/ArticlesListItem.vue')['default']
