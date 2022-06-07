@@ -13,7 +13,7 @@ export function updateUserInfo(data: { sex: number; name: string; email: string;
 }
 
 export function changePasswd(data: { oldPasswd: string; newPasswd: string }) {
-  return backend.put(`user/changePasswd`, { params: data });
+  return backend.put(`auth/password`, { params: data });
 }
 
 export function getUserFeature(userID: string) {
