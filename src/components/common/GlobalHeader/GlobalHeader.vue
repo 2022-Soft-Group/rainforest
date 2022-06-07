@@ -110,6 +110,7 @@ function getUserTrends() {
   });
 }
 onMounted(() => {
+  console.log(isLogin);
   if (isLogin) {
     getUserMessages();
     getUserTrends();

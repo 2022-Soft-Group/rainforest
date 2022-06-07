@@ -27,7 +27,6 @@ const { signOut } = useAuthStore();
 backend.interceptors.response.use(
   (response) => {
     if (response.data.status == 102) {
-      window.$message.error('登录认证失败');
       signOut();
       router.push({ name: 'login' });
     } else if (response.data.status != 0) {
