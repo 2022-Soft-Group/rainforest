@@ -42,7 +42,7 @@
 
           <article2-tag :is-tag="isTag"></article2-tag>
 
-          <add-tag></add-tag>
+          <!-- <add-tag-button></add-tag-button> -->
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -78,9 +78,6 @@ import { uploadImage } from '@/api/asset';
 import { addArticle, addDraft, getArticle, getDraft, modifyArticle, modifyDraft, publishDraft } from '@/api/article';
 import { addArticleToColumn } from '@/api/columns';
 import { useRoute, useRouter } from 'vue-router';
-import type { SelectGroupOption, SelectOption } from 'naive-ui/lib/select';
-import { addTag, getSections, getTags } from '@/api/sections';
-import AddTag from '../../components/tag/AddTag.vue';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
