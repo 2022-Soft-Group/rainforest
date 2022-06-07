@@ -1,7 +1,7 @@
 <template>
   <div>
     <global-header class="relative z-300" v-if="!isLoginPage" />
-    <global-content class="relative z-0" :show-padding="!isLoginPage">
+    <global-content class="relative z-0">
       <router-view />
     </global-content>
   </div>
@@ -27,7 +27,6 @@ const { signOut } = useAuthStore();
 backend.interceptors.response.use(
   (response) => {
     if (response.data.status == 102) {
-      window.$message.error('登录认证失败');
       signOut();
       router.push({ name: 'login' });
     } else if (response.data.status != 0) {
