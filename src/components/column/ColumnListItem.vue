@@ -11,7 +11,7 @@
       <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
     </div>
     <div class="ColumnHomeColumnCard-meta">
-      {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.ArticleNum }} 篇文章
+      {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.articleNum }} 篇文章
     </div>
     <n-button class="Button ColumnHomeColumnCard-followButton Button--green" type="primary">进入专栏</n-button>
   </router-link>
@@ -35,7 +35,7 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
   box-sizing: border-box;
 
   display: flex;
-  background: #000;
+  background: #18181c;
   flex-direction: column;
   padding: 26px 0 23px;
   width: 206px;
@@ -96,8 +96,8 @@ a {
 }
 .Button--green {
   background-color: rgba(133, 144, 166, 0.06);
-  color: #11a668;
-  border-color: #11a668;
+  color: #63e2b7;
+  border-color: #63e2b7;
 }
 .Button--green:hover {
   color: black;
