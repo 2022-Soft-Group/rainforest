@@ -1,15 +1,14 @@
 <template>
   <n-card class="flex m-auto rounded-md w-200">
-    <div>
-      <router-link :to="'/user/' + columnInfo.userID">
-        <n-thing>
-          <template #avatar>
-            <n-avatar round :src="userInfo.avatar"></n-avatar>
-          </template>
-          <template #header>{{ userInfo.name }}</template>
-        </n-thing>
-      </router-link>
-    </div>
+    <router-link :to="'/user/' + columnInfo.userID">
+      <n-thing>
+        <template #avatar>
+          <n-avatar round :src="userInfo.avatar"></n-avatar>
+        </template>
+        <template #header>{{ userInfo.name }}</template>
+        <template #description> {{ userInfo.description }} </template>
+      </n-thing>
+    </router-link>
     <n-divider />
     <n-thing>
       <template #avatar>
@@ -18,17 +17,29 @@
       <template #header>
         <n-h1>{{ columnInfo.title }}</n-h1>
       </template>
-      <template #header-extra
-        ><n-button circle size="small" title="删除该专栏" @click="handleClick">
-          <template #icon>
-            <ArrowRedo />
-          </template> </n-button
-      ></template>
+      <template #header-extra></template>
 
       <template #description>
-        <div class="text-gray-400">
+        <div class="text-gray-400 h-6">
           {{ columnInfo.description }}
         </div>
+        <div class="mt-7"></div>
+        <n-button circle size="small" title="删除该专栏" @click="showModal = true">
+          <n-modal
+            v-model:show="showModal"
+            :mask-closable="false"
+            preset="dialog"
+            title="删除标签"
+            content="是否要删除专栏"
+            positive-text="确认"
+            negative-text="取消"
+            @positive-click="handleClick"
+            @negative-click="onNegativeClick"
+          />
+          <template #icon>
+            <ArrowRedo />
+          </template>
+        </n-button>
       </template>
 
       <n-divider />
@@ -137,12 +148,15 @@ const handleClick = () => {
     .then((res) => {
       if (res.data.status != 0) {
         window.$message.error('删除专栏失败');
-      } else {
-        window.$message.info('删除专栏成功');
       }
     })
     .finally(() => {
       window.location.replace('/columns');
+      window.$message.info('删除专栏成功');
     });
 };
+const showModal = ref(false);
+function onNegativeClick() {
+  showModal.value = false;
+}
 </script>
