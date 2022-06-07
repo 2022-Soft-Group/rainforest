@@ -1,7 +1,9 @@
 <template>
-  <n-page-header subtitle="">
+  <n-page-header>
     <template #title>
-      <div class="text-lg font-bold">{{ userFeature.name }}</div>
+      <router-link :to="'/user/' + userFeature.id" target="_blank">
+        <div class="text-lg font-bold">{{ userFeature.name }}</div>
+      </router-link>
     </template>
     <template #avatar>
       <n-avatar :src="userFeature.avatar" :size="60" id="avatar" />
@@ -25,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import { RouterLink } from 'vue-router';
 const props = defineProps<{ userFeature: UserFeature; isLoading: boolean; listType: String; changeCount: number }>();
 const emits = defineEmits(['change-follow']);
 </script>

@@ -1,7 +1,7 @@
 <template>
   <n-card title="  " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
     <template #cover>
-      <img id="pic1" src="https://s2.loli.net/2022/06/07/43hamxV76wZcbYL.jpg" />
+      <n-image class="w-full h-50" object-fit="cover" src="https://s2.loli.net/2022/06/07/MyYlw7S8CfOusNn.jpg" />
     </template>
     <profiler-header
       :articleNum="userFeature.articleNum"

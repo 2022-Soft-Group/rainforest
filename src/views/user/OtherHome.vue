@@ -1,7 +1,7 @@
 <template>
-  <n-card title="  " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
+  <n-card title="  " size="large" class="m-2 mt-4 rounded-md shadow-sm">
     <template #cover>
-      <img id="pic1" src="https://s2.loli.net/2022/06/07/MyYlw7S8CfOusNn.jpg" />
+      <n-image class="w-full h-50" object-fit="cover" src="https://s2.loli.net/2022/06/07/MyYlw7S8CfOusNn.jpg" />
     </template>
     <profiler-header
       :articleNum="userFeature.articleNum"
@@ -210,12 +210,4 @@ const userListFollowed = ref<Array<UserFeature>>([]);
 onMounted(reload);
 </script>
 
-<style scoped>
-#userHeader {
-  margin-top: 15px;
-}
-#pic1 {
-  width: 100%;
-  height: 200px;
-}
-</style>
+<style scoped></style>
