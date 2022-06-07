@@ -96,8 +96,8 @@ a {
 }
 .Button--green {
   background-color: rgba(133, 144, 166, 0.06);
-  color: #11a668;
-  border-color: #11a668;
+  color: #63e2b7;
+  border-color: #63e2b7;
 }
 .Button--green:hover {
   color: black;
