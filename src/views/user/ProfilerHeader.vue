@@ -39,18 +39,40 @@
         </div>
       </span>
     </template>
-
     <template #avatar>
       <n-avatar :size="150" :src="userInfo.avatar" class="ring-3 ring-white" />
+      <follow-button
+        v-show="false"
+        :target-user-id="userInfo.id"
+        :change-count="changeCount"
+        @change-follow="emits('change-follow')"
+      />
     </template>
     <template #extra>
       <span>
         <br /><br />
-        <edit-info :user-info="userInfo" @update-info="emits('update-info')" class="rounded-md shadow-sm" />
-        <!-- <n-button v-if="userID == userInfo.id.toString()" type="primary" ghost> 编辑资料 </n-button> -->
-        <!-- <n-button v-else :bordered="false" type="primary" @click="handleFollow">
-          <n-icon><add-icon /></n-icon> 关注
-        </n-button> -->
+        <edit-info
+          v-if="userID == userInfo.id.toString()"
+          :user-info="userInfo"
+          @update-info="emits('update-info')"
+          class="rounded-md shadow-sm"
+        />
+        <follow-button
+          v-else
+          :target-user-id="userInfo.id"
+          :change-count="changeCount"
+          @change-follow="emits('change-follow')"
+        />
+        <!-- <follow-button
+          :target-user-id="userInfo.id"
+          :change-count="changeCount"
+          @change-follow="emits('change-follow')"
+        />
+        <follow-button
+          :target-user-id="userInfo.id"
+          :change-count="changeCount"
+          @change-follow="emits('change-follow')"
+        /> -->
       </span>
     </template>
     <template #footer>
@@ -78,9 +100,9 @@ import {
 } from '@vicons/ionicons5';
 import EditInfo from './EditInfo.vue';
 
-const emits = defineEmits(['update-info']);
 const { userID } = useAuthStore();
-const props = defineProps<{ articleNum: number; userInfo: User }>();
+const props = defineProps<{ articleNum: number; userInfo: User; changeCount: number }>();
+const emits = defineEmits(['update-info', 'change-follow']);
 </script>
 
 <style scoped></style>
