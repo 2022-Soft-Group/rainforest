@@ -95,8 +95,8 @@
       <div class="ColumnHomeTitle-text">专栏 · 探索</div>
       <div class="ColumnHomeTitle-line"></div>
     </h3>
-    <div class="ColumnHomeRecommendation-cardContainer">
-      <div v-for="item in columnList">
+    <div class="ColumnHomeRecommendation-cardContainer w-full">
+      <div v-for="item in columnList" class="m-2">
         <column-list-item :column-info="item"></column-list-item>
       </div>
     </div>
