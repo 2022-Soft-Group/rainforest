@@ -112,7 +112,7 @@ void main( )
     float t = T*.2;
     
     float maxBlur = mix(3., 6., rainAmount);
-    float minBlur = 2.;
+    float minBlur = 0.0;
     
     float story = 0.;
     float heart = 0.;
@@ -140,7 +140,7 @@ void main( )
     #endif
     
     vec3 col;
-    if(rainAmount > 0.101){
+    if(rainAmount > 0.001){
         float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
         col = texture2DLodEXT(iChannel0, UV+n, focus).rgb;
     }

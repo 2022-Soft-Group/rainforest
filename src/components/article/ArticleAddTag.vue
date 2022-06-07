@@ -38,7 +38,6 @@ function reload() {
             window.$message.error('获取二级列表失败');
           }
         });
-        ////////
         options.push({
           label: elm,
           value: elm,

@@ -40,7 +40,7 @@
             <n-radio :checked="isTag" @change="isTag = !isTag"> 关联到标签 </n-radio>
           </n-space>
 
-          <article2-tag :is-tag="isTag"></article2-tag>
+          <article-add-tag :is-tag="isTag"></article-add-tag>
 
           <!-- <add-tag-button></add-tag-button> -->
         </n-space>
