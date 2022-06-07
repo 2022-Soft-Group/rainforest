@@ -40,9 +40,11 @@ import {
 import { useRouter } from 'vue-router';
 const router = useRouter();
 const handleWriteArticle = () => {
-  router.push({ name: 'write' });
+  let routeUrl = router.resolve({ name: 'write' });
+  window.open(routeUrl.href, '_blank');
 };
 const handleDraftBox = () => {
-  router.push({ name: 'draft' });
+  let routeUrl = router.resolve({ name: 'draft' });
+  window.open(routeUrl.href, '_blank');
 };
 </script>

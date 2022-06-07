@@ -43,8 +43,8 @@
         <search-dropdown />
       </div>
       <div class="flex justify-around w-50">
-        <message-dropdown :messages="messages" :count="messagesCount" @mark-read-all="handleMarkReadAll" />
-        <trend-dropdown :messages="trends" :count="trendsCount" @mark-read-all="" />
+        <message-dropdown :messages="messages" :count="messagesCount" @mark-read-all="handleMarkReadMessage" />
+        <trend-dropdown :trends="trends" :count="trendsCount" @mark-read="handleMarkReadTrend" />
         <avatar-dropdown />
       </div>
     </div>
@@ -53,21 +53,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute, RouterLink } from 'vue-router';
 import BrandImg from '/resource/svg.svg';
 import AvatarDropdown from './AvatarDropdown.vue';
 
-import { getMessages, markReadMessage } from '@/api/message';
+import { getMessages, getTrends, markReadMessage } from '@/api/message';
 import { useAuthStore } from '@/store/auth';
 
 const route = useRoute();
-const router = useRouter();
 
 const { isLogin } = useAuthStore();
-// const tabValue = ref("homepage");
-// const isSelectedTab = computed(()=>{
-//   return route.name == tabValue.value;
-// })
 
 const homepageSelected = computed(() => {
   return route.fullPath.split('/')[1] == 'homepage';
@@ -82,7 +77,7 @@ const columnSelected = computed(() => {
 });
 
 const messages = ref<Array<MessageInfo>>([]);
-const trends = ref<Array<MessageInfo>>([]);
+const trends = ref<Array<ArticleItem>>([]);
 const messagesCount = computed(() => {
   return messages.value.length;
 });
@@ -90,11 +85,15 @@ const trendsCount = computed(() => {
   return trends.value.length;
 });
 
-const handleMarkReadAll = () => {
+const handleMarkReadMessage = () => {
   messages.value.forEach((elm) => {
     markReadMessage(elm.msgID);
   });
   messages.value.length = 0;
+};
+
+const handleMarkReadTrend = () => {
+  trends.value.length = 0;
 };
 
 function getUserMessages() {
@@ -103,21 +102,22 @@ function getUserMessages() {
   });
 }
 
-//TODO: implements get trend api
-function getUserTrends() {}
-
+function getUserTrends() {
+  getTrends({ page: 0, size: 99, new: 1 }).then((res) => {
+    if (res.data.status == 0) {
+      trends.value = res.data.data.articles;
+    }
+  });
+}
 onMounted(() => {
   if (isLogin) {
     getUserMessages();
     getUserTrends();
     window.setInterval(() => {
       setTimeout(getUserMessages, 0);
-      setTimeout(getUserTrends, 0);
-    }, 30000);
+    }, 60000);
   }
 });
-
-// 每隔30s获取消息和动态
 </script>
 
 <style scoped>

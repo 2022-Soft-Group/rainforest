@@ -29,7 +29,7 @@
       >
     </div>
 
-    <n-button strong secondary round type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
+    <n-button strong type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
     <n-modal
       v-model:show="showModal"
       :mask-closable="false"
@@ -67,7 +67,14 @@
                 <div>点击上传封面</div>
                 <div>.jpeg/.png/.svg</div>
               </div>
-              <n-image v-else width="240" object-fit="cover" class="h-48 flex-none rounded-md" :src="imgSrc" />
+              <n-image
+                v-else
+                preview-disabled
+                width="240"
+                object-fit="cover"
+                class="h-48 flex-none rounded-md"
+                :src="imgSrc"
+              />
             </upload-button>
           </div>
         </n-space>
@@ -89,12 +96,7 @@
         <column-list-item :column-info="item"></column-list-item>
       </div>
     </div>
-    <button
-      class="Button ColumnHomeRecommendation-refreshButton Button--withIcon Button--withLabel mb-2"
-      @click="handleRequest"
-    >
-      浏览更多
-    </button>
+    <n-button class="Button Button-green mb-20" @click="handleRequest"> 浏览更多 </n-button>
   </div>
 </template>
 
@@ -265,8 +267,8 @@ function onPositiveClick() {
   border-radius: 0;
 }
 .Button--green {
-  color: #11a668;
-  border-color: #11a668;
+  color: #63e2b7;
+  border-color: #63e2b7;
 }
 .ColumnHomeRecommendation {
   -webkit-box-align: center;
@@ -338,20 +340,7 @@ function onPositiveClick() {
   white-space: nowrap;
   width: 345px;
 }
-.ColumnHomeBottom-requestButton {
-  line-height: 36px;
-  margin-top: 40px;
-  height: 38px;
-  width: 120px;
-}
-.ColumnHomeBottom-requestButton {
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  color: #444;
-}
-.ColumnHomeBottom-requestButton {
-  border-color: #444;
-}
+
 .ColumnHomeRecommendation-cardContainer {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -439,8 +428,8 @@ a {
   flex-shrink: 0;
 }
 .Button--green {
-  color: #11a668;
-  border-color: #11a668;
+  color: #63e2b7;
+  border-color: #63e2b7;
 }
 .Button--green:hover {
   background-color: rgba(133, 144, 166, 0.06);
@@ -453,7 +442,7 @@ a {
   text-align: center;
   cursor: pointer;
   background: none;
-  border: 1px solid;
+
   border-radius: 3px;
 }
 
@@ -472,6 +461,7 @@ a {
 .ColumnHomeRecommendation-refreshButton {
   margin-top: 20px;
   width: 98px;
+  margin-bottom: 20px;
 }
 .ColumnHomeRecommendation-refreshButton {
   color: #444;

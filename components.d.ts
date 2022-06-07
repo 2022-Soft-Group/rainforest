@@ -4,10 +4,13 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AddTagButton: typeof import('./src/components/tag/AddTagButton.vue')['default']
+    ArticleAddTag: typeof import('./src/components/article/ArticleAddTag.vue')['default']
     ArticleInfoPanel: typeof import('./src/components/article/ArticleInfoPanel.vue')['default']
     ArticlesList: typeof import('./src/components/article/ArticlesList.vue')['default']
     ArticlesListItem: typeof import('./src/components/article/ArticlesListItem.vue')['default']
     AvatarDropdown: typeof import('./src/components/common/GlobalHeader/AvatarDropdown.vue')['default']
+    CarouselCard: typeof import('./src/components/common/globalcontent/CarouselCard.vue')['default']
     CollectButton: typeof import('./src/components/common/CollectButton.vue')['default']
     ColumnListItem: typeof import('./src/components/column/ColumnListItem.vue')['default']
     CommentBox: typeof import('./src/components/comments/CommentBox.vue')['default']
@@ -19,6 +22,7 @@ declare module 'vue' {
     FollowButton: typeof import('./src/components/common/FollowButton.vue')['default']
     GlobalContent: typeof import('./src/components/common/globalcontent/GlobalContent.vue')['default']
     GlobalHeader: typeof import('./src/components/common/GlobalHeader/GlobalHeader.vue')['default']
+    GlobalSide: typeof import('./src/components/common/globalcontent/GlobalSide.vue')['default']
     GlossyCard: typeof import('./src/components/common/GlossyCard.vue')['default']
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     MessageDropdown: typeof import('./src/components/common/GlobalHeader/MessageDropdown.vue')['default']

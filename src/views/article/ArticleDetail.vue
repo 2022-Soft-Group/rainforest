@@ -33,45 +33,64 @@
       <n-space vertical size="large" class="sticky top-2/3 ml-5">
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button
-              class="shadow-md"
-              type="primary"
-              size="large"
-              :secondary="!infoPanel?.liked"
-              circle
-              @click="handleLike"
-            >
-              <n-icon size="26"> <like-icon /> </n-icon>
-            </n-button>
+            <n-badge :value="infoPanel?.likeNum" color="#63e2b7">
+              <n-button
+                class="shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+                type="primary"
+                size="large"
+                :secondary="!infoPanel?.liked"
+                circle
+                @click="handleLike"
+              >
+                <n-icon size="26"> <like-icon /> </n-icon>
+              </n-button>
+            </n-badge>
           </template>
           点赞
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button class="shadow-md" type="error" size="large" secondary circle @click="scrollToComment">
-              <n-icon size="24"> <comment-icon /> </n-icon>
-            </n-button>
+            <n-badge :value="infoPanel?.commentNum" color="#e88080">
+              <n-button
+                class="shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+                type="error"
+                size="large"
+                secondary
+                circle
+                @click="scrollToComment"
+              >
+                <n-icon size="24"> <comment-icon /> </n-icon>
+              </n-button>
+            </n-badge>
           </template>
           评论
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button
-              class="shadow-md"
-              type="warning"
-              size="large"
-              :secondary="!infoPanel?.collected"
-              circle
-              @click="handleCollect"
-            >
-              <n-icon size="25"> <collection-icon /> </n-icon>
-            </n-button>
+            <n-badge :value="infoPanel?.collectNum" color="#f2c97d">
+              <n-button
+                class="shadow-md"
+                type="warning"
+                size="large"
+                :secondary="!infoPanel?.collected"
+                circle
+                @click="handleCollect"
+              >
+                <n-icon size="25"> <collection-icon /> </n-icon>
+              </n-button>
+            </n-badge>
           </template>
           收藏
         </n-tooltip>
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
-            <n-button class="clip shadow-md" color="#a29bfe" size="large" circle @click="">
+            <n-button
+              class="clip shadow-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+              color="#a29bfe"
+              size="large"
+              circle
+              @click="handleShare"
+            >
               <n-icon size="25"> <share-icon /> </n-icon>
             </n-button>
           </template>
@@ -97,6 +116,7 @@ import {
 } from '@vicons/ionicons5';
 import type ArticleInfoPanel from '@/components/article/ArticleInfoPanel.vue';
 import ClipBoardJS from 'clipboard';
+import { useLoadingBar } from 'naive-ui';
 
 export default defineComponent({
   components: {
@@ -109,6 +129,8 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute();
+    const loadingBar = useLoadingBar();
+    const isLoading = ref(false);
     const userInfo = ref<User>({
       name: '',
       description: '',
@@ -177,6 +199,7 @@ export default defineComponent({
 
     provide('authorID', authorID);
     onMounted(() => {
+      loadingBar.start();
       getArticle(route.params.id as string)
         .then((res) => {
           if (res.data.status == 0) {
@@ -191,6 +214,7 @@ export default defineComponent({
           getUserInfo(articleInfo.value.authorID.toString()).then((res) => {
             if (res.data.status == 0) {
               userInfo.value = res.data.data.user;
+              loadingBar.finish();
             } else {
               window.$message.error('获取用户信息失败');
             }
@@ -206,16 +230,19 @@ export default defineComponent({
       infoPanel,
       liked,
       collected,
+      isLoading,
       scrollToComment,
       handleLike,
       handleCollect,
+      handleShare,
     };
   },
 });
 </script>
 <style scoped>
-.markdown {
+.markdown :deep(.markdown-body) {
   font-family: Arial, Helvetica, sans-serif;
+  color: rgb(213, 213, 213);
 }
 .markdown :deep(h1):first-of-type {
   display: none;
@@ -231,16 +258,19 @@ export default defineComponent({
 .markdown :deep(code) {
   border-radius: 8px;
   max-height: 800px;
+  color: rgb(213, 213, 213);
 }
 
-/* .markdown :deep(.toc) {
-  position: fixed;
-  right: 30px;
-  bottom: 23%;
-  padding: 14px 24px 0;
-  height: 400px;
-  overflow-y: scroll;
-} */
+.markdown :deep(.hljs) {
+  background: #34343c;
+}
+.markdown :deep(.toc) {
+  font-weight: bold;
+}
+
+.markdown :deep(thead tr) {
+  background: #34343c;
+}
 
 .markdown :deep(img) {
   border-radius: 8px;

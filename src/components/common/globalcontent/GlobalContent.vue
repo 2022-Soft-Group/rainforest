@@ -1,42 +1,87 @@
 <template>
   <div class="flex min-h-screen">
     <div class="fixed h-full w-full" id="rain"></div>
-    <div class="w-260 z-200 h-full mx-auto">
+    <div class="w-260 z-200 h-full mx-auto" id="global-content">
       <div class="h-10"></div>
       <slot></slot>
+      <n-tooltip trigger="hover">
+        <template #trigger>
+          <n-button
+            v-if="!showSlider"
+            class="fixed right-10 bottom-35 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+            type="primary"
+            size="large"
+            secondary
+            circle
+            @click="scrollToTop"
+          >
+            <n-icon><back-top-icon /></n-icon>
+          </n-button>
+        </template>
+        返回顶部
+      </n-tooltip>
+      <n-button
+        v-if="!showSlider"
+        class="fixed right-10 bottom-20 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="showSlider = true"
+      >
+        <n-icon><rain-icon /></n-icon>
+      </n-button>
+      <glossy-card v-else class="z-400 fixed right-8 bottom-20" @mouseleave="showSlider = false">
+        <div class="rain-slider h-30 rounded-md">
+          <n-slider vertical @update-value="handleChangeRainAmount" v-model:value="rainAmount" />
+        </div>
+      </glossy-card>
+      <n-button
+        class="fixed left-10 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="handlePreImg"
+      >
+        <n-icon><back-icon /></n-icon>
+      </n-button>
+      <n-button
+        class="fixed right-10 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="handleNextImg"
+      >
+        <n-icon><forward-icon /></n-icon>
+      </n-button>
     </div>
   </div>
-  <div class="flex justify-between w-40 fixed right-10 bottom-10">
-    <n-rate color="#63e2b7" @update-value="handleChangeRainAmount" :value="rainAmount * 5" allow-half>
-      <n-icon size="20">
-        <rain-icon />
-      </n-icon>
-    </n-rate>
-  </div>
-  <n-button class="fixed left-10 top-1/2" type="primary" size="large" secondary circle @click="handlePreImg">
-    <n-icon><back-icon /></n-icon>
-  </n-button>
-  <n-button class="fixed right-10 top-1/2" type="primary" size="large" secondary circle @click="handleNextImg">
-    <n-icon><forward-icon /></n-icon>
-  </n-button>
 </template>
 
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { Water as RainIcon } from '@vicons/ionicons5';
 import * as THREE from 'three';
 import type { PerspectiveCamera, Scene, Texture, WebGLRenderer } from 'three';
 import Vert from '@/shader/planeShaderVert';
 import Frag from '@/shader/rainshader';
-import { ChevronBackOutline as BackIcon, ChevronForwardOutline as ForwardIcon } from '@vicons/ionicons5';
+import {
+  ChevronBackOutline as BackIcon,
+  ChevronForwardOutline as ForwardIcon,
+  RainyOutline as RainIcon,
+  ChevronUp as BackTopIcon,
+} from '@vicons/ionicons5';
+
+const showSlider = ref(false);
 
 let texture: THREE.Texture;
 let uniforms: {
   iChannel0: any;
   rainAmount: any;
   iTime: any;
-  resolution?: { value: THREE.Vector2 };
-  iResolution?: { type: string; value: THREE.Vector2 };
+  resolution: { value: THREE.Vector2 };
+  iResolution: { type: string; value: THREE.Vector2 };
 };
 let currentBgImg = 0;
 let maxBgImgNum = 4;
@@ -79,10 +124,10 @@ const handlePreImg = () => {
   console.log(currentBgImg);
 };
 
-const rainAmount = ref(0.8);
+const rainAmount = ref(80);
 const handleChangeRainAmount = (value: number) => {
-  rainAmount.value = value / 5.0;
-  uniforms.rainAmount.value = rainAmount.value;
+  rainAmount.value = value;
+  uniforms.rainAmount.value = rainAmount.value / 50.0;
 };
 
 let camera: PerspectiveCamera, scene: Scene, renderer: WebGLRenderer, bgimg;
@@ -112,6 +157,8 @@ function onWindowResize() {
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
+  uniforms.iResolution.value.x = window.innerWidth;
+  uniforms.iResolution.value.y = window.innerHeight;
 }
 
 function backgroundVFX() {
@@ -132,7 +179,7 @@ function backgroundVFX() {
     },
     rainAmount: {
       type: 'f',
-      value: rainAmount.value,
+      value: rainAmount.value / 100,
     },
   };
 
@@ -149,6 +196,12 @@ function backgroundVFX() {
   animate();
 }
 
+const scrollToTop = () => {
+  document.querySelector('#global-content')?.scrollIntoView({
+    behavior: 'auto',
+  });
+};
+
 onMounted(() => {
   loaded.fill(false);
   var bgInd = localStorage.getItem('bgInd');
@@ -159,3 +212,8 @@ onMounted(() => {
   backgroundVFX();
 });
 </script>
+<style scoped>
+.rain-slider {
+  background-color: rgba(99, 226, 183, 0.1);
+}
+</style>

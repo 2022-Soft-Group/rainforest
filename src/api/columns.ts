@@ -16,6 +16,6 @@ export function addColumn(column: ColumnUpload) {
   return backend.post(`column`, column);
 }
 
-export function getColumnArticleList(data: { size: number; page: number; id: number }) {
-  return backend.get(`/column/${data.id}/articles`, { params: data });
+export function getColumnArticleList(data: { size: number; page: number; columnID: number }) {
+  return backend.get(`/column/${data.columnID}/articles`, { params: data });
 }

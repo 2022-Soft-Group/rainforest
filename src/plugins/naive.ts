@@ -68,6 +68,7 @@ import {
   NCarousel,
   NCarouselItem,
   NRate,
+  NSlider,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -127,6 +128,7 @@ export default function setupNaiveUI(app: App) {
       NStatistic,
       NSwitch,
       NSpin,
+      NSlider,
       NPopselect,
       NTabs,
       NTab,

@@ -1,6 +1,6 @@
 <template>
   <n-dropdown trigger="hover" :options="options" show-arrow @select="handleDropdownSelect">
-    <router-link class="flex-center" to="/user"> <n-avatar round :src="avatar"> </n-avatar></router-link>
+    <router-link class="flex-center" to="/user"> <n-avatar round :src="(avatar as string)"> </n-avatar></router-link>
   </n-dropdown>
 </template>
 
@@ -14,7 +14,8 @@ import { useAuthStore } from '@/store/auth';
 import { logout } from '@/api/auth';
 
 const router = useRouter();
-const { signOut, avatar } = useAuthStore();
+const { signOut } = useAuthStore();
+const avatar = localStorage.getItem('avatar');
 const renderIcon = (icon: Component) => {
   return () => {
     return h(NIcon, null, {

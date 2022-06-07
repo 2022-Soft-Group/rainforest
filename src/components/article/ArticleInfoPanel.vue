@@ -16,7 +16,7 @@
     <n-space justify="space-between">
       <div class="text-gray-400 mt-1">
         <n-icon size="small"><comment-icon /></n-icon>
-        {{ articleInfo.comments }} 条评论
+        {{ commentNum }} 条评论
       </div>
       <div class="text-gray-400 mt-1">
         <n-icon size="small"><collection-icon /></n-icon>
@@ -50,12 +50,12 @@ import {
 } from '@vicons/ionicons5';
 
 const props = defineProps<{ articleInfo: ArticleItem }>();
-
 const liked = ref(false);
 const disliked = ref(false);
 const collected = ref(false);
 const likeNum = ref(0);
 const collectNum = ref(0);
+const commentNum = ref(0);
 const router = useRouter();
 const { isLogin } = useAuthStore();
 
@@ -113,6 +113,8 @@ const handleCollect = () => {
 function reload() {
   likeNum.value = props.articleInfo.like;
   collectNum.value = props.articleInfo.collection;
+  commentNum.value = props.articleInfo.comments;
+  if (props.articleInfo.articleID == 0) return;
   getUserArticleStatus(props.articleInfo.articleID).then((res) => {
     if (res.data.status == 0) {
       liked.value = res.data.data.liked;
@@ -121,6 +123,7 @@ function reload() {
     }
   });
 }
-defineExpose({ reload, handleCollect, handleLike, liked, collected });
+
+defineExpose({ reload, handleCollect, handleLike, liked, collected, likeNum, collectNum, commentNum });
 watch(() => props.articleInfo, reload, { immediate: true });
 </script>
