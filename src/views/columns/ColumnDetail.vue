@@ -24,22 +24,33 @@
           {{ columnInfo.description }}
         </div>
         <div class="mt-7"></div>
-        <n-button circle size="small" title="删除该专栏" @click="showModal = true">
-          <n-modal
-            v-model:show="showModal"
-            :mask-closable="false"
-            preset="dialog"
-            title="删除标签"
-            content="是否要删除专栏"
-            positive-text="确认"
-            negative-text="取消"
-            @positive-click="handleClick"
-            @negative-click="onNegativeClick"
-          />
-          <template #icon>
-            <ArrowRedo />
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button size="small" @click="showModal = true"> 删除 </n-button>
           </template>
-        </n-button>
+          删除该专栏
+        </n-tooltip>
+
+        <n-modal
+          v-model:show="showModal"
+          :mask-closable="false"
+          preset="dialog"
+          title="删除标签"
+          content="是否要删除专栏"
+          positive-text="确认"
+          negative-text="取消"
+          @positive-click="handleClick"
+          @negative-click="onNegativeClick"
+        />
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button size="small" @click="handleCollect" class="ml-2" v-if="collected" color="#63e2b7">
+              已收藏
+            </n-button>
+            <n-button size="small" @click="handleCollect" class="ml-2" v-else> 收藏 </n-button>
+          </template>
+          收藏该专栏
+        </n-tooltip>
       </template>
 
       <n-divider />
@@ -71,11 +82,12 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { deleteColumn, getColumnArticleList, getColumnDetail } from '@/api/columns';
-import { NewspaperOutline as paper, Albums } from '@vicons/ionicons5';
-import { ArrowRedo } from '@vicons/ionicons5';
+import { deleteColumn, getColumnArticleList, getColumnDetail, collectColumn } from '@/api/columns';
+import { NewspaperOutline as paper, Albums, CloseSharp, CloseCircleOutline } from '@vicons/ionicons5';
 import { getUserInfo } from '@/api/user';
+import { useAuthStore } from '@/store/auth';
 import router from '@/router';
+const { isLogin } = useAuthStore();
 const route = useRoute();
 let currentPage = 0;
 const isLoading = ref(false);
@@ -144,19 +156,34 @@ function handleRequest() {
 }
 
 const handleClick = () => {
-  deleteColumn(columnInfo.value.id)
-    .then((res) => {
-      if (res.data.status != 0) {
-        window.$message.error('删除专栏失败');
-      }
-    })
-    .finally(() => {
+  deleteColumn(columnInfo.value.id).then((res) => {
+    if (res.data.status != 0) {
+      window.$message.error('删除专栏失败');
+    } else {
       window.location.replace('/columns');
       window.$message.info('删除专栏成功');
-    });
+    }
+  });
 };
 const showModal = ref(false);
+const collected = ref(false);
 function onNegativeClick() {
   showModal.value = false;
 }
+const handleCollect = () => {
+  if (isLogin) {
+    collectColumn(columnInfo.value.id.toString()).then((res) => {
+      if (res.data.status == 0) {
+        columnInfo.value.followerNum = columnInfo.value.followerNum
+          ? columnInfo.value.followerNum - 1
+          : columnInfo.value.followerNum + 1;
+        collected.value = !collected.value;
+      } else {
+        window.$message.error('现在不能收藏');
+      }
+    });
+  } else {
+    router.push({ name: 'login' });
+  }
+};
 </script>

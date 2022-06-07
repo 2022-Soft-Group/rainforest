@@ -23,3 +23,6 @@ export function getColumnArticleList(data: { size: number; page: number; columnI
 export function deleteColumn(id: number) {
   return backend.delete(`/column/${id}`);
 }
+export function collectColumn(columnID: string) {
+  return backend.put(`/column/${columnID}/follow`);
+}
