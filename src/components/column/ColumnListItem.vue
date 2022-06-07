@@ -11,7 +11,7 @@
       <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
     </div>
     <div class="ColumnHomeColumnCard-meta">
-      {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.ArticleNum }} 篇文章
+      {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.articleNum }} 篇文章
     </div>
     <n-button class="Button ColumnHomeColumnCard-followButton Button--green" type="primary">进入专栏</n-button>
   </router-link>
