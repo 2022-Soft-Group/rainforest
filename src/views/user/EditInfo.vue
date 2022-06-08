@@ -13,6 +13,11 @@
         footer: 'soft',
       }"
     >
+      <template #header-extra>
+        <div style="display: flex; justify-content: flex-end">
+          <n-button round type="primary" @click="handleUpdateInfo"> 提交修改 </n-button>
+        </div>
+      </template>
       <n-form
         ref="formRef"
         :model="model"
@@ -45,8 +50,8 @@
           （建议图片长宽比为1:1）
         </n-form-item>
         <n-form-item label="封面：" path="cover">
-          <upload-button class="w-75 h-15 mr-2" ref="upload" @change="clickUploadCover">
-            <div v-if="image == ''" class="m-18 text-gray-400">
+          <upload-button class="w-75 h-15 mr-2" ref="upload2" @change="clickUploadCover">
+            <div v-if="cover == ''" class="m-18 text-gray-400">
               <div>点击上传图片</div>
               <div>.jpeg/.png/.svg</div>
             </div>
@@ -96,10 +101,6 @@
             }"
           />
         </n-form-item>
-
-        <div style="display: flex; justify-content: flex-end">
-          <n-button round type="primary" @click="handleUpdateInfo"> 提交 </n-button>
-        </div>
       </n-form>
 
       <!-- <pre>
@@ -287,6 +288,7 @@ const rules: FormRules = {
   ],
 };
 const upload = ref<InstanceType<typeof UploadButton> | null>(null);
+const upload2 = ref<InstanceType<typeof UploadButton> | null>(null);
 // upload.value = {
 //   accept: 'image/*,.jpg,.png,.jpeg,.svg',
 //   max: 10 * 1024 * 1024,
@@ -328,7 +330,7 @@ const handleInit = () => {
 
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
-  uploadImage(file, null, null).then((res) => {
+  uploadImage(file, 150, 150).then((res) => {
     if (res.data.status == 0) {
       window.$message.success('图片上传成功');
       image.value = res.data.data.url;
@@ -342,7 +344,7 @@ const clickUploadImage = () => {
 };
 
 const clickUploadCover = () => {
-  const file = upload.value?.file as File;
+  const file = upload2.value?.file as File;
   uploadImage(file, null, null).then((res) => {
     if (res.data.status == 0) {
       window.$message.success('封面上传成功');
@@ -353,7 +355,7 @@ const clickUploadCover = () => {
       window.$message.error('封面上传失败');
     }
   });
-  upload.value?.clearFile();
+  upload2.value?.clearFile();
 };
 
 function handlePasswordInput() {
