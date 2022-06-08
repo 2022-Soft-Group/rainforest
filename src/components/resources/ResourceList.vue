@@ -21,7 +21,7 @@
       ></resource-list-item>
     </div>
   </div>
-  <n-divider />
+  <no-item :list-num="resoucesInfo.length" item-type="资源"></no-item>
 </template>
 
 <script setup lang="ts">
