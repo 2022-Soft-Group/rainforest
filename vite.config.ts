@@ -4,7 +4,6 @@ import { resolvePath, viteDefine, setupVitePlugins, createViteProxy } from './bu
 export default defineConfig((configEnv) => {
   const viteEnv = loadEnv(configEnv.mode, `.env.${configEnv.mode}`) as ImportMetaEnv;
   const vitePath = resolvePath('./', import.meta.url);
-  console.log(viteEnv.VITE_APP_TITLE);
   return {
     base: viteEnv.VITE_BASE_URL,
     resolve: {

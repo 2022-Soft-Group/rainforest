@@ -46,7 +46,6 @@ const handleFollowUser = () => {
 watch(
   () => [followed.value, props.changeCount],
   () => {
-    console.log(props.targetUserId);
     getFollowUserStatus(props.targetUserId.toString()).then((res) => {
       if (res.data.status == 0) {
         followed.value = res.data.data.isFan;
