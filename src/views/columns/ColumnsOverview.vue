@@ -11,7 +11,7 @@
     >
       <n-carousel-item :style="{ width: '60%' }" v-for="item in carouselItem">
         <img
-          class="carousel-img cursor-pointer"
+          class="carousel-img cursor-pointer rounded-lg"
           :src="item.imgSrc"
           @click="router.push({ path: `/columns/${item.id}` })"
           :title="item.title"
@@ -115,7 +115,7 @@ const router = useRouter();
 const columnList = ref<Array<ColumnListItem>>([]);
 const carouselItem = [
   {
-    imgSrc: 'https://bsmedia.business-standard.com/_media/bs/img/article/2019-09/20/full/1568958346-1806.jpg',
+    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg',
     id: 15,
     title: 'iOS到底强在哪里',
   },

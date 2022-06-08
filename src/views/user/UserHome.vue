@@ -46,7 +46,9 @@
             <n-tab-pane name="收藏的专栏"> </n-tab-pane>
           </n-tabs>
         </n-tab-pane>
-        <n-tab-pane tab="资源" name="resource">我的资源</n-tab-pane>
+        <n-tab-pane tab="资源" name="resource">
+          <resouce-list></resouce-list>
+        </n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7 ml-1">
@@ -73,11 +75,11 @@ import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
 import { useRoute } from 'vue-router';
-
+import ResouceList from '../../components/resources/ResouceList.vue';
+const route = useRoute();
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
-const route = useRoute();
 let userID = route.params.id as string;
 const defaultTabName = ref('article');
 
@@ -213,14 +215,12 @@ const userListFollowed = ref<Array<UserFeature>>([]);
 watch(
   () => route.params,
   () => {
-    console.log(route.params.target);
     defaultTabName.value = route.params.target as string;
     reload();
   }
 );
 
 onMounted(() => {
-  console.log(route.params.target);
   defaultTabName.value = route.params.target as string;
   reload();
 });
