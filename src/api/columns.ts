@@ -27,3 +27,9 @@ export function getMyColumns(data: { size: number; page: number }) {
 export function getUserColumns(userID: number, data: { size: number; page: number }) {
   return backend.get(`column/list/${userID}`, { params: data });
 }
+export function deleteColumn(id: number) {
+  return backend.delete(`/column/${id}`);
+}
+export function collectColumn(columnID: string) {
+  return jsonBackend.put(`/column/${columnID}/follow`);
+}
