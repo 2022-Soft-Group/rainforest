@@ -50,8 +50,21 @@
         </n-tab-pane>
         <n-tab-pane tab="收藏" name="collection">
           <n-tabs type="line" animated>
-            <n-tab-pane name="收藏的文章"> </n-tab-pane>
-            <n-tab-pane name="收藏的专栏"> </n-tab-pane>
+            <n-tab-pane name="收藏的文章">
+              <articles-list
+                :articles="collectedArticles"
+                :is-loading="isLoading2"
+                @request-articles="handleRequest2"
+              />
+            </n-tab-pane>
+            <n-tab-pane name="收藏的专栏">
+              <div class="flex flex-wrap">
+                <div v-for="item in collectedColumns" class="some">
+                  <column-list-item :column-info="item"></column-list-item>
+                </div>
+              </div>
+              <no-item :list-num="collectedColumns.length" item-type="收藏的专栏"></no-item>
+            </n-tab-pane>
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
@@ -82,11 +95,19 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserArticleList, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
+import {
+  getUserInfo,
+  getUserArticleList,
+  getUserListFollowing,
+  getUserFeature,
+  getUserListFollowed,
+  getUserCollectArticleList,
+  getUserCollectColumns,
+} from '@/api/user';
 import { getUserColumns, getMyColumns } from '@/api/columns';
 import { useRoute } from 'vue-router';
 const route = useRoute();
-let currentPage = [0, 0, 0, 0, 0, 0, 0];
+let currentPage = [0, 0, 0, 0, 0, 0, 0, 0];
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
 const userID = ref('');
@@ -102,6 +123,20 @@ function handleRequest() {
         articles.value.push(element);
       });
       isLoading.value = false;
+      loadingBar.finish();
+    }
+  });
+}
+
+function handleRequest2() {
+  isLoading2.value = true;
+  loadingBar.start();
+  getUserCollectArticleList({ size: 10, page: currentPage[4]++ }, userID.value).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.articleInfos.forEach((element: any) => {
+        collectedArticles.value.push(element);
+      });
+      isLoading2.value = false;
       loadingBar.finish();
     }
   });
@@ -152,11 +187,29 @@ function loadColumn() {
   });
 }
 
+function loadCollectColumn() {
+  loadingBar.start();
+  getUserCollectColumns(userID.value, { size: 10, page: currentPage[5]++ }).then((res) => {
+    if (res.data.status == 0) {
+      collectedColumns.value = res.data.data.columnInfos;
+      // res.data.data.columns.forEach((element: any) => {
+      //   columns.value.push(element);
+      // });
+      loadingBar.finish();
+    } else {
+      window.$message.error('获取收藏专栏失败');
+    }
+  });
+}
+
 function reload() {
   userID.value = route.params.id as string;
   currentPage[0] = 0;
   currentPage[2] = 0;
+  currentPage[4] = 0;
+  currentPage[5] = 0;
   isLoading.value = true;
+  isLoading2.value = true;
   userListFollowingIsLoading.value = true;
   userListFollowedIsLoading.value = true;
   getUserInfo(userID.value).then((res) => {
@@ -176,7 +229,17 @@ function reload() {
       window.$message.error('获取推荐列表失败');
     }
   });
-  loadColumn();
+  loadingBar.start();
+  getUserCollectArticleList({ size: 10, page: currentPage[4]++ }, userID.value).then((res) => {
+    if (res.data.status == 0) {
+      collectedArticles.value = res.data.data.articleInfos as Array<ArticleItem>;
+      isLoading2.value = false;
+      loadingBar.finish();
+    } else {
+      window.$message.error('获取收藏列表失败');
+    }
+  });
+
   getUserListFollowing({ size: 10, page: 0 }, userID.value).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
@@ -200,14 +263,21 @@ function reload() {
       window.$message.error('获取关注数量失败');
     }
   });
+  loadColumn();
+  loadCollectColumn();
 }
 
 // 专栏
 const columns = ref<Array<ColumnListItem>>([]);
+const collectedColumns = ref<Array<ColumnListItem>>([]);
 
 // 我的文章
 const isLoading = ref(false);
+const isLoading2 = ref(false);
 const articles = ref<Array<ArticleItem>>([]);
+
+// 收藏的文章
+const collectedArticles = ref<Array<ArticleItem>>([]);
 
 // 我的个人信息
 const userInfo = ref<User>({

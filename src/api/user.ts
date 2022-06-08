@@ -4,6 +4,14 @@ export function getUserArticleList(data: { size: number; page: number }, userID:
   return backend.get(`article/list/${userID}`, { params: data });
 }
 
+export function getUserCollectArticleList(data: { size: number; page: number }, userID: string) {
+  return backend.get(`/article/collect/list/${userID}`, { params: data });
+}
+
+export function getUserCollectColumns(userID: string, data: { size: number; page: number }) {
+  return backend.get(`/column/collect/list/${userID}`, { params: data });
+}
+
 export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
 }
