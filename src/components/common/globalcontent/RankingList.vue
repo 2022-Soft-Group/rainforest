@@ -1,7 +1,7 @@
 <template>
   <n-list>
     <template #header>
-      <div class="font-bold text-xl text-red-500">作者热榜</div>
+      <div class="font-bold text-xl text-yellow-400">作者热榜</div>
     </template>
     <n-list-item v-for="item in hotUsers">
       <router-link :to="'/user/' + item.id">
@@ -26,11 +26,12 @@
 
 <script setup lang="ts">
 import { getUserRankList } from '@/api/user';
+
 import { onMounted, ref } from 'vue';
 const hotUsers = ref<Array<UserFeature>>([]);
-const size = ref(10);
+const size = 5;
 onMounted(() => {
-  return getUserRankList(size.value).then((res) => {
+  getUserRankList({ size }).then((res) => {
     if (res.data.status == 0) {
       hotUsers.value = res.data.data.users;
     }
