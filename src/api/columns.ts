@@ -9,7 +9,7 @@ export function getColumnListRecommand(data: { size: number; page: number }) {
 }
 
 export function getColumnDetail(id: string) {
-  return backend.get(`/column/${id}`);
+  return backend.get(`column/${id}`);
 }
 
 export function addColumn(column: ColumnUpload) {
@@ -17,12 +17,13 @@ export function addColumn(column: ColumnUpload) {
 }
 
 export function getColumnArticleList(data: { size: number; page: number; columnID: number }) {
-  return backend.get(`/column/${data.columnID}/articles`, { params: data });
+  return backend.get(`column/${data.columnID}/articles`, { params: data });
 }
 
-export function deleteColumn(id: number) {
-  return backend.delete(`/column/${id}`);
+export function getMyColumns(data: { size: number; page: number }) {
+  return backend.get(`column/list`, { params: data });
 }
-export function collectColumn(columnID: string) {
-  return backend.put(`/column/${columnID}/follow`);
+
+export function getUserColumns(userID: number, data: { size: number; page: number }) {
+  return backend.get(`column/list/${userID}`, { params: data });
 }
