@@ -52,15 +52,17 @@
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7 ml-1">
-      <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
-      </n-card>
-      <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
-      </n-card>
-      <n-card v-if="!isLoading" :bordered="false" class="my-2 rounded-md shadow-sm sticky top-16">
-        <quick-guider />
-      </n-card>
+      <div class="sticky top-16">
+        <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
+          <quick-guider />
+        </n-card>
+        <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
+          <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
+        </n-card>
+        <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
+          <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
+        </n-card>
+      </div>
     </div>
   </div>
 </template>
@@ -213,10 +215,12 @@ const userListFollowedIsLoading = ref(false);
 const userListFollowed = ref<Array<UserFeature>>([]);
 
 watch(
-  () => route.params,
+  () => route.params.target,
   () => {
-    defaultTabName.value = route.params.target as string;
-    reload();
+    if (route.params.target !== undefined) {
+      defaultTabName.value = route.params.target as string;
+      reload();
+    }
   }
 );
 
