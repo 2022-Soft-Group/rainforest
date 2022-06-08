@@ -1,8 +1,24 @@
 <template>
-  <upload-button :show-file-list="false" ref="upload">
-    <n-button @click="clickUploadResource"> 上传资源 </n-button>
-  </upload-button>
+  <n-button @click="showModal = true"> 上传资源 </n-button>
   <n-divider></n-divider>
+  <n-modal
+    v-model:show="showModal"
+    :mask-closable="false"
+    :style="{ width: '600px' }"
+    title="上传资源"
+    size="huge"
+    :bordered="true"
+    positive-text="上传文件"
+    negative-text="取消"
+    preset="dialog"
+    @positive-click="handlePositiveClick"
+    @negative-click="handleNegativeClick"
+  >
+    <upload-button :show-file-list="false" ref="upload" @change="clickUploadResource">
+      <n-button class="w-full"> 选择文件</n-button>
+    </upload-button>
+    <n-input v-model:value="name"></n-input>
+  </n-modal>
 </template>
 
 <script setup lang="ts">
@@ -11,6 +27,7 @@ import { ref } from 'vue';
 import UploadButton from '../common/UploadButton.vue';
 const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 const description = ref('');
+const name = ref('');
 const resource = ref<ResourceItem>({
   assetID: 0,
   ownerID: 0,
@@ -21,9 +38,15 @@ const resource = ref<ResourceItem>({
   cost: 0,
   createTime: '',
 });
+const showModal = ref(false);
 defineExpose({ resource });
 const emits = defineEmits(['finish-upload']);
 const clickUploadResource = () => {
+  const file = upload.value?.file as File;
+  name.value = file.name;
+};
+
+const handlePositiveClick = () => {
   const file = upload.value?.file as File;
   uploadResource(file, description.value).then((res) => {
     if (res.data.status == 0) {
@@ -35,6 +58,10 @@ const clickUploadResource = () => {
     }
   });
   upload.value?.clearFile();
+  showModal.value = false;
+};
+const handleNegativeClick = () => {
+  showModal.value = false;
 };
 </script>
 <style scoped>

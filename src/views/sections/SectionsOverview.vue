@@ -110,7 +110,6 @@ let imageID = 0;
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
   uploadImage(file, null, null).then((res) => {
-    console.log(res);
     if (res.data.status == 0) {
       imgSrc.value = res.data.data.url;
       imageID = res.data.data.id;

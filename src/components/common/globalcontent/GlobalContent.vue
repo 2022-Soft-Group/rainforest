@@ -116,7 +116,6 @@ const handlePreImg = () => {
   }
   uniforms.iChannel0.value.needsUpdate = true;
   uniforms.iChannel0.value = textureArray[currentBgImg];
-  console.log(currentBgImg);
 };
 
 const rainAmount = ref(80);

@@ -280,7 +280,6 @@ function handleValidateButtonClick(e: MouseEvent) {
         }
       });
     } else {
-      console.log(errors);
       message.error('验证失败');
     }
   });

@@ -16,11 +16,9 @@ watch(
     if (sectionKey == undefined || sectionKey == '' || sectionKey == null) {
       sectionKey = '计算机';
     }
-    console.log(sectionKey);
     getTags({ sectionName: sectionKey as string, size: 2, page: 0 }).then((res) => {
       if (res.data.status == 0) {
         tags.value = res.data.data.tags as Array<TagItem>;
-        console.log('load');
       } else {
         window.$message.error('获取二级列表失败');
       }

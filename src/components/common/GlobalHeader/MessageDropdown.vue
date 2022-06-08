@@ -109,7 +109,6 @@ const commentsList = ref<Array<MessageInfo>>([]);
 const followList = ref<Array<MessageInfo>>([]);
 const showPopover = ref(false);
 const handleMarkReadAll = () => {
-  console.log(showPopover.value);
   showPopover.value = false;
   emits('mark-read-all');
 };
