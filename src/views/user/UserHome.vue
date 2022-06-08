@@ -38,7 +38,9 @@
         <n-tab-pane tab="收藏" name="collection">
           <collect-button :article-id="4" />
         </n-tab-pane>
-        <n-tab-pane tab="资源" name="resource">我的资源</n-tab-pane>
+        <n-tab-pane tab="资源" name="resource">
+          <resouce-list></resouce-list>
+        </n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7 ml-1">
@@ -64,6 +66,7 @@ import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed 
 
 import UserFollowNum from './UserFollowNum.vue';
 import { useRoute } from 'vue-router';
+import ResouceList from '../../components/resources/ResouceList.vue';
 const route = useRoute();
 let currentPage = 0;
 const changeCount = ref(0);
