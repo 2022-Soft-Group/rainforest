@@ -29,66 +29,7 @@
       >
     </div>
 
-    <n-button strong type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
-    <n-modal
-      v-model:show="showModal"
-      :mask-closable="false"
-      :style="bodyStyle"
-      title="新建专栏"
-      size="huge"
-      :bordered="true"
-      positive-text="新建专栏"
-      negative-text="取消"
-      @positive-click="onPositiveClick"
-      @negative-click="onNegativeClick"
-    >
-      <n-card class="modalCard">
-        <n-h1 class="text-center">新建专栏</n-h1>
-
-        <n-space vertical size="large">
-          <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" class="mt-6" />
-          <n-input
-            type="textarea"
-            placeholder="请输入一句话介绍"
-            v-model:value="description"
-            :autosize="{
-              minRows: 3,
-            }"
-            class="mt-10"
-          />
-          <div v-if="description.length > 80" class="text-red-600">请输入少于80个字</div>
-          <div>
-            <upload-button
-              class="w-138 h-48 border-2 border-dashed rounded-md"
-              :show-file-list="false"
-              ref="upload"
-              @change="clickUploadImage"
-            >
-              <div v-if="imgSrc == ''" class="text-center mt-20 text-gray-400">
-                <div>点击上传封面</div>
-                <div>.jpeg/.png/.svg</div>
-              </div>
-              <n-image
-                v-else
-                preview-disabled
-                width="240"
-                object-fit="cover"
-                class="h-48 flex-none rounded-md"
-                :src="imgSrc"
-              />
-            </upload-button>
-          </div>
-        </n-space>
-
-        <div class="flex-auto mt-10 justify-between">
-          <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
-          <n-button type="primary" @click="onPositiveClick" class="w-67" v-if="description.length > 80" disabled
-            >新建专栏</n-button
-          >
-          <n-button type="primary" @click="onPositiveClick" class="w-67" v-else>新建专栏</n-button>
-        </div>
-      </n-card>
-    </n-modal>
+    <add-column-button></add-column-button>
   </div>
   <div class="ColumnHomeRecommendation">
     <h3 class="ColumnHomeTitle">
