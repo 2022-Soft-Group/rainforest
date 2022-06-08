@@ -81,6 +81,11 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: '/resource/:id',
+    name: 'resourceDetail',
+    component: () => import('../views/resources/ResourceDetail.vue'),
+  },
+  {
     path: '/user',
     name: 'userhome',
     redirect: '/user/' + userID,

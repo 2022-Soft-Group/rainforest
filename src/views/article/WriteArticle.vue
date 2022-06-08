@@ -31,11 +31,6 @@
         </upload-button>
         <n-space vertical class="my-4 mx-10 w-65">
           <n-space>
-            <n-radio :checked="!isPubColumn" @change="isPubColumn = !isPubColumn"> 不发布到专栏 </n-radio>
-            <n-radio :checked="isPubColumn" @change="isPubColumn = !isPubColumn"> 发布到专栏 </n-radio>
-          </n-space>
-          <article-add-column :is-column="isPubColumn" @column-finsh="handleFinishColumn" />
-          <n-space>
             <n-radio :checked="!isPubTag" @change="isPubTag = !isPubTag"> 不关联到标签 </n-radio>
             <n-radio :checked="isPubTag" @change="isPubTag = !isPubTag"> 关联到标签 </n-radio>
           </n-space>
@@ -64,6 +59,7 @@
       </n-space>
     </n-card>
   </n-space>
+  <article-resource-modal v-model:show="showModal" @finish-resource="handelFinishResource" />
 </template>
 
 <script setup lang="ts">
@@ -73,10 +69,8 @@ import type UploadButton from '@/components/common/UploadButton.vue';
 import 'vditor/src/assets/scss/index.scss';
 import { uploadImage } from '@/api/asset';
 import { addArticle, addDraft, getArticle, getDraft, modifyArticle, modifyDraft, publishDraft } from '@/api/article';
-import { addArticleToColumn } from '@/api/columns';
 import { useRoute, useRouter } from 'vue-router';
-import type ArticleAddTag from '@/components/articleUpload/ArticleAddTag.vue';
-import type ArticleAddColumn from '@/components/article/ArticleAddColumn.vue';
+import type ArticleAddTag from '@/components/article/ArticleAddTag.vue';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -86,7 +80,6 @@ const tags = ref<Array<TagItem>>([]);
 let imageID = 0;
 const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 const addTags = ref<InstanceType<typeof ArticleAddTag> | null>(null);
-const addColumns = ref<InstanceType<typeof ArticleAddColumn> | null>(null);
 const articleUpload = ref<ArticleUpload>({
   title: '',
   content: '',
@@ -94,25 +87,28 @@ const articleUpload = ref<ArticleUpload>({
   tags: [],
   private: false,
 });
-const isPubColumn = ref(false);
 const isPubTag = ref(false);
-const multiSelectedColumnID = ref<Array<Number>>([]);
 const isPrivate = ref(false);
 const isLoading = ref(false);
 const router = useRouter();
 const route = useRoute();
+const showModal = ref(false);
+const resourceSvg =
+  '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M479.66 268.7l-32-151.81C441.48 83.77 417.68 64 384 64H128c-16.8 0-31 4.69-42.1 13.94s-18.37 22.31-21.58 38.89l-32 151.87A16.65 16.65 0 0 0 32 272v112a64 64 0 0 0 64 64h320a64 64 0 0 0 64-64V272a16.65 16.65 0 0 0-.34-3.3zm-384-145.4v-.28c3.55-18.43 13.81-27 32.29-27H384c18.61 0 28.87 8.55 32.27 26.91c0 .13.05.26.07.39l26.93 127.88a4 4 0 0 1-3.92 4.82H320a15.92 15.92 0 0 0-16 15.82a48 48 0 1 1-96 0A15.92 15.92 0 0 0 192 256H72.65a4 4 0 0 1-3.92-4.82z" fill="currentColor"></path><path d="M368 160H144a16 16 0 0 1 0-32h224a16 16 0 0 1 0 32z" fill="currentColor"></path><path d="M384 224H128a16 16 0 0 1 0-32h256a16 16 0 0 1 0 32z" fill="currentColor"></path></svg>';
+const tocSvg =
+  '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><rect x="96" y="48" width="320" height="416" rx="48" ry="48" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></rect><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 128h160"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 208h160"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 288h80"></path></svg>';
 
 function handleFinishTag() {
-  addTags.value.multipleSelectValue.forEach((ele: any) => {
+  addTags.value?.multipleSelectValue.forEach((ele: any) => {
     articleUpload.value.tags.push(ele);
   });
 }
 
-function handleFinishColumn() {
-  addColumns.value?.multipleSelectValue.forEach((ele: any) => {
-    multiSelectedColumnID.value.push(ele);
-  });
-}
+const handelFinishResource = (url: string) => {
+  let content = vditor.value?.getValue();
+  content += '\n' + url + '\n';
+  vditor.value?.setValue(content as string);
+};
 
 function addTitle() {
   let lines = vditor.value?.getValue() as string;
@@ -125,10 +121,65 @@ function renderVditor() {
   isLoading.value = true;
   vditor.value = new Vditor(domRef.value, {
     minHeight: 900,
-    theme: 'dark', //主题
+    theme: 'dark',
     cache: {
       enable: false,
     },
+    toolbar: [
+      'emoji',
+      'headings',
+      'bold',
+      'italic',
+      'strike',
+      '|',
+      {
+        hotkey: '⇧⌘S',
+        name: 'toc',
+        tipPosition: 's',
+        tip: '目录',
+        className: 'toc',
+        icon: tocSvg,
+        click() {
+          document.execCommand('insertHTML', false, '[toc]');
+        },
+      },
+      'list',
+      'ordered-list',
+      'check',
+      'outdent',
+      'indent',
+      '|',
+      'quote',
+      'code',
+      'inline-code',
+      'insert-after',
+      'insert-before',
+      '|',
+      'upload',
+      {
+        hotkey: '⇧⌘S',
+        name: 'resource',
+        tipPosition: 's',
+        tip: '添加我的资源',
+        className: 'resourceTab',
+        icon: resourceSvg,
+        click() {
+          showModal.value = !showModal.value;
+        },
+      },
+      'link',
+      'table',
+      'edit-mode',
+      '|',
+      'undo',
+      'redo',
+      '|',
+      'fullscreen',
+      'outline',
+      'export',
+      'help',
+    ],
+
     preview: {
       markdown: {
         toc: true,
@@ -260,19 +311,10 @@ function publishDraftToArticle(id: number) {
 // 从写文章而来，点击发布文章
 function uploadArticle() {
   fullfillArticle();
+  console.log('upload');
   addArticle(articleUpload.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章发布成功');
-      if (isPubColumn.value) {
-        multiSelectedColumnID.value.forEach((ele) => {
-          addArticleToColumn(res.data.data.articleID, ele as number).then((res) => {
-            if (res.data.status != 0) {
-              window.$message.error('添加专栏失败');
-            }
-          });
-        });
-      }
-
       router.push({ name: 'homepage' });
     } else {
       window.$message.error('文章发布失败');
