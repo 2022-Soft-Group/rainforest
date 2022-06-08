@@ -47,7 +47,7 @@
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
-          <resource-list :isLoading="userResouceListIsLoading" :resouces-info="userResouceList"></resource-list>
+          <resource-list :user-id="userID"></resource-list>
         </n-tab-pane>
       </n-tabs>
     </n-card>
@@ -77,10 +77,8 @@ import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
 import { useRoute } from 'vue-router';
-import { getUserResourceList } from '@/api/asset';
 const route = useRoute();
 let currentPage = 0;
-let currentResourcePage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
 let userID = route.params.id as string;
@@ -175,15 +173,6 @@ function reload() {
       window.$message.error('获取我的关注数量失败');
     }
   });
-  getUserResourceList(userID, { page: currentResourcePage, size: 10 }).then((res) => {
-    userResouceListIsLoading.value = true;
-    if (res.data.status == 0) {
-      userResouceList.value = res.data.data.resources;
-      userResouceListIsLoading.value = false;
-    } else {
-      window.$message.error('获取我的资源列表失败');
-    }
-  });
 }
 
 // 我的文章
@@ -223,10 +212,6 @@ const userListFollowing = ref<Array<UserFeature>>([]);
 // 关注我的用户列表
 const userListFollowedIsLoading = ref(false);
 const userListFollowed = ref<Array<UserFeature>>([]);
-
-// 我的资源列表
-const userResouceListIsLoading = ref(false);
-const userResouceList = ref<Array<ResourceItem>>([]);
 
 watch(
   () => route.params.target,
