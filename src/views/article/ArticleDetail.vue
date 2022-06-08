@@ -69,7 +69,7 @@
         </n-tooltip>
       </n-space>
     </div>
-    <n-space class="mx-13" vertical>
+    <n-space class="mx-13 w-240" vertical>
       <n-card class="flex rounded-md">
         <template #cover v-if="articleInfo.image != ''">
           <img class="max-h-400" :src="articleInfo.image" />

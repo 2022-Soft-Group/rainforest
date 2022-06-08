@@ -1,4 +1,5 @@
 <template>
+  <div class="text-black">.</div>
   <div class="ColumnHomeColumnCard">
     <n-avatar :src="columnInfo.img" round class="mt-10px"></n-avatar>
     <div class="ColumnHomeColumnCard-info">
