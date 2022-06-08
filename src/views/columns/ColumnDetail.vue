@@ -26,7 +26,7 @@
         <div class="mt-7"></div>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="showModal = true"> 删除 </n-button>
+            <n-button size="small" @click="showModal = true" type="error"> 删除 </n-button>
           </template>
           删除该专栏
         </n-tooltip>
@@ -47,13 +47,13 @@
             <n-button size="small" @click="handleCollect" class="ml-2" v-if="collected" color="#63e2b7">
               已收藏
             </n-button>
-            <n-button size="small" @click="handleCollect" class="ml-2" v-else> 收藏 </n-button>
+            <n-button size="small" @click="handleCollect" class="ml-2" v-else type="info"> 收藏 </n-button>
           </template>
           收藏该专栏
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="isAdd = !isAdd" class="ml-2"> 收录文章 </n-button>
+            <n-button size="small" @click="isAdd = !isAdd" class="ml-2" type="warning"> 收录文章 </n-button>
           </template>
           选择要收录的文章
         </n-tooltip>
@@ -96,7 +96,7 @@ import { deleteColumn, getColumnArticleList, getColumnDetail, collectColumn, add
 import { NewspaperOutline as paper, Albums, CloseSharp, CloseCircleOutline } from '@vicons/ionicons5';
 import { getUserInfo } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
-import { getMyArticle } from '@/api/article';
+import { getArticle, getMyArticle } from '@/api/article';
 import router from '@/router';
 
 const { isLogin } = useAuthStore();
@@ -219,6 +219,12 @@ function handlePutin() {
   addArticleToColumn(value.value, columnInfo.value.id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('收录文章成功');
+      getArticle(value.value).then((res) => {
+        if (res.data.status == 0) {
+          articles.value.push(res.data.data.articleInfo);
+        }
+      });
+      articles.value.push();
     } else {
       window.$message.error('收录文章失败');
     }
