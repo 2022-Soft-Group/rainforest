@@ -1,7 +1,10 @@
 <template>
   <n-card title="  " size="large" id="userHeader" class="m-2 mt-4 rounded-md shadow-sm">
     <template #cover>
-      <n-image class="w-full h-50" object-fit="cover" src="https://s2.loli.net/2022/06/07/MyYlw7S8CfOusNn.jpg" />
+      <!-- <div class="text-right -mb-15">
+        <n-button>编辑封面图片</n-button>
+      </div> -->
+      <n-image class="w-full h-50" object-fit="cover" :src="userInfo.cover" />
     </template>
     <profiler-header
       :articleNum="userFeature.articleNum"
@@ -181,6 +184,7 @@ const userInfo = ref<User>({
   name: '',
   description: '',
   avatar: '',
+  cover: '',
   id: 0,
   sex: 0,
   email: '',

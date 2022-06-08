@@ -42,6 +42,26 @@
               @mouseleave="avatarUploadClass = 'h-35 flex-none rounded-md ring-white ring-2'"
             />
           </upload-button>
+          （建议图片长宽比为1:1）
+        </n-form-item>
+        <n-form-item label="封面：" path="cover">
+          <upload-button class="w-75 h-15 mr-2" ref="upload" @change="clickUploadCover">
+            <div v-if="image == ''" class="m-18 text-gray-400">
+              <div>点击上传图片</div>
+              <div>.jpeg/.png/.svg</div>
+            </div>
+            <n-image
+              v-else
+              preview-disabled
+              width="800"
+              object-fit="cover"
+              :class="coverUploadClass"
+              :src="cover"
+              @mouseenter="coverUploadClass = 'h-15  flex-none  ring-white ring-2'"
+              @mouseleave="coverUploadClass = 'h-15 flex-none  ring-white ring-1'"
+            />
+          </upload-button>
+          (建议图片长宽比为5:1)
         </n-form-item>
         <n-form-item label="性别：" path="sex">
           <n-radio-group v-model:value="model.sex" name="sexRadioGroup">
@@ -169,6 +189,7 @@ const model = ref({
   avatar: '',
   phone: '',
   description: '',
+  cover: '',
 });
 const model2 = ref({
   oldPasswd: '',
@@ -182,8 +203,11 @@ const message = useMessage();
 const showModal = ref(false);
 const showModal2 = ref(false);
 const image = ref('');
+const cover = ref('');
 const avatarUploadClass = ref('h-35 flex-none rounded-md ring-white ring-2');
+const coverUploadClass = ref('h-15 flex-none  ring-white ring-1');
 let imageID = 0;
+let coverID = 0;
 const emits = defineEmits(['update-info']);
 
 function validatePasswordLength(rule: FormItemRule, value: string): boolean {
@@ -296,20 +320,37 @@ const handleInit = () => {
     avatar: props.userInfo.avatar,
     phone: props.userInfo.phone,
     description: props.userInfo.description,
+    cover: props.userInfo.cover,
   };
   image.value = model.value.avatar;
+  cover.value = model.value.cover;
 };
 
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
-  uploadImage(file, 150, 150).then((res) => {
+  uploadImage(file, null, null).then((res) => {
     if (res.data.status == 0) {
-      window.$message.success('发布成功');
+      window.$message.success('图片上传成功');
       image.value = res.data.data.url;
       imageID = res.data.data.id;
       model.value.avatar = image.value;
     } else {
-      window.$message.error('图片发布失败');
+      window.$message.error('图片上传失败');
+    }
+  });
+  upload.value?.clearFile();
+};
+
+const clickUploadCover = () => {
+  const file = upload.value?.file as File;
+  uploadImage(file, null, null).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.success('封面上传成功');
+      cover.value = res.data.data.url;
+      coverID = res.data.data.id;
+      model.value.cover = cover.value;
+    } else {
+      window.$message.error('封面上传失败');
     }
   });
   upload.value?.clearFile();
