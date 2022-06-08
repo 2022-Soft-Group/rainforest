@@ -27,7 +27,11 @@ const { signOut } = useAuthStore();
 backend.interceptors.response.use(
   (response) => {
     let contentType = response.headers['content-type'];
-    if (contentType == 'application/json;charset=utf-8' || contentType == 'application/json') {
+    if (
+      contentType == 'application/json;charset=utf-8' ||
+      contentType == 'application/json' ||
+      contentType == 'application/x-www-form-urlencoded'
+    ) {
       if (response.data.status == 102) {
         signOut();
         router.push({ name: 'login' });

@@ -26,7 +26,7 @@
         <div class="mt-7"></div>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="showModal = true" type="error"> 删除 </n-button>
+            <n-button size="small" @click="showModal = true" type="error" class="w-20"> 删除 </n-button>
           </template>
           删除该专栏
         </n-tooltip>
@@ -44,16 +44,16 @@
         />
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="handleCollect" class="ml-2" v-if="collected" color="#63e2b7">
+            <n-button size="small" @click="handleCollect" class="ml-2 w-20" v-if="collected" color="#63e2b7">
               已收藏
             </n-button>
-            <n-button size="small" @click="handleCollect" class="ml-2" v-else type="info"> 收藏 </n-button>
+            <n-button size="small" @click="handleCollect" class="ml-2 w-20" v-else type="info"> 收藏 </n-button>
           </template>
           收藏该专栏
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="isAdd = !isAdd" class="ml-2" type="warning"> 收录文章 </n-button>
+            <n-button size="small" @click="isAdd = !isAdd" class="ml-2 w-20" type="warning"> 收录文章 </n-button>
           </template>
           选择要收录的文章
         </n-tooltip>
@@ -92,9 +92,16 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { deleteColumn, getColumnArticleList, getColumnDetail, collectColumn, addArticleToColumn } from '@/api/columns';
+import {
+  deleteColumn,
+  getColumnArticleList,
+  getColumnDetail,
+  collectColumn,
+  addArticleToColumn,
+  getColumnFollowStatus,
+} from '@/api/columns';
 import { NewspaperOutline as paper, Albums, CloseSharp, CloseCircleOutline } from '@vicons/ionicons5';
-import { getUserInfo } from '@/api/user';
+import { getCollectStatus, getUserInfo } from '@/api/user';
 import { useAuthStore } from '@/store/auth';
 import { getArticle, getMyArticle } from '@/api/article';
 import router from '@/router';
@@ -137,6 +144,11 @@ function reload() {
       } else {
         window.$message.error('获取二级列表失败');
       }
+      getColumnFollowStatus(route.params.id as string).then((res) => {
+        if (res.data.status == 0) {
+          collected.value = res.data.data.isFollowed;
+        }
+      });
       isLoading.value = true;
       getColumnArticleList({ size: 10, page: currentPage, columnID: columnInfo.value.id }).then((res) => {
         if (res.data.status == 0) {
@@ -198,15 +210,15 @@ const handleCollect = () => {
   if (isLogin) {
     collectColumn(columnInfo.value.id.toString()).then((res) => {
       if (res.data.status == 0) {
-        // if (!collected.value) {
-        //   columnInfo.value.followerNum++;
-        //   collected.value = !collected.value;
-        // } else {
-        //   columnInfo.value.followerNum--;
-        //   collected.value = !collected.value;
-        // }
+        if (!collected.value) {
+          columnInfo.value.followerNum++;
+          collected.value = !collected.value;
+        } else {
+          if (columnInfo.value.followerNum > 0) columnInfo.value.followerNum--;
+          collected.value = !collected.value;
+        }
         if (res.data.data.isFollowed) {
-          window.$message.info('1111111111');
+          window.$message.info('收藏成功');
         }
       } else {
         window.$message.error('现在不能收藏');
@@ -228,6 +240,7 @@ function handlePutin() {
           articles.value.push(res.data.data.articleInfo);
         }
       });
+      columnInfo.value.articleNum++;
     } else {
       window.$message.error('收录文章失败');
     }

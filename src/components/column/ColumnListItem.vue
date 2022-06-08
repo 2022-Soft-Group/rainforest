@@ -1,6 +1,6 @@
 <template>
   <div class="text-black">.</div>
-  <router-link class="ColumnHomeColumnCard" :to="'/columns/' + columnInfo.id">
+  <div class="ColumnHomeColumnCard">
     <n-avatar :src="columnInfo.img" round class="mt-10px"></n-avatar>
     <div class="ColumnHomeColumnCard-info">
       <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
@@ -12,19 +12,20 @@
     <n-button
       class="Button ColumnHomeColumnCard-followButton Button--green mb-10px"
       type="primary"
-      :to="'/columns/' + columnInfo.id"
-      target="_blank"
-      >进入专栏</n-button
+      @click="handleJumpToColumn"
     >
-  </router-link>
+      进入专栏
+    </n-button>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { useAuthStore } from '@/store/auth';
 import { useRouter } from 'vue-router';
-const route = useRouter();
+const router = useRouter();
 const props = defineProps<{ columnInfo: ColumnListItem }>();
+const handleJumpToColumn = () => {
+  router.push({ name: 'columnDetail', params: { id: props.columnInfo.id } });
+};
 </script>
 
 <style scoped>
