@@ -141,9 +141,10 @@ function loadColumn() {
   loadingBar.start();
   getUserColumns(Number(userID), { size: 10, page: currentPage[2]++ }).then((res) => {
     if (res.data.status == 0) {
-      res.data.data.columns.forEach((element: any) => {
-        columns.value.push(element);
-      });
+      columns.value = res.data.data.columns;
+      // res.data.data.columns.forEach((element: any) => {
+      //   columns.value.push(element);
+      // });
       loadingBar.finish();
     } else {
       window.$message.error('获取专栏失败');
@@ -154,6 +155,7 @@ function loadColumn() {
 function reload() {
   userID = route.params.id as string;
   currentPage[0] = 0;
+  currentPage[2] = 0;
   isLoading.value = true;
   userListFollowingIsLoading.value = true;
   userListFollowedIsLoading.value = true;
@@ -174,7 +176,7 @@ function reload() {
       window.$message.error('获取推荐列表失败');
     }
   });
-  // loadColumn();
+  loadColumn();
   getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
