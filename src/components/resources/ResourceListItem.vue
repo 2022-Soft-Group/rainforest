@@ -19,11 +19,18 @@
       </template>
       <template #description>{{ resourceInfo.description }} </template>
       <template #header-extra>
-        <n-button circle size="small" @click="handleDownload">
-          <template #icon>
-            <download-icon />
-          </template>
-        </n-button>
+        <div class="flex space-x-4">
+          <n-button v-if="curUserID == resourceInfo.ownerID" circle size="small" @click="handleDelete">
+            <template #icon>
+              <delete-icon />
+            </template>
+          </n-button>
+          <n-button circle size="small" @click="handleDownload">
+            <template #icon>
+              <download-icon />
+            </template>
+          </n-button>
+        </div>
       </template>
       <template #action>
         <n-space justify="space-between" class="w-100">
@@ -52,8 +59,11 @@ import {
   FileTrayFull as FileIcon,
   CloudDownload as DownloadIcon,
   TimeOutline as TimeIcon,
+  Close as DeleteIcon,
 } from '@vicons/ionicons5';
-import { downloadResource, purchaseResource } from '@/api/asset';
+import { downloadResource, purchaseResource, deleteResource } from '@/api/asset';
+const curUserID = Number(localStorage.getItem('userID'));
+const emits = defineEmits(['delete-resource']);
 const props = defineProps<{ isLoading: boolean; resourceInfo: ResourceItem }>();
 const handleDownload = () => {
   purchaseResource(props.resourceInfo.assetID).then((res) => {
@@ -70,6 +80,14 @@ const handleDownload = () => {
         document.body.removeChild(downloadElement);
         window.URL.revokeObjectURL(href);
       });
+    }
+  });
+};
+const handleDelete = () => {
+  deleteResource(props.resourceInfo.assetID).then((res) => {
+    if (res.data.status == 0) {
+      emits('delete-resource');
+      window.$message.info('删除资源' + props.resourceInfo.fileName + '成功');
     }
   });
 };

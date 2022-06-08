@@ -47,17 +47,17 @@ function reload() {
   getTagDetail(route.params.id as string).then((res) => {
     if (res.data.status == 0) {
       tagInfo.value = res.data.data.TagInfo as TagItem;
+      isLoading.value = true;
+      getTagArticleList({ size: 10, page: currentPage, id: tagInfo.value.id }).then((res) => {
+        if (res.data.status == 0) {
+          articles.value = res.data.data.articleInfos as Array<ArticleItem>;
+          isLoading.value = false;
+        } else {
+          window.$message.error('获取文章列表失败');
+        }
+      });
     } else {
       window.$message.error('获取二级列表失败');
-    }
-  });
-  isLoading.value = true;
-  getTagArticleList({ size: 10, page: currentPage, id: tagInfo.value.id }).then((res) => {
-    if (res.data.status == 0) {
-      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
-      isLoading.value = false;
-    } else {
-      window.$message.error('获取文章列表失败');
     }
   });
 }

@@ -15,6 +15,9 @@ export function getUserCollectColumns(userID: string, data: { size: number; page
 export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
 }
+export function getUserRankList(size: number) {
+  return backend.get(`/user/hot/list`, { params: size });
+}
 
 export function updateUserInfo(data: {
   sex: number;
