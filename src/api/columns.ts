@@ -33,3 +33,6 @@ export function deleteColumn(id: number) {
 export function collectColumn(columnID: string) {
   return jsonBackend.put(`/column/${columnID}/follow`);
 }
+export function getColumnFollowStatus(columnID: string) {
+  return backend.get(`/column/${columnID}/follow`);
+}
