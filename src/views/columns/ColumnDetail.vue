@@ -59,69 +59,66 @@
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" class="ml-2 w-20" type="success" @click="showchange"> 修改信息 </n-button>
-            <!-- <n-modal
-              v-model:show="showchange"
-              :mask-closable="false"
-              :style="bodyStyle"
-              title="新建专栏"
-              size="huge"
-              :bordered="true"
-              positive-text="新建专栏"
-              negative-text="取消"
-              @positive-click="onPositiveClick"
-              @negative-click="onNegativeClick2"
-            >
-              <n-card class="modalCard">
-                <n-h1 class="text-center">新建专栏</n-h1>
-
-                <n-space vertical size="large">
-                  <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" class="mt-6" />
-                  <n-input
-                    type="textarea"
-                    placeholder="请输入一句话介绍"
-                    v-model:value="description"
-                    :autosize="{
-                      minRows: 3,
-                    }"
-                    class="mt-10"
-                  />
-                  <div v-if="description.length > 80" class="text-red-600">请输入少于80个字</div>
-                  <div>
-                    <upload-button
-                      class="w-138 h-48 border-2 border-dashed rounded-md"
-                      :show-file-list="false"
-                      ref="upload"
-                      @change="clickUploadImage"
-                    >
-                      <div v-if="imgSrc == ''" class="text-center mt-20 text-gray-400">
-                        <div>点击上传封面</div>
-                        <div>.jpeg/.png/.svg</div>
-                      </div>
-                      <n-image
-                        v-else
-                        preview-disabled
-                        width="240"
-                        object-fit="cover"
-                        class="h-48 flex-none rounded-md"
-                        :src="imgSrc"
-                      />
-                    </upload-button>
-                  </div>
-                </n-space>
-
-                <div class="flex-auto mt-10 justify-between">
-                  <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
-                  <n-button type="primary" @click="onPositiveClick" class="w-67" v-if="description.length > 80" disabled
-                    >新建专栏</n-button
-                  >
-                  <n-button type="primary" @click="onPositiveClick" class="w-67" v-else>新建专栏</n-button>
-                </div>
-              </n-card>
-            </n-modal> -->
+            <n-button size="small" class="ml-2 w-20" type="success" @click="showchange = true"> 修改信息 </n-button>
           </template>
           修改专栏信息
         </n-tooltip>
+        <n-modal
+          v-model:show="showchange"
+          :mask-closable="false"
+          :style="bodyStyle"
+          title="修改专栏信息"
+          size="huge"
+          :bordered="true"
+          positive-text="确定"
+          negative-text="取消"
+          @positive-click=""
+          @negative-click="onNegativeClick"
+        >
+          <n-card class="modalCard">
+            <n-h1 class="text-center">修改专栏信息</n-h1>
+            <n-space vertical size="large">
+              <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" class="mt-6" />
+              <n-input
+                type="textarea"
+                placeholder="请输入一句话介绍"
+                v-model:value="description"
+                :autosize="{
+                  minRows: 3,
+                }"
+                class="mt-10"
+              />
+              <div v-if="description.length > 80" class="text-red-600">请输入少于80个字</div>
+              <div>
+                <upload-button
+                  class="w-138 h-48 border-2 border-dashed rounded-md"
+                  :show-file-list="false"
+                  ref="upload"
+                  @change="clickUploadImage"
+                  ><div v-if="imgSrc == ''" class="text-center mt-20 text-gray-400">
+                    <div>点击上传封面</div>
+                    <div>.jpeg/.png/.svg</div>
+                  </div>
+                  <n-image
+                    v-else
+                    preview-disabled
+                    width="240"
+                    object-fit="cover"
+                    class="h-48 flex-none rounded-md"
+                    :src="imgSrc"
+                  />
+                </upload-button>
+              </div>
+            </n-space>
+            <div class="flex-auto mt-10 justify-between">
+              <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
+              <n-button type="primary" @click="onPositiveClick" class="w-67" v-if="description.length > 80" disabled
+                >确认修改</n-button
+              >
+              <n-button type="primary" @click="onPositiveClick" class="w-67" v-else>确认修改</n-button>
+            </div>
+          </n-card>
+        </n-modal>
         <div class="flex mt-2">
           <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
           <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
@@ -275,6 +272,7 @@ const bodyStyle = { width: '600px' };
 const collected = ref(false);
 function onNegativeClick() {
   showModal.value = false;
+  showchange.value = false;
 }
 const handleCollect = () => {
   if (isLogin) {
@@ -316,37 +314,13 @@ function handlePutin() {
     }
   });
 }
+//
 const title = ref('');
 const description = ref('');
 const imgSrc = ref('');
-const columnChange = ref<ColumnUpdate>({
-  cover: '',
-  title: '',
-  description: '',
-  columnID: '',
-});
-function onNegativeClick2() {
-  showModal.value = false;
-}
-function onPositiveClick() {
-  if (title.value == '') {
-    window.$message.warning('标题不能为空');
-  }
-  columnChange.value.title = title.value;
-  columnChange.value.description = description.value;
-  columnChange.value.cover = imgSrc.value;
-  columnChange.value.columnID = route.params.id as string;
-  showchange.value = false;
-  updateColumn(columnChange.value).then((res) => {
-    if (res.data.status == 0) {
-      window.$message.info('修改专栏成功');
-    } else {
-      window.$message.error('修改专栏失败');
-    }
-  });
-}
-const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 let imageID = 0;
+//
+const upload = ref<InstanceType<typeof UploadButton> | null>(null);
 const clickUploadImage = () => {
   const file = upload.value?.file as File;
   uploadImage(file, null, null).then((res) => {
@@ -359,4 +333,36 @@ const clickUploadImage = () => {
   });
   upload.value?.clearFile();
 };
+//
+const columnChan = ref<ColumnUpload>({
+  cover: '',
+  title: '',
+  description: '',
+  private: 0,
+});
+//
+function onPositiveClick() {
+  if (title.value == '') {
+    window.$message.warning('标题不能为空');
+  }
+  columnChan.value.title = title.value;
+  columnChan.value.description = description.value;
+  columnChan.value.cover = imgSrc.value;
+  showchange.value = false;
+  // addColumn(column.value).then((res) => {
+  //   if (res.data.status == 0) {
+  //     window.$message.info('创建专栏成功');
+  //   } else {
+  //     window.$message.error('创建专栏失败');
+  //   }
+  // });
+}
+//
 </script>
+<style>
+.modalCard {
+  width: 100px;
+  height: 600px;
+  border-radius: 10px;
+}
+</style>
