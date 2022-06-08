@@ -49,19 +49,23 @@
             <n-tab-pane name="收藏的专栏"> </n-tab-pane>
           </n-tabs>
         </n-tab-pane>
-        <n-tab-pane tab="资源" name="resource">我的资源</n-tab-pane>
+        <n-tab-pane tab="资源" name="resource">
+          <resouce-list></resouce-list>
+        </n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7 ml-1">
-      <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
-      </n-card>
-      <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
-        <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
-      </n-card>
-      <n-card v-if="!isLoading" :bordered="false" class="my-2 rounded-md shadow-sm sticky top-16">
-        <quick-guider />
-      </n-card>
+      <div class="sticky top-16">
+        <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
+          <quick-guider />
+        </n-card>
+        <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
+          <user-achivement :liked="userFeature.likedNum" :collected="userFeature.collectedNum" />
+        </n-card>
+        <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
+          <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
+        </n-card>
+      </div>
     </div>
   </div>
 </template>
@@ -76,11 +80,11 @@ import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
 import { useRoute } from 'vue-router';
-
+import ResouceList from '../../components/resources/ResouceList.vue';
+const route = useRoute();
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
-const route = useRoute();
 let userID = route.params.id as string;
 const defaultTabName = ref('article');
 
@@ -215,16 +219,16 @@ const userListFollowedIsLoading = ref(false);
 const userListFollowed = ref<Array<UserFeature>>([]);
 
 watch(
-  () => route.params,
+  () => route.params.target,
   () => {
-    console.log(route.params.target);
-    defaultTabName.value = route.params.target as string;
-    reload();
+    if (route.params.target !== undefined) {
+      defaultTabName.value = route.params.target as string;
+      reload();
+    }
   }
 );
 
 onMounted(() => {
-  console.log(route.params.target);
   defaultTabName.value = route.params.target as string;
   reload();
 });
