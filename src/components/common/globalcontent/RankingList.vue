@@ -1,5 +1,5 @@
 <template>
-  <n-list>
+  <n-list :style="{ 'margin-top': 0, 'margin-bottom': 0 }">
     <template #header>
       <div class="font-bold text-xl text-yellow-400">作者热榜</div>
     </template>
@@ -29,7 +29,7 @@ import { getUserRankList } from '@/api/user';
 
 import { onMounted, ref } from 'vue';
 const hotUsers = ref<Array<UserFeature>>([]);
-const size = 5;
+const size = 6;
 onMounted(() => {
   getUserRankList({ size }).then((res) => {
     if (res.data.status == 0) {

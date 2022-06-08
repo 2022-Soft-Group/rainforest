@@ -1,5 +1,5 @@
 <template>
-  <n-dropdown trigger="hover" :options="options" show-arrow @select="handleDropdownSelect">
+  <n-dropdown trigger="hover" :disabled="isDisabled" :options="options" show-arrow @select="handleDropdownSelect">
     <router-link class="flex-center" :to="'/user/' + userID">
       <n-avatar round :src="(avatar as string)"> </n-avatar
     ></router-link>
@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { h, onMounted } from 'vue';
+import { h, onMounted, ref } from 'vue';
 import type { Component } from 'vue';
 import { NIcon } from 'naive-ui';
 import { useRouter } from 'vue-router';
@@ -18,7 +18,8 @@ import { logout } from '@/api/auth';
 const router = useRouter();
 let userID = localStorage.getItem('userID') as string;
 const { signOut } = useAuthStore();
-const avatar = localStorage.getItem('avatar');
+const avatar = ref('');
+const isDisabled = ref(false);
 const renderIcon = (icon: Component) => {
   return () => {
     return h(NIcon, null, {
@@ -56,6 +57,13 @@ const handleDropdownSelect = (key: string) => {
 
 onMounted(() => {
   userID = localStorage.getItem('userID') as string;
+  let ava = localStorage.getItem('avatar');
+  if (ava == null) {
+    avatar.value = 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg';
+    isDisabled.value = true;
+  } else {
+    avatar.value = ava;
+  }
 });
 </script>
 
