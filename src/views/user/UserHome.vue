@@ -72,8 +72,8 @@ import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
-import UserFollowNum from './UserFollowNum.vue';
 import { useRoute } from 'vue-router';
+
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
