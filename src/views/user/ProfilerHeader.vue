@@ -2,7 +2,7 @@
   <n-page-header>
     <n-grid :cols="3">
       <n-gi>
-        <n-statistic :value="[userInfo.coin, '积分'].join('')">
+        <n-statistic :value="[userInfo.coin, ' 积分'].join('')">
           <template #prefix>
             <n-icon size="30">
               <point-icon />
