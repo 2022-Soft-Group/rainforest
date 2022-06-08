@@ -301,6 +301,7 @@ const userFeature = ref<UserFeature>({
   followedNum: 0,
   collectedNum: 0,
   likedNum: 0,
+  hot: 0,
 });
 
 // 我关注的用户列表
