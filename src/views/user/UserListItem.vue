@@ -1,14 +1,10 @@
 <template>
   <n-page-header>
     <template #title>
-      <router-link :to="'/user/' + userFeature.id">
-        <div class="text-lg font-bold">{{ userFeature.name }}</div>
-      </router-link>
+      <div class="cursor-pointer text-lg font-bold" @click="handleJumpToUser">{{ userFeature.name }}</div>
     </template>
     <template #avatar>
-      <router-link :to="'/user/' + userFeature.id">
-        <n-avatar :src="userFeature.avatar" :size="60" id="avatar" />
-      </router-link>
+      <n-avatar class="cursor-pointer" :src="userFeature.avatar" :size="60" id="avatar" @click="handleJumpToUser" />
     </template>
     <template #extra>
       <n-space>
@@ -29,7 +25,11 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router';
+import { useRouter } from 'vue-router';
 const props = defineProps<{ userFeature: UserFeature; isLoading: boolean; listType: String; changeCount: number }>();
 const emits = defineEmits(['change-follow']);
+const router = useRouter();
+const handleJumpToUser = () => {
+  router.replace({ path: '/user/' + props.userFeature.id });
+};
 </script>
