@@ -50,7 +50,7 @@
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
-          <resouce-list></resouce-list>
+          <!-- <resouce-list></resouce-list> -->
         </n-tab-pane>
       </n-tabs>
     </n-card>
@@ -219,12 +219,12 @@ const userListFollowedIsLoading = ref(false);
 const userListFollowed = ref<Array<UserFeature>>([]);
 
 watch(
-  () => route.params.target,
+  () => route.params,
   () => {
     if (route.params.target !== undefined) {
       defaultTabName.value = route.params.target as string;
-      reload();
     }
+    reload();
   }
 );
 

@@ -78,7 +78,9 @@
     <template #footer>
       <n-collapse>
         <n-collapse-item title="个人简介">
-          <div>{{ userInfo.description }}</div>
+          <n-gradient-text type="success">
+            <div>{{ userInfo.description }}</div>
+          </n-gradient-text>
         </n-collapse-item>
       </n-collapse>
     </template>
