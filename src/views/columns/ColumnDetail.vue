@@ -26,7 +26,7 @@
         <div class="mt-7"></div>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="showModal = true" type="error"> 删除 </n-button>
+            <n-button size="small" @click="showModal = true" type="error" class="w-20"> 删除 </n-button>
           </template>
           删除该专栏
         </n-tooltip>
@@ -44,16 +44,16 @@
         />
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="handleCollect" class="ml-2" v-if="collected" color="#63e2b7">
+            <n-button size="small" @click="handleCollect" class="ml-2 w-20" v-if="collected" color="#63e2b7">
               已收藏
             </n-button>
-            <n-button size="small" @click="handleCollect" class="ml-2" v-else type="info"> 收藏 </n-button>
+            <n-button size="small" @click="handleCollect" class="ml-2 w-20" v-else type="info"> 收藏 </n-button>
           </template>
           收藏该专栏
         </n-tooltip>
         <n-tooltip trigger="hover">
           <template #trigger>
-            <n-button size="small" @click="isAdd = !isAdd" class="ml-2" type="warning"> 收录文章 </n-button>
+            <n-button size="small" @click="isAdd = !isAdd" class="ml-2 w-20" type="warning"> 收录文章 </n-button>
           </template>
           选择要收录的文章
         </n-tooltip>
@@ -214,7 +214,7 @@ const handleCollect = () => {
           columnInfo.value.followerNum++;
           collected.value = !collected.value;
         } else {
-          columnInfo.value.followerNum--;
+          if (columnInfo.value.followerNum > 0) columnInfo.value.followerNum--;
           collected.value = !collected.value;
         }
         if (res.data.data.isFollowed) {
@@ -240,6 +240,7 @@ function handlePutin() {
           articles.value.push(res.data.data.articleInfo);
         }
       });
+      columnInfo.value.articleNum++;
     } else {
       window.$message.error('收录文章失败');
     }
