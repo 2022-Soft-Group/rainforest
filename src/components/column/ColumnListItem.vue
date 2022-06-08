@@ -1,20 +1,23 @@
 <template>
-  .<router-link
-    class="ColumnHomeColumnCard ColumnHomeRecommendation-card"
-    tag="a"
-    target="_blank"
-    :to="'/columns/' + columnInfo.id"
+  <n-card class="Cardun"
+    ><router-link class="ColumnHomeColumnCard" :to="'/columns/' + columnInfo.id">
+      <n-avatar :src="columnInfo.img" round></n-avatar>
+      <div class="ColumnHomeColumnCard-info">
+        <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
+        <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
+      </div>
+      <div class="ColumnHomeColumnCard-meta">
+        {{ columnInfo.followerNum }} 人收藏 | {{ columnInfo.articleNum }} 篇文章
+      </div>
+      <n-button
+        class="Button ColumnHomeColumnCard-followButton Button--green"
+        type="primary"
+        :to="'/columns/' + columnInfo.id"
+        target="_blank"
+        >进入专栏</n-button
+      >
+    </router-link></n-card
   >
-    <n-avatar :src="columnInfo.img" round></n-avatar>
-    <div class="ColumnHomeColumnCard-info">
-      <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
-      <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
-    </div>
-    <div class="ColumnHomeColumnCard-meta">
-      {{ columnInfo.followerNum }} 人关注 | {{ columnInfo.articleNum }} 篇文章
-    </div>
-    <n-button class="Button ColumnHomeColumnCard-followButton Button--green" type="primary">进入专栏</n-button>
-  </router-link>
 </template>
 
 <script setup lang="ts">
@@ -26,9 +29,12 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
 </script>
 
 <style scoped>
-.ColumnHomeRecommendation-card {
-  margin: 0 8px 16px;
+.Cardun {
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
 }
+
 .ColumnHomeColumnCard {
   border-radius: 10px;
 
@@ -37,12 +43,11 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
   display: flex;
   background: #18181c;
   flex-direction: column;
-  padding: 26px 0 23px;
-  width: 206px;
-}
-.ColumnHomeColumnCard {
+
+  width: 150px;
   align-items: center;
 }
+
 a {
   color: inherit;
   text-decoration: none;

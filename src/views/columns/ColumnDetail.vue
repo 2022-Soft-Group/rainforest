@@ -1,15 +1,14 @@
 <template>
   <n-card class="flex m-auto rounded-md w-200">
-    <div>
-      <router-link :to="'/user/' + columnInfo.userID">
-        <n-thing>
-          <template #avatar>
-            <n-avatar round :src="userInfo.avatar"></n-avatar>
-          </template>
-          <template #header>{{ userInfo.name }}</template>
-        </n-thing>
-      </router-link>
-    </div>
+    <router-link :to="'/user/' + columnInfo.userID">
+      <n-thing>
+        <template #avatar>
+          <n-avatar round :src="userInfo.avatar"></n-avatar>
+        </template>
+        <template #header>{{ userInfo.name }}</template>
+        <template #description> {{ userInfo.description }} </template>
+      </n-thing>
+    </router-link>
     <n-divider />
     <n-thing>
       <template #avatar>
@@ -18,12 +17,52 @@
       <template #header>
         <n-h1>{{ columnInfo.title }}</n-h1>
       </template>
+      <template #header-extra></template>
+
       <template #description>
-        <div class="text-gray-400">
+        <div class="text-gray-400 h-6">
           {{ columnInfo.description }}
         </div>
+        <div class="mt-7"></div>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button size="small" @click="showModal = true"> 删除 </n-button>
+          </template>
+          删除该专栏
+        </n-tooltip>
+
+        <n-modal
+          v-model:show="showModal"
+          :mask-closable="false"
+          preset="dialog"
+          title="删除标签"
+          content="是否要删除专栏"
+          positive-text="确认"
+          negative-text="取消"
+          @positive-click="handleClick"
+          @negative-click="onNegativeClick"
+        />
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button size="small" @click="handleCollect" class="ml-2" v-if="collected" color="#63e2b7">
+              已收藏
+            </n-button>
+            <n-button size="small" @click="handleCollect" class="ml-2" v-else> 收藏 </n-button>
+          </template>
+          收藏该专栏
+        </n-tooltip>
+        <n-tooltip trigger="hover">
+          <template #trigger>
+            <n-button size="small" @click="isAdd = !isAdd" class="ml-2"> 收录文章 </n-button>
+          </template>
+          选择要收录的文章
+        </n-tooltip>
+        <div class="flex mt-2">
+          <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
+          <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
+        </div>
       </template>
-      <template #header-extra> </template>
+
       <n-divider />
       <template #footer>
         <div class="flex justify-around">
@@ -42,24 +81,10 @@
             </template>
           </n-statistic>
         </div>
-
-        <!-- <div class="text-gray-400">
-          {{ columnInfo.ArticleNum }}
-        </div> -->
       </template>
     </n-thing>
   </n-card>
-  <!-- <n-card class="flex m-auto mt-2 rounded-t-md w-200">
-    <router-link :to="'/user/' + columnInfo.userID">
-      <n-thing>
-        <template #avatar>
-          <n-avatar round :src="userInfo.avatar"></n-avatar>
-        </template>
-        <template #header>{{ userInfo.name }}</template>
-        <template #description> {{ userInfo.description }} </template>
-      </n-thing>
-    </router-link>
-  </n-card> -->
+
   <n-card class="flex m-auto mt-2 rounded-t-md w-200">
     <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
   </n-card>
@@ -67,13 +92,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getColumnArticleList, getColumnDetail } from '@/api/columns';
-import { NewspaperOutline as paper, Albums } from '@vicons/ionicons5';
+import { deleteColumn, getColumnArticleList, getColumnDetail, collectColumn, addArticleToColumn } from '@/api/columns';
+import { NewspaperOutline as paper, Albums, CloseSharp, CloseCircleOutline } from '@vicons/ionicons5';
 import { getUserInfo } from '@/api/user';
+import { useAuthStore } from '@/store/auth';
+import { getMyArticle } from '@/api/article';
+import router from '@/router';
+
+const { isLogin } = useAuthStore();
 const route = useRoute();
 let currentPage = 0;
 const isLoading = ref(false);
 const articles = ref<Array<ArticleItem>>([]);
+const myArticles = ref<Array<ArticleItem>>([]);
 const columnInfo = ref<ColumnListItem>({
   id: 0,
   img: '',
@@ -124,6 +155,16 @@ function reload() {
         }
       });
     });
+  getMyArticle({ size: 99, page: 0 }).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.articleInfos.forEach((element: ArticleItem) => {
+        options.push({
+          value: element.articleID,
+          label: element.title,
+        });
+      });
+    }
+  });
 }
 function handleRequest() {
   isLoading.value = true;
@@ -133,6 +174,53 @@ function handleRequest() {
         articles.value.push(element);
       });
       isLoading.value = false;
+    }
+  });
+}
+
+const handleClick = () => {
+  deleteColumn(columnInfo.value.id).then((res) => {
+    if (res.data.status != 0) {
+      window.$message.error('删除专栏失败');
+    } else {
+      window.location.replace('/columns');
+      window.$message.info('删除专栏成功');
+    }
+  });
+};
+const showModal = ref(false);
+const collected = ref(false);
+function onNegativeClick() {
+  showModal.value = false;
+}
+const handleCollect = () => {
+  if (isLogin) {
+    collectColumn(columnInfo.value.id.toString()).then((res) => {
+      if (res.data.status == 0) {
+        if (!collected.value) {
+          columnInfo.value.followerNum++;
+          collected.value = !collected.value;
+        } else {
+          columnInfo.value.followerNum--;
+          collected.value = !collected.value;
+        }
+      } else {
+        window.$message.error('现在不能收藏');
+      }
+    });
+  } else {
+    router.push({ name: 'login' });
+  }
+};
+const isAdd = ref(false);
+const value = ref();
+const options: { label: string; value: number }[] = [];
+function handlePutin() {
+  addArticleToColumn(value.value, columnInfo.value.id).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('收录文章成功');
+    } else {
+      window.$message.error('收录文章失败');
     }
   });
 }

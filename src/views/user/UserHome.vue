@@ -1,7 +1,7 @@
 <template>
-  <n-card title="  " size="large" id="userHeader" class="m-2 rounded-md shadow-sm">
+  <n-card title="  " size="large" id="userHeader" class="m-2 mt-4 rounded-md shadow-sm">
     <template #cover>
-      <img id="pic1" src="https://s2.loli.net/2022/06/07/MyYlw7S8CfOusNn.jpg" />
+      <n-image class="w-full h-50" object-fit="cover" src="https://s2.loli.net/2022/06/07/MyYlw7S8CfOusNn.jpg" />
     </template>
     <profiler-header
       :articleNum="userFeature.articleNum"
@@ -17,12 +17,12 @@
   <!-- <follow-button :target-user-id="userInfo.id" :change-count="changeCount" @change-follow="handleChangeFollow" /> -->
   <div class="flex -mr-1.5 -mt-2">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
-      <n-tabs type="line" size="large" class="mb-6" animated>
-        <n-tab-pane name="文章">
+      <n-tabs v-if="!isLoading" :default-value="defaultTabName" type="line" size="large" class="mb-6" animated>
+        <n-tab-pane tab="文章" name="article">
           <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
         </n-tab-pane>
-        <n-tab-pane name="专栏"> </n-tab-pane>
-        <n-tab-pane name="关注" display-directive="if">
+        <n-tab-pane tab="专栏" name="column"> </n-tab-pane>
+        <n-tab-pane tab="关注" name="follow" display-directive="if">
           <user-list
             :users="userListFollowing"
             :is-loading="userListFollowingIsLoading"
@@ -31,7 +31,7 @@
             @change-follow="handleChangeFollow"
           />
         </n-tab-pane>
-        <n-tab-pane name="粉丝" display-directive="show:lazy">
+        <n-tab-pane tab="粉丝" name="fan" display-directive="show:lazy">
           <user-list
             :users="userListFollowed"
             :is-loading="userListFollowedIsLoading"
@@ -40,13 +40,13 @@
             @change-follow="handleChangeFollow"
           />
         </n-tab-pane>
-        <n-tab-pane name="收藏">
+        <n-tab-pane tab="收藏" name="collection">
           <n-tabs type="line" animated>
             <n-tab-pane name="收藏的文章"> </n-tab-pane>
             <n-tab-pane name="收藏的专栏"> </n-tab-pane>
           </n-tabs>
         </n-tab-pane>
-        <n-tab-pane name="资源"> </n-tab-pane>
+        <n-tab-pane tab="资源" name="resource">我的资源</n-tab-pane>
       </n-tabs>
     </n-card>
     <div class="flex-col basis-2/7 ml-1">
@@ -61,9 +61,6 @@
       </n-card>
     </div>
   </div>
-  <n-icon size="40">
-    <game-controller-outline />
-  </n-icon>
 </template>
 
 <script setup lang="ts">
@@ -77,12 +74,12 @@ import UserList from './UserList.vue';
 import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
 import UserFollowNum from './UserFollowNum.vue';
 import { useRoute } from 'vue-router';
-
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
 const route = useRoute();
 let userID = route.params.id as string;
+const defaultTabName = ref('article');
 
 function handleRequest() {
   isLoading.value = true;
@@ -220,15 +217,11 @@ watch(
   }
 );
 
-onMounted(reload);
+onMounted(() => {
+  console.log(route.params.target);
+  defaultTabName.value = route.params.target as string;
+  reload();
+});
 </script>
 
-<style scoped>
-#userHeader {
-  margin-top: 15px;
-}
-#pic1 {
-  width: 100%;
-  height: 200px;
-}
-</style>
+<style scoped></style>

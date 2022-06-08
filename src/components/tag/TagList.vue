@@ -8,7 +8,7 @@
           </router-link>
         </div>
         <div class="flex justify-between mx-2 my-2">
-          <n-image class="img" :src="item.img"></n-image>
+          <n-image class="img" :src="item.img" preview-disabled></n-image>
           <div class="user-info-cont">{{ item.description }}</div>
         </div>
       </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { Accessibility, ArrowRedo } from '@vicons/ionicons5';
 defineProps<{ tags: Array<TagItem>; vertical: boolean }>();
 </script>
 
@@ -35,5 +36,6 @@ defineProps<{ tags: Array<TagItem>; vertical: boolean }>();
   width: 50px;
   height: 35px;
   padding-left: 10px;
+  border-radius: 3px;
 }
 </style>

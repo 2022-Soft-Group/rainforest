@@ -16,7 +16,7 @@
         </n-tab-pane>
         <n-tab-pane name="专栏" tab="专栏">
           <div class="flex flex-wrap">
-            <div v-for="item in columns">
+            <div v-for="item in columns" class="some">
               <column-list-item :column-info="item"></column-list-item>
             </div>
             <n-empty v-if="columns.length == 0" description="还没有专栏哦"></n-empty>
@@ -119,3 +119,10 @@ function loadColumn() {
 
 onMounted(reload);
 </script>
+<style>
+.some {
+  border-radius: 10px;
+  border-width: 1px;
+  margin: 5px;
+}
+</style>

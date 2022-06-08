@@ -4,22 +4,17 @@
     <div class="w-260 z-200 h-full mx-auto" id="global-content">
       <div class="h-10"></div>
       <slot></slot>
-      <n-tooltip trigger="hover">
-        <template #trigger>
-          <n-button
-            v-if="!showSlider"
-            class="fixed right-10 bottom-35 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
-            type="primary"
-            size="large"
-            secondary
-            circle
-            @click="scrollToTop"
-          >
-            <n-icon><back-top-icon /></n-icon>
-          </n-button>
-        </template>
-        返回顶部
-      </n-tooltip>
+      <n-button
+        v-if="!showSlider"
+        class="fixed right-10 bottom-35 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        type="primary"
+        size="large"
+        secondary
+        circle
+        @click="scrollToTop"
+      >
+        <n-icon><back-top-icon /></n-icon>
+      </n-button>
       <n-button
         v-if="!showSlider"
         class="fixed right-10 bottom-20 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"

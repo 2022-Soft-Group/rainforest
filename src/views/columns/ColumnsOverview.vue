@@ -56,6 +56,7 @@
             }"
             class="mt-10"
           />
+          <div v-if="description.length > 80" class="text-red-600">请输入少于80个字</div>
           <div>
             <upload-button
               class="w-138 h-48 border-2 border-dashed rounded-md"
@@ -81,7 +82,10 @@
 
         <div class="flex-auto mt-10 justify-between">
           <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
-          <n-button type="primary" @click="onPositiveClick" class="w-67">新建专栏</n-button>
+          <n-button type="primary" @click="onPositiveClick" class="w-67" v-if="description.length > 80" disabled
+            >新建专栏</n-button
+          >
+          <n-button type="primary" @click="onPositiveClick" class="w-67" v-else>新建专栏</n-button>
         </div>
       </n-card>
     </n-modal>
@@ -91,8 +95,8 @@
       <div class="ColumnHomeTitle-text">专栏 · 探索</div>
       <div class="ColumnHomeTitle-line"></div>
     </h3>
-    <div class="ColumnHomeRecommendation-cardContainer">
-      <div v-for="item in columnList">
+    <div class="ColumnHomeRecommendation-cardContainer w-full">
+      <div v-for="item in columnList" class="m-2">
         <column-list-item :column-info="item"></column-list-item>
       </div>
     </div>
