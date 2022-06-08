@@ -139,7 +139,7 @@ function handleChangeFollow() {
 
 function loadColumn() {
   loadingBar.start();
-  getUserColumns(Number(userID), { size: 10, page: currentPage[2]++ }).then((res) => {
+  getUserColumns(Number(userID.value), { size: 10, page: currentPage[2]++ }).then((res) => {
     if (res.data.status == 0) {
       columns.value = res.data.data.columns;
       // res.data.data.columns.forEach((element: any) => {
