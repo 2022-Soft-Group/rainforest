@@ -22,7 +22,7 @@
       <n-input v-model:value="description" placeholder="资源简介"></n-input>
       <div class="flex">
         <div class="basis-2/5">设定下载积分</div>
-        <n-slider class="basis-3/5" v-model:value="cost" :step="1" :max="10" :min="0" />
+        <n-slider class="basis-3/5" v-model:value="cost" :step="1" :max="10" :min="1" />
       </div>
     </n-space>
   </n-modal>

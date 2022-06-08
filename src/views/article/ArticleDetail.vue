@@ -278,4 +278,10 @@ export default defineComponent({
   margin: auto;
   pointer-events: none;
 }
+
+.markdown :deep(.markdown-it-vue-alter-info) {
+  margin: auto;
+  width: 200px;
+  height: 50px;
+}
 </style>

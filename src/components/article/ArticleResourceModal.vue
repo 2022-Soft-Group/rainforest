@@ -34,12 +34,14 @@ const submitCallback = () => {
 
 function getUrl() {
   return (
+    '::: info\n' +
     '[' +
     resourceNameMap.get(selectedResourceId.value) +
     ']' +
     '(http://kurino.top/resource/' +
     selectedResourceId.value +
-    ')'
+    ')\n' +
+    ':::\n'
   );
 }
 
