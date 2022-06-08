@@ -33,4 +33,5 @@ type UserFeature = {
   followedNum: number;
   collectedNum: number;
   likedNum: number;
+  hot: number;
 };

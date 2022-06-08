@@ -1,11 +1,39 @@
 <template>
   <n-list>
-    <template #header>作者榜</template>
-    <n-list-item v-for="item in hotArticles"> </n-list-item>
+    <template #header>
+      <div class="font-bold text-xl text-red-500">作者热榜</div>
+    </template>
+    <n-list-item v-for="item in hotUsers">
+      <router-link :to="'/user/' + item.id">
+        <n-thing>
+          <template #avatar>
+            <n-avatar round :src="item.avatar"></n-avatar>
+          </template>
+          <template #header>
+            <div>{{ item.name }}</div>
+          </template>
+          <template #description>
+            <div class="flex text-gray-400">
+              <div>粉丝数{{ item.followedNum }}</div>
+              <div class="ml-3">获赞{{ item.likedNum }}</div>
+            </div>
+          </template>
+        </n-thing>
+      </router-link>
+    </n-list-item>
   </n-list>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-const hotArticles = ref<Array<ArticleItem>>([]);
+import { getUserRankList } from '@/api/user';
+import { onMounted, ref } from 'vue';
+const hotUsers = ref<Array<UserFeature>>([]);
+const size = ref(10);
+onMounted(() => {
+  return getUserRankList(size.value).then((res) => {
+    if (res.data.status == 0) {
+      hotUsers.value = res.data.data.users;
+    }
+  });
+});
 </script>
