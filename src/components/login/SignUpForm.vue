@@ -1,5 +1,8 @@
 <template>
   <n-form ref="formRef" :model="model" size="large" :show-label="false">
+    <n-form-item path="name">
+      <n-input v-model:value="model.name" placeholder="昵称" />
+    </n-form-item>
     <n-form-item path="email">
       <n-input v-model:value="model.email" placeholder="邮箱地址" />
     </n-form-item>
@@ -42,6 +45,7 @@ import { reactive, ref } from 'vue';
 const emits = defineEmits(['finish-register']);
 
 const model = reactive({
+  name: '',
   email: '',
   code: '',
   passwd: '',
@@ -49,6 +53,9 @@ const model = reactive({
 });
 const valid = ref(true);
 const handleGetCaptcha = () => {
+  if (model.name == '') {
+    window.$message.warning('昵称不能为空');
+  }
   if (model.email == '') {
     window.$message.warning('输入邮箱不能为空');
     return;
@@ -64,7 +71,7 @@ const handleSubmit = () => {
   if (model.passwd != model.confirmpasswd) {
     window.$message.warning('两次输入密码不同！');
   }
-  register({ email: model.email, passwd: model.passwd, code: model.code }).then((res) => {
+  register({ name: model.name, email: model.email, passwd: model.passwd, code: model.code }).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('注册成功');
       emits('finish-register');

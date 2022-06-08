@@ -8,7 +8,7 @@ export function getCaptcha(data: { email: string }) {
   return backend.post('auth/captcha', data);
 }
 
-export function register(data: { email: string; passwd: string; code: string }) {
+export function register(data: { name: string; email: string; passwd: string; code: string }) {
   return backend.post('auth/register', data);
 }
 

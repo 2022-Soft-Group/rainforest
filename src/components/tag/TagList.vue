@@ -13,8 +13,10 @@
         </div>
       </div>
     </n-grid-item>
-    <n-empty v-if="tags.length == 0" description="还没有标签哦"></n-empty>
   </n-grid>
+  <br />
+  <br />
+  <n-empty v-if="tags.length == 0" description="还没有标签哦"></n-empty>
 </template>
 
 <script setup lang="ts">

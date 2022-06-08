@@ -19,8 +19,9 @@
             <div v-for="item in columns" class="some">
               <column-list-item :column-info="item"></column-list-item>
             </div>
-            <n-empty v-if="columns.length == 0" description="还没有专栏哦"></n-empty>
           </div>
+          <br /><br />
+          <n-empty v-if="columns.length == 0" description="还没有专栏哦"></n-empty>
         </n-tab-pane>
       </n-tabs>
     </n-card>
