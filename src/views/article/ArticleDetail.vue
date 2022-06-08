@@ -279,9 +279,9 @@ export default defineComponent({
   pointer-events: none;
 }
 
-.markdown :deep(.markdown-it-vue-alter-info) {
+/* .markdown :deep(.markdown-it-vue-alter-info) {
   margin: auto;
   width: 200px;
   height: 50px;
-}
+} */
 </style>

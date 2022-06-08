@@ -108,6 +108,7 @@ const handelFinishResource = (url: string) => {
   let content = vditor.value?.getValue();
   content += '\n' + url + '\n';
   vditor.value?.setValue(content as string);
+  showModal.value = false;
 };
 
 function addTitle() {
