@@ -36,3 +36,19 @@ export function collectColumn(columnID: string) {
 export function getColumnFollowStatus(columnID: string) {
   return backend.get(`/column/${columnID}/follow`);
 }
+export function updateColumn(data: { title: string; description: string; cover: string; columnID: string }) {
+  return backend.put(`/column/${data.columnID}/update`, data);
+}
+// export function updateUserInfo(data: {
+//   sex: number;
+//   name: string;
+//   avatar: string;
+//   phone: string;
+//   description: string;
+// }) {
+//   return jsonBackend.post(`user/update`, data);
+// }
+
+export function getUserFollowColumn(userID: number, data: { size: number; page: number }) {
+  return backend.get(`/column/collect/list/${userID}`, { params: data });
+}

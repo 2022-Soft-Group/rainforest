@@ -14,3 +14,9 @@ type ColumnUpload = {
   description?: string;
   private?: number;
 };
+type ColumnUpdate = {
+  cover: string;
+  title: string;
+  description: string;
+  columnID: string;
+};

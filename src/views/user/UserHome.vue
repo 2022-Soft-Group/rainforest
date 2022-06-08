@@ -51,7 +51,13 @@
         <n-tab-pane tab="收藏" name="collection">
           <n-tabs type="line" animated>
             <n-tab-pane name="收藏的文章"> </n-tab-pane>
-            <n-tab-pane name="收藏的专栏"> </n-tab-pane>
+            <n-tab-pane name="收藏的专栏">
+              <div class="flex flex-wrap">
+                <div v-for="item in columnsColl" class="some">
+                  <column-list-item :column-info="item"></column-list-item>
+                </div>
+                <n-empty v-if="columns.length == 0" description="还没有专栏哦"></n-empty></div
+            ></n-tab-pane>
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
@@ -83,7 +89,7 @@ import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
 import { getUserInfo, getUserArticleList, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
-import { getUserColumns, getMyColumns } from '@/api/columns';
+import { getUserColumns, getMyColumns, getUserFollowColumn } from '@/api/columns';
 import { useRoute } from 'vue-router';
 const route = useRoute();
 let currentPage = [0, 0, 0, 0, 0, 0, 0];
@@ -200,11 +206,19 @@ function reload() {
       window.$message.error('获取关注数量失败');
     }
   });
+  getUserFollowColumn(Number(userID.value), { size: 10, page: currentPage[2]++ }).then((res) => {
+    if (res.data.status == 0) {
+      // window.$message.info(userID.value);
+      columnsColl.value = res.data.data.columnInfos;
+    } else {
+      window.$message.error('获取收藏专栏失败');
+    }
+  });
 }
 
 // 专栏
 const columns = ref<Array<ColumnListItem>>([]);
-
+const columnsColl = ref<Array<ColumnListItem>>([]);
 // 我的文章
 const isLoading = ref(false);
 const articles = ref<Array<ArticleItem>>([]);
