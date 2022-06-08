@@ -1,4 +1,5 @@
 type ResourceItem = {
+  assetID: number;
   fileName: string;
   fileSize: number;
   downloadUrl: string;

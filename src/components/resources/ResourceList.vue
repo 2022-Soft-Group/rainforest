@@ -1,4 +1,5 @@
 <template>
+  <resource-upload-button ref="upload" />
   <div v-if="isLoading">
     <div v-for="index of 10" :key="index">
       <n-divider v-if="index != 1"></n-divider>
@@ -7,10 +8,10 @@
     </div>
   </div>
   <div v-else>
-    <n-empty v-if="resoucesInfo.length == 0" description="还没有文章哦"></n-empty>
+    <!-- <n-empty v-if="resoucesInfo.length == 0" description="还没有资源哦"></n-empty> -->
     <div v-for="(resource, index) in resoucesInfo">
       <n-divider v-if="index != 0"></n-divider>
-      <resouce-list-item :isLoading="isLoading" :resource-info="resource"></resouce-list-item>
+      <resource-list-item :isLoading="isLoading" :resource-info="resource"></resource-list-item>
     </div>
   </div>
   <n-divider />
@@ -20,5 +21,11 @@
 import { ref } from 'vue';
 
 const props = defineProps<{ resoucesInfo: Array<ResourceItem>; isLoading: boolean }>();
-const isLoading = ref(false);
 </script>
+
+<style scoped>
+:deep(.n-divider) {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+</style>
