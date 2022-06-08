@@ -1,39 +1,53 @@
 <template>
-  <n-space class="w-full">
-    <n-space class="mx-2">
-      <n-button size="small" :secondary="!liked" type="primary" @click="handleLike">
-        <template #icon>
-          <n-icon size="18"><like-icon /></n-icon>
-        </template>
-        {{ likeNum }} 赞
-      </n-button>
-      <n-button size="small" :secondary="!disliked" type="primary" @click="handleDislike">
-        <template #icon>
-          <n-icon size="18"><dislike-icon /></n-icon>
-        </template>
-      </n-button>
-    </n-space>
-    <n-space justify="space-between">
-      <div class="text-gray-400 mt-1">
-        <n-icon size="small"><comment-icon /></n-icon>
-        {{ commentNum }} 条评论
-      </div>
-      <div class="text-gray-400 mt-1">
-        <n-icon size="small"><collection-icon /></n-icon>
-        {{ collectNum }} 次收藏
-      </div>
-    </n-space>
-    <div class="text-gray-400">
-      <n-space class="ml-2">
-        <n-icon size="small" class="mt-2"><tags-icon /></n-icon>
-        <div v-for="item in articleInfo.tags">
-          <router-link :to="'/tag/' + item.id">
-            <n-tag type="primary" class="cursor-pointer">{{ item.title }}</n-tag>
-          </router-link>
+  <div class="flex justify-between">
+    <n-space class="w-full" justify="around">
+      <n-space class="mx-2">
+        <n-button size="small" :secondary="!liked" type="primary" @click="handleLike">
+          <template #icon>
+            <n-icon size="18"><like-icon /></n-icon>
+          </template>
+          {{ likeNum }} 赞
+        </n-button>
+        <n-button size="small" :secondary="!disliked" type="primary" @click="handleDislike">
+          <template #icon>
+            <n-icon size="18"><dislike-icon /></n-icon>
+          </template>
+        </n-button>
+      </n-space>
+      <n-space justify="space-between">
+        <div class="text-gray-400 mt-1">
+          <n-icon size="small"><comment-icon /></n-icon>
+          {{ commentNum }} 条评论
+        </div>
+        <div class="text-gray-400 mt-1">
+          <n-icon size="small"><collection-icon /></n-icon>
+          {{ collectNum }} 次收藏
         </div>
       </n-space>
+      <div class="text-gray-400">
+        <n-space class="ml-2">
+          <n-icon size="small" class="mt-2"><tags-icon /></n-icon>
+          <div v-for="item in articleInfo.tags">
+            <router-link :to="'/tag/' + item.id">
+              <n-tag type="primary" class="cursor-pointer">{{ item.title }}</n-tag>
+            </router-link>
+          </div>
+        </n-space>
+      </div>
+    </n-space>
+    <div class="flex text-gray-400 space-x-4 float-right">
+      <n-button circle size="small" @click="">
+        <template #icon>
+          <change-icon />
+        </template>
+      </n-button>
+      <n-button circle size="small" @click="">
+        <template #icon>
+          <delete-icon />
+        </template>
+      </n-button>
     </div>
-  </n-space>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -47,6 +61,8 @@ import {
   Star as CollectionIcon,
   Pricetags as TagsIcon,
   ChatboxEllipses as CommentIcon,
+  ColorWand as ChangeIcon,
+  Close as DeleteIcon,
 } from '@vicons/ionicons5';
 
 const props = defineProps<{ articleInfo: ArticleItem }>();
