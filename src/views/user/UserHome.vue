@@ -15,16 +15,21 @@
       class="-mt-22"
     />
   </n-card>
-  <!-- {{ userID }}
-  {{ userListFollowing }} -->
-  <!-- <follow-button :target-user-id="userInfo.id" :change-count="changeCount" @change-follow="handleChangeFollow" /> -->
-  <div class="flex -mr-1.5 -mt-2">
+
+  <div class="flex -mr-1.5 -mt-2 flex-y-auto">
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs v-if="!isLoading" :default-value="defaultTabName" type="line" size="large" class="mb-6" animated>
         <n-tab-pane tab="文章" name="article">
           <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
         </n-tab-pane>
-        <n-tab-pane tab="专栏" name="column"> </n-tab-pane>
+        <n-tab-pane tab="专栏" name="column">
+          <div class="flex flex-wrap">
+            <div v-for="item in columns" class="some">
+              <column-list-item :column-info="item"></column-list-item>
+            </div>
+          </div>
+          <no-item :list-num="columns.length" item-type="专栏"></no-item>
+        </n-tab-pane>
         <n-tab-pane tab="关注" name="follow" display-directive="if">
           <user-list
             :users="userListFollowing"
@@ -50,7 +55,7 @@
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
-          <resouce-list></resouce-list>
+          <!-- <resouce-list></resouce-list> -->
         </n-tab-pane>
       </n-tabs>
     </n-card>
@@ -71,18 +76,18 @@
 </template>
 
 <script setup lang="ts">
-import { getUserArticleList } from '@/api/user';
 import { ref, onMounted, watch } from 'vue';
 import { useLoadingBar } from 'naive-ui';
 import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
-import { getUserInfo, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
+import { getUserInfo, getUserArticleList, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
+import { getUserColumns, getMyColumns } from '@/api/columns';
 import { useRoute } from 'vue-router';
 import ResouceList from '../../components/resources/ResouceList.vue';
 const route = useRoute();
-let currentPage = 0;
+let currentPage = [0, 0, 0, 0, 0, 0, 0];
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
 let userID = route.params.id as string;
@@ -91,7 +96,7 @@ const defaultTabName = ref('article');
 function handleRequest() {
   isLoading.value = true;
   loadingBar.start();
-  getUserArticleList({ size: 10, page: ++currentPage }, userID).then((res) => {
+  getUserArticleList({ size: 10, page: currentPage[0]++ }, userID).then((res) => {
     if (res.data.status == 0) {
       res.data.data.articleInfos.forEach((element: any) => {
         articles.value.push(element);
@@ -118,7 +123,7 @@ function handleChangeFollow() {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
     } else {
-      window.$message.error('获取我关注的用户失败');
+      window.$message.error('获取关注的用户失败');
     }
   });
   getUserListFollowed({ size: 10, page: 0 }, userID).then((res) => {
@@ -126,19 +131,41 @@ function handleChangeFollow() {
       userListFollowed.value = res.data.data.userListFollowed as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
     } else {
-      window.$message.error('获取关注我的用户失败');
+      window.$message.error('获取关注的用户失败');
     }
   });
   changeCount.value++;
 }
 
+function loadColumn() {
+  loadingBar.start();
+  getUserColumns(Number(userID), { size: 10, page: currentPage[2]++ }).then((res) => {
+    if (res.data.status == 0) {
+      res.data.data.columns.forEach((element: any) => {
+        columns.value.push(element);
+      });
+      loadingBar.finish();
+    } else {
+      window.$message.error('获取专栏失败');
+    }
+  });
+}
+
 function reload() {
   userID = route.params.id as string;
+  currentPage[0] = 0;
   isLoading.value = true;
   userListFollowingIsLoading.value = true;
   userListFollowedIsLoading.value = true;
+  getUserInfo(userID).then((res) => {
+    if (res.data.status == 0) {
+      userInfo.value = res.data.data.user as User;
+    } else {
+      window.$message.error('获取用户信息失败');
+    }
+  });
   loadingBar.start();
-  getUserArticleList({ size: 10, page: currentPage }, userID).then((res) => {
+  getUserArticleList({ size: 10, page: currentPage[0]++ }, userID).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
@@ -147,19 +174,13 @@ function reload() {
       window.$message.error('获取推荐列表失败');
     }
   });
-  getUserInfo(userID).then((res) => {
-    if (res.data.status == 0) {
-      userInfo.value = res.data.data.user as User;
-    } else {
-      window.$message.error('获取我的用户信息失败');
-    }
-  });
+  // loadColumn();
   getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
     } else {
-      window.$message.error('获取我关注的用户失败');
+      window.$message.error('获取关注的用户失败');
     }
   });
   getUserListFollowed({ size: 10, page: 0 }, userID).then((res) => {
@@ -167,17 +188,20 @@ function reload() {
       userListFollowed.value = res.data.data.userListFollowed as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
     } else {
-      window.$message.error('获取关注我的用户失败');
+      window.$message.error('获取关注的用户失败');
     }
   });
   getUserFeature(userID).then((res) => {
     if (res.data.status == 0) {
       userFeature.value = res.data.data.userFeature;
     } else {
-      window.$message.error('获取我的关注数量失败');
+      window.$message.error('获取关注数量失败');
     }
   });
 }
+
+// 专栏
+const columns = ref<Array<ColumnListItem>>([]);
 
 // 我的文章
 const isLoading = ref(false);
@@ -234,4 +258,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style>
+.some {
+  margin: 5px;
+}
+</style>

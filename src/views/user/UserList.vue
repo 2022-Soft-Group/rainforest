@@ -9,12 +9,7 @@
       @change-follow="emits('change-follow')"
     />
   </div>
-  <div v-if="users.length == 0" class="text-center text-gray-500">
-    <br />
-    <n-icon size="70"><list-icon /></n-icon> <br />
-    还没有关注的用户
-    <n-divider></n-divider>
-  </div>
+  <no-item :list-num="users.length" item-type="关注的用户"></no-item>
 </template>
 
 <script setup lang="ts">
