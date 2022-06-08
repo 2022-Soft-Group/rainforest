@@ -1,5 +1,5 @@
 <template>
-  <n-card title="  " size="large" id="userHeader" class="m-2 mt-4 rounded-md shadow-sm">
+  <n-card title="   " size="large" id="userHeader" class="m-2 mt-4 rounded-md shadow-sm">
     <template #cover>
       <!-- <div class="text-right -mb-15">
         <n-button>编辑封面图片</n-button>
