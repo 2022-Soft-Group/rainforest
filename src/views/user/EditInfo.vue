@@ -25,6 +25,24 @@
           maxWidth: '640px',
         }"
       >
+        <n-form-item label="头像：" path="avatar">
+          <upload-button class="w-35 h-35 rounded-md" ref="upload" @change="clickUploadImage">
+            <div v-if="image == ''" class="m-18 text-gray-400">
+              <div>点击上传图片</div>
+              <div>.jpeg/.png/.svg</div>
+            </div>
+            <n-image
+              v-else
+              preview-disabled
+              width="240"
+              object-fit="cover"
+              :class="avatarUploadClass"
+              :src="image"
+              @mouseenter="avatarUploadClass = 'h-35 flex-none rounded-md ring-white ring-3'"
+              @mouseleave="avatarUploadClass = 'h-35 flex-none rounded-md ring-white ring-2'"
+            />
+          </upload-button>
+        </n-form-item>
         <n-form-item label="性别：" path="sex">
           <n-radio-group v-model:value="model.sex" name="sexRadioGroup">
             <n-space>
@@ -37,10 +55,6 @@
 
         <n-form-item label="密码：" path="changePasswd">
           <n-button text type="primary" @click="showModal2 = true"> 修改密码 </n-button>
-        </n-form-item>
-
-        <n-form-item label="头像：" path="avatar">
-          <n-button text type="primary" @click=""> 修改头像 </n-button>
         </n-form-item>
 
         <n-form-item label="昵称：" path="name">
@@ -145,6 +159,8 @@
 import { ref } from 'vue';
 import { type FormInst, useMessage, type FormItemInst, type FormItemRule, type FormRules } from 'naive-ui';
 import { updateUserInfo, changePasswd } from '@/api/user';
+import { uploadImage } from '@/api/asset';
+import type UploadButton from '@/components/common/UploadButton.vue';
 
 const props = defineProps<{ userInfo: User }>();
 const model = ref({
@@ -165,6 +181,9 @@ const newPasswdRef = ref<FormItemInst | null>(null);
 const message = useMessage();
 const showModal = ref(false);
 const showModal2 = ref(false);
+const image = ref('');
+const avatarUploadClass = ref('h-35 flex-none rounded-md ring-white ring-2');
+let imageID = 0;
 const emits = defineEmits(['update-info']);
 
 function validatePasswordLength(rule: FormItemRule, value: string): boolean {
@@ -243,6 +262,31 @@ const rules: FormRules = {
     },
   ],
 };
+const upload = ref<InstanceType<typeof UploadButton> | null>(null);
+// upload.value = {
+//   accept: 'image/*,.jpg,.png,.jpeg,.svg',
+//   max: 10 * 1024 * 1024,
+//   multiple: false,
+//   url: 'http://kurino.top/api/asset/uploadimg',
+//   headers: {
+//     Authorization: localStorage.getItem('token') || '',
+//   },
+//   fieldName: 'image',
+
+//   filename(name: string) {
+//     return name
+//       .replace(/[^(a-zA-Z0-9\u4e00-\u9fa5\.)]/g, '')
+//       .replace(/[\?\\/:|<>\*\[\]\(\)\$%\{\}@~]/g, '')
+//       .replace('/\\s/g', '');
+//   },
+
+//   success() {
+//     window.$message.success('图片上传成功');
+//   },
+//   error() {
+//     window.$message.error('图片上传失败');
+//   },
+// };
 
 const handleInit = () => {
   showModal.value = true;
@@ -253,6 +297,22 @@ const handleInit = () => {
     phone: props.userInfo.phone,
     description: props.userInfo.description,
   };
+  image.value = model.value.avatar;
+};
+
+const clickUploadImage = () => {
+  const file = upload.value?.file as File;
+  uploadImage(file, 150, 150).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.success('发布成功');
+      image.value = res.data.data.url;
+      imageID = res.data.data.id;
+      model.value.avatar = image.value;
+    } else {
+      window.$message.error('图片发布失败');
+    }
+  });
+  upload.value?.clearFile();
 };
 
 function handlePasswordInput() {
