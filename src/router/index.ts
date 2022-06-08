@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
+const userID = localStorage.getItem('userID') as string;
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -81,19 +82,15 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/user',
-    name: 'UserHome',
+    name: 'userhome',
+    redirect: '/user/' + userID,
+    meta: { requiresAuth: true },
     component: () => import('../views/user/index.vue'),
     children: [
       {
-        path: '',
-        name: 'userhome',
-        meta: { requiresAuth: true },
-        component: () => import('../views/user/UserHome.vue'),
-      },
-      {
         path: ':id',
         name: 'otherhome',
-        component: () => import('../views/user/OtherHome.vue'),
+        component: () => import('../views/user/UserHome.vue'),
       },
     ],
   },

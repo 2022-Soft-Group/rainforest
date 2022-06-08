@@ -31,8 +31,8 @@
       <span>
         <br /><br />
         <span class="text-2xl">{{ userInfo.name }}</span>
-        <n-icon size="medium" class="text-gray-400" v-if="userInfo.sex == 0"><male-icon /></n-icon>
-        <n-icon size="medium" class="text-gray-400" v-else><female-icon /></n-icon>
+        <n-icon size="medium" class="text-gray-400" v-if="userInfo.sex == 1"><male-icon /></n-icon>
+        <n-icon size="medium" class="text-gray-400" v-else-if="userInfo.sex == 2"><female-icon /></n-icon>
         <br /><br />
         <div class="text-base">
           <n-icon><today-icon /></n-icon> 在语林: {{ 2023 - Number(userInfo.createTime.substring(0, 4)) }}年

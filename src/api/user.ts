@@ -8,12 +8,18 @@ export function getUserInfo(userID: string) {
   return backend.get(`user/${userID}`);
 }
 
-export function updateUserInfo(data: { sex: number; name: string; email: string; phone: string; description: string }) {
+export function updateUserInfo(data: {
+  sex: number;
+  name: string;
+  avatar: string;
+  phone: string;
+  description: string;
+}) {
   return jsonBackend.post(`user/update`, data);
 }
 
 export function changePasswd(data: { oldPasswd: string; newPasswd: string }) {
-  return backend.put(`auth/password`, { params: data });
+  return backend.put(`auth/password`, data);
 }
 
 export function getUserFeature(userID: string) {

@@ -1,6 +1,6 @@
 <template>
   <n-button @click="handleInit" ghost type="primary"> 编辑资料 </n-button>
-  <n-modal v-model:show="showModal" transform-origin="center">
+  <n-modal v-model:show="showModal" transform-origin="center" :auto-focus="false">
     <n-card
       style="width: 700px"
       title="编辑资料"
@@ -28,8 +28,9 @@
         <n-form-item label="性别：" path="sex">
           <n-radio-group v-model:value="model.sex" name="sexRadioGroup">
             <n-space>
-              <n-radio :value="0" :checked="true"> 男 </n-radio>
-              <n-radio :value="1" :checked="false"> 女 </n-radio>
+              <n-radio :value="1" :checked="true"> 男 </n-radio>
+              <n-radio :value="2" :checked="false"> 女 </n-radio>
+              <n-radio :value="0" :checked="false"> 未知 </n-radio>
             </n-space>
           </n-radio-group>
         </n-form-item>
@@ -38,12 +39,12 @@
           <n-button text type="primary" @click="showModal2 = true"> 修改密码 </n-button>
         </n-form-item>
 
-        <n-form-item label="昵称：" path="name">
-          <n-input v-model:value="model.name" placeholder="总得有个名字吧" />
+        <n-form-item label="头像：" path="avatar">
+          <n-button text type="primary" @click=""> 修改头像 </n-button>
         </n-form-item>
 
-        <n-form-item label="邮箱：" path="email">
-          <n-input v-model:value="model.email" placeholder="很有用的邮箱" />
+        <n-form-item label="昵称：" path="name">
+          <n-input v-model:value="model.name" placeholder="总得有个名字吧" />
         </n-form-item>
 
         <n-form-item label="电话：" path="phone">
@@ -105,7 +106,6 @@
             show-password-on="click"
             placeholder="旧密码"
             @input="handlePasswordInput2"
-            :maxlength="15"
           />
         </n-form-item>
         <n-form-item label="新密码：" path="newPasswd" ref="newPasswdRef">
@@ -113,7 +113,7 @@
             v-model:value="model2.newPasswd"
             type="password"
             show-password-on="click"
-            placeholder=">5位字符组合"
+            placeholder=">7位字符组合"
             @input="handlePasswordInput"
             @keydown.enter.prevent
           />
@@ -150,7 +150,7 @@ const props = defineProps<{ userInfo: User }>();
 const model = ref({
   sex: 0,
   name: '',
-  email: '',
+  avatar: '',
   phone: '',
   description: '',
 });
@@ -168,7 +168,7 @@ const showModal2 = ref(false);
 const emits = defineEmits(['update-info']);
 
 function validatePasswordLength(rule: FormItemRule, value: string): boolean {
-  return !(value.length < 5 && value.length > 0);
+  return !(value.length < 7 && value.length > 0);
 }
 
 function validatePasswordNotNull(rule: FormItemRule, value: string): boolean {
@@ -216,7 +216,7 @@ const rules: FormRules = {
     },
     {
       validator: validatePasswordLength,
-      message: '密码长度不能小于5',
+      message: '密码长度不能小于8',
       trigger: ['input', 'blur'],
     },
     {
@@ -249,7 +249,7 @@ const handleInit = () => {
   model.value = {
     sex: props.userInfo.sex,
     name: props.userInfo.name,
-    email: props.userInfo.email,
+    avatar: props.userInfo.avatar,
     phone: props.userInfo.phone,
     description: props.userInfo.description,
   };
