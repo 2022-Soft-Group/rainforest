@@ -23,9 +23,12 @@ import { getArticleListRecommand } from '@/api/article';
 import { getTrends } from '@/api/message';
 import { useLoadingBar } from 'naive-ui';
 import { ref, onMounted } from 'vue';
+import { useAuthStore } from '@/store/auth';
+
 let currentRecommandPage = 0;
 let currentTrendPage = 0;
 const loadingBar = useLoadingBar();
+const { isLogin } = useAuthStore();
 
 function requestRecommand() {
   isLoading.value = true;
@@ -61,17 +64,23 @@ function reload() {
   getArticleListRecommand({ size: 10, page: currentRecommandPage }).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticleItem>;
+      if (!isLogin) {
+        isLoading.value = false;
+        loadingBar.finish();
+      }
     }
   });
-  getTrends({ size: 10, page: currentTrendPage, new: 0 }).then((res) => {
-    if (res.data.status == 0) {
-      res.data.data.articles.forEach((element: any) => {
-        trends.value.push(element);
-      });
-      isLoading.value = false;
-      loadingBar.finish();
-    }
-  });
+  if (isLogin) {
+    getTrends({ size: 10, page: currentTrendPage, new: 0 }).then((res) => {
+      if (res.data.status == 0) {
+        res.data.data.articles.forEach((element: any) => {
+          trends.value.push(element);
+        });
+        isLoading.value = false;
+        loadingBar.finish();
+      }
+    });
+  }
 }
 const isLoading = ref(false);
 const articles = ref<Array<ArticleItem>>([]);

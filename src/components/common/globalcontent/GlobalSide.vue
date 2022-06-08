@@ -5,10 +5,10 @@
     </n-card>
     <div class="sticky top-16">
       <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
-        <ranking-list />
+        <carousel-card />
       </n-card>
       <n-card :bordered="false" class="my-4 rounded-md shadow-sm">
-        <carousel-card />
+        <ranking-list />
       </n-card>
     </div>
   </div>

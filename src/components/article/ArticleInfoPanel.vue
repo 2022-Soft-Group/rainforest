@@ -115,13 +115,15 @@ function reload() {
   collectNum.value = props.articleInfo.collection;
   commentNum.value = props.articleInfo.comments;
   if (props.articleInfo.articleID == 0) return;
-  getUserArticleStatus(props.articleInfo.articleID).then((res) => {
-    if (res.data.status == 0) {
-      liked.value = res.data.data.liked;
-      disliked.value = res.data.data.disliked;
-      collected.value = res.data.data.collected;
-    }
-  });
+  if (isLogin) {
+    getUserArticleStatus(props.articleInfo.articleID).then((res) => {
+      if (res.data.status == 0) {
+        liked.value = res.data.data.liked;
+        disliked.value = res.data.data.disliked;
+        collected.value = res.data.data.collected;
+      }
+    });
+  }
 }
 
 defineExpose({ reload, handleCollect, handleLike, liked, collected, likeNum, collectNum, commentNum });
