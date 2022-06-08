@@ -99,7 +99,7 @@ const handleCollect = () => {
   if (isLogin) {
     collectArticle(props.articleInfo.articleID.toString()).then((res) => {
       if (res.data.status == 0) {
-        collectNum.value = collectNum.value ? collectNum.value - 1 : collectNum.value + 1;
+        collectNum.value = collected.value ? collectNum.value - 1 : collectNum.value + 1;
         collected.value = !collected.value;
       } else {
         window.$message.error('现在不能收藏');
