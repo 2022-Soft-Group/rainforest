@@ -50,7 +50,7 @@
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
-          <!-- <resouce-list></resouce-list> -->
+          <resouce-list></resouce-list>
         </n-tab-pane>
       </n-tabs>
     </n-card>
