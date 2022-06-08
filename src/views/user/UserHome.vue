@@ -50,6 +50,7 @@
         </n-tab-pane>
         <n-tab-pane tab="收藏" name="collection">
           <n-tabs type="line" animated>
+<<<<<<< HEAD
             <n-tab-pane name="收藏的文章">
               <articles-list
                 :articles="collectedArticles"
@@ -65,6 +66,16 @@
               </div>
               <no-item :list-num="collectedColumns.length" item-type="收藏的专栏"></no-item>
             </n-tab-pane>
+=======
+            <n-tab-pane name="收藏的文章"> </n-tab-pane>
+            <n-tab-pane name="收藏的专栏">
+              <div class="flex flex-wrap">
+                <div v-for="item in columnsColl" class="some">
+                  <column-list-item :column-info="item"></column-list-item>
+                </div>
+                <n-empty v-if="columns.length == 0" description="还没有专栏哦"></n-empty></div
+            ></n-tab-pane>
+>>>>>>> rainysong
           </n-tabs>
         </n-tab-pane>
         <n-tab-pane tab="资源" name="resource">
@@ -95,6 +106,7 @@ import ProfilerHeader from '../user/ProfilerHeader.vue';
 import userAchivement from './UserAchivement.vue';
 import userFollowNum from './UserFollowNum.vue';
 import UserList from './UserList.vue';
+<<<<<<< HEAD
 import {
   getUserInfo,
   getUserArticleList,
@@ -105,6 +117,10 @@ import {
   getUserCollectColumns,
 } from '@/api/user';
 import { getUserColumns, getMyColumns } from '@/api/columns';
+=======
+import { getUserInfo, getUserArticleList, getUserListFollowing, getUserFeature, getUserListFollowed } from '@/api/user';
+import { getUserColumns, getMyColumns, getUserFollowColumn } from '@/api/columns';
+>>>>>>> rainysong
 import { useRoute } from 'vue-router';
 const route = useRoute();
 let currentPage = [0, 0, 0, 0, 0, 0, 0, 0];
@@ -260,14 +276,29 @@ function reload() {
       window.$message.error('获取关注数量失败');
     }
   });
+<<<<<<< HEAD
   loadColumn();
   loadCollectColumn();
+=======
+  getUserFollowColumn(Number(userID.value), { size: 10, page: currentPage[2]++ }).then((res) => {
+    if (res.data.status == 0) {
+      // window.$message.info(userID.value);
+      columnsColl.value = res.data.data.columnInfos;
+    } else {
+      window.$message.error('获取收藏专栏失败');
+    }
+  });
+>>>>>>> rainysong
 }
 
 // 专栏
 const columns = ref<Array<ColumnListItem>>([]);
+<<<<<<< HEAD
 const collectedColumns = ref<Array<ColumnListItem>>([]);
 
+=======
+const columnsColl = ref<Array<ColumnListItem>>([]);
+>>>>>>> rainysong
 // 我的文章
 const isLoading = ref(false);
 const isLoading2 = ref(false);
