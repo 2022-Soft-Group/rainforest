@@ -1,5 +1,5 @@
 <template>
-  <div class="text-right">
+  <div v-if="curUserID == userId" class="text-right">
     <resource-upload-button ref="upload" @finish-upload="addNewResource" />
   </div>
 
@@ -14,7 +14,11 @@
     <!-- <n-empty v-if="resoucesInfo.length == 0" description="还没有资源哦"></n-empty> -->
     <div v-for="(resource, index) in resoucesInfo">
       <n-divider v-if="index != 0"></n-divider>
-      <resource-list-item :isLoading="isLoading" :resource-info="resource"></resource-list-item>
+      <resource-list-item
+        :isLoading="isLoading"
+        :resource-info="resource"
+        @delete-resource="handleDelete"
+      ></resource-list-item>
     </div>
   </div>
   <n-divider />
@@ -24,7 +28,7 @@
 import { getUserResourceList } from '@/api/asset';
 import { watch, ref } from 'vue';
 import type ResourceUploadButton from './ResourceUploadButton.vue';
-
+const curUserID = localStorage.getItem('userID');
 const props = defineProps<{ userId: string }>();
 const upload = ref<InstanceType<typeof ResourceUploadButton> | null>(null);
 const resoucesInfo = ref<Array<ResourceItem>>([]);
@@ -32,6 +36,18 @@ const isLoading = ref(false);
 let currentPage = 0;
 function addNewResource() {
   resoucesInfo.value.unshift(upload.value?.resource as ResourceItem);
+}
+
+function handleDelete() {
+  getUserResourceList(props.userId, { page: currentPage, size: 10 }).then((res) => {
+    isLoading.value = true;
+    if (res.data.status == 0) {
+      resoucesInfo.value = res.data.data.resources;
+      isLoading.value = false;
+    } else {
+      window.$message.error('获取我的资源列表失败');
+    }
+  });
 }
 
 watch(
@@ -47,7 +63,7 @@ watch(
       }
     });
   },
-  { immediate: true }
+  { immediate: true, deep: true }
 );
 </script>
 

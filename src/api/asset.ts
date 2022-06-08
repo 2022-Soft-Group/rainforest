@@ -31,3 +31,7 @@ export function downloadResource(assetID: number) {
 export function getUserResourceList(userID: string, data: { page: number; size: number }) {
   return backend.get(`asset/list/${userID}`, { params: data });
 }
+
+export function deleteResource(assetID: number) {
+  return backend.delete(`/asset/delete/${assetID}`);
+}
