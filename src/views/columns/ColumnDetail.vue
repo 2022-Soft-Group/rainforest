@@ -126,6 +126,7 @@ const userInfo = ref<User>({
   createTime: '',
   modifyTime: '',
   isAdmin: false,
+  cover: '',
 });
 onMounted(reload);
 function reload() {
@@ -197,12 +198,15 @@ const handleCollect = () => {
   if (isLogin) {
     collectColumn(columnInfo.value.id.toString()).then((res) => {
       if (res.data.status == 0) {
-        if (!collected.value) {
-          columnInfo.value.followerNum++;
-          collected.value = !collected.value;
-        } else {
-          columnInfo.value.followerNum--;
-          collected.value = !collected.value;
+        // if (!collected.value) {
+        //   columnInfo.value.followerNum++;
+        //   collected.value = !collected.value;
+        // } else {
+        //   columnInfo.value.followerNum--;
+        //   collected.value = !collected.value;
+        // }
+        if (res.data.data.isFollowed) {
+          window.$message.info('1111111111');
         }
       } else {
         window.$message.error('现在不能收藏');
@@ -224,7 +228,6 @@ function handlePutin() {
           articles.value.push(res.data.data.articleInfo);
         }
       });
-      articles.value.push();
     } else {
       window.$message.error('收录文章失败');
     }
