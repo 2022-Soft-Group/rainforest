@@ -1,11 +1,7 @@
 <template>
   <n-page-header>
     <template #title>
-<<<<<<< HEAD
       <router-link :to="'/user/' + userFeature.id">
-=======
-      <router-link :to="'/user/' + userFeature.id" target="_blank">
->>>>>>> dev
         <div class="text-lg font-bold">{{ userFeature.name }}</div>
       </router-link>
     </template>
