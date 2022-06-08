@@ -139,12 +139,9 @@ function handleChangeFollow() {
 
 function loadColumn() {
   loadingBar.start();
-  getUserColumns(Number(userID.value), { size: 10, page: currentPage[2]++ }).then((res) => {
+  getUserColumns(parseInt(userID.value), { size: 10, page: currentPage[2]++ }).then((res) => {
     if (res.data.status == 0) {
       columns.value = res.data.data.columns;
-      // res.data.data.columns.forEach((element: any) => {
-      //   columns.value.push(element);
-      // });
       loadingBar.finish();
     } else {
       window.$message.error('获取专栏失败');
@@ -251,7 +248,7 @@ watch(
       defaultTabName.value = route.params.target as string;
       userID.value = route.params.id as string;
     }
-    if (route.params.id != null) {
+    if (route.params.id != null && route.name == 'userhome') {
       reload();
     }
   }

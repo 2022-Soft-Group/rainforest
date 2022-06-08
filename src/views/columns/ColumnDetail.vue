@@ -146,7 +146,6 @@ function reload() {
       }
       getColumnFollowStatus(route.params.id as string).then((res) => {
         if (res.data.status == 0) {
-          window.$message.info('11111111ssss1');
           collected.value = res.data.data.isFollowed;
         }
       });
