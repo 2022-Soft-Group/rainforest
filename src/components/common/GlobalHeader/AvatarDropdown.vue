@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { h } from 'vue';
+import { h, onMounted } from 'vue';
 import type { Component } from 'vue';
 import { NIcon } from 'naive-ui';
 import { useRouter } from 'vue-router';
@@ -16,7 +16,7 @@ import { useAuthStore } from '@/store/auth';
 import { logout } from '@/api/auth';
 
 const router = useRouter();
-const userID = localStorage.getItem('userID') as string;
+let userID = localStorage.getItem('userID') as string;
 const { signOut } = useAuthStore();
 const avatar = localStorage.getItem('avatar');
 const renderIcon = (icon: Component) => {
@@ -53,6 +53,10 @@ const handleDropdownSelect = (key: string) => {
     });
   }
 };
+
+onMounted(() => {
+  userID = localStorage.getItem('userID') as string;
+});
 </script>
 
 <style scoped></style>

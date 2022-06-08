@@ -251,13 +251,16 @@ watch(
       defaultTabName.value = route.params.target as string;
       userID.value = route.params.id as string;
     }
-    reload();
+    if (route.params.id != null) {
+      reload();
+    }
   }
 );
 
 onMounted(() => {
   defaultTabName.value = route.params.target as string;
   userID.value = route.params.id as string;
+  if (userID.value === 'null') return;
   reload();
 });
 </script>
