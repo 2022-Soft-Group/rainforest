@@ -81,13 +81,13 @@ const route = useRoute();
 let currentPage = 0;
 const changeCount = ref(0);
 const loadingBar = useLoadingBar();
-let userID = route.params.id as string;
+const userID = ref('');
 const defaultTabName = ref('article');
 
 function handleRequest() {
   isLoading.value = true;
   loadingBar.start();
-  getUserArticleList({ size: 10, page: ++currentPage }, userID).then((res) => {
+  getUserArticleList({ size: 10, page: ++currentPage }, userID.value).then((res) => {
     if (res.data.status == 0) {
       res.data.data.articleInfos.forEach((element: any) => {
         articles.value.push(element);
@@ -99,7 +99,7 @@ function handleRequest() {
 }
 
 function handleUpdateInfo() {
-  getUserInfo(userID).then((res) => {
+  getUserInfo(userID.value).then((res) => {
     if (res.data.status == 0) {
       userInfo.value = res.data.data.user as User;
     } else {
@@ -109,7 +109,7 @@ function handleUpdateInfo() {
 }
 
 function handleChangeFollow() {
-  getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
+  getUserListFollowing({ size: 10, page: 0 }, userID.value).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
@@ -117,7 +117,7 @@ function handleChangeFollow() {
       window.$message.error('获取我关注的用户失败');
     }
   });
-  getUserListFollowed({ size: 10, page: 0 }, userID).then((res) => {
+  getUserListFollowed({ size: 10, page: 0 }, userID.value).then((res) => {
     if (res.data.status == 0) {
       userListFollowed.value = res.data.data.userListFollowed as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
@@ -129,12 +129,11 @@ function handleChangeFollow() {
 }
 
 function reload() {
-  userID = route.params.id as string;
   isLoading.value = true;
   userListFollowingIsLoading.value = true;
   userListFollowedIsLoading.value = true;
   loadingBar.start();
-  getUserArticleList({ size: 10, page: currentPage }, userID).then((res) => {
+  getUserArticleList({ size: 10, page: currentPage }, userID.value).then((res) => {
     if (res.data.status == 0) {
       articles.value = res.data.data.articleInfos as Array<ArticleItem>;
       isLoading.value = false;
@@ -143,14 +142,14 @@ function reload() {
       window.$message.error('获取推荐列表失败');
     }
   });
-  getUserInfo(userID).then((res) => {
+  getUserInfo(userID.value).then((res) => {
     if (res.data.status == 0) {
       userInfo.value = res.data.data.user as User;
     } else {
       window.$message.error('获取我的用户信息失败');
     }
   });
-  getUserListFollowing({ size: 10, page: 0 }, userID).then((res) => {
+  getUserListFollowing({ size: 10, page: 0 }, userID.value).then((res) => {
     if (res.data.status == 0) {
       userListFollowing.value = res.data.data.userListFollowing as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
@@ -158,7 +157,7 @@ function reload() {
       window.$message.error('获取我关注的用户失败');
     }
   });
-  getUserListFollowed({ size: 10, page: 0 }, userID).then((res) => {
+  getUserListFollowed({ size: 10, page: 0 }, userID.value).then((res) => {
     if (res.data.status == 0) {
       userListFollowed.value = res.data.data.userListFollowed as Array<UserFeature>;
       userListFollowingIsLoading.value = false;
@@ -166,7 +165,7 @@ function reload() {
       window.$message.error('获取关注我的用户失败');
     }
   });
-  getUserFeature(userID).then((res) => {
+  getUserFeature(userID.value).then((res) => {
     if (res.data.status == 0) {
       userFeature.value = res.data.data.userFeature;
     } else {
@@ -218,12 +217,14 @@ watch(
   () => {
     if (route.params.target !== undefined) {
       defaultTabName.value = route.params.target as string;
+      userID.value = route.params.id as string;
     }
   }
 );
 
 onMounted(() => {
   defaultTabName.value = route.params.target as string;
+  userID.value = route.params.id as string;
   reload();
 });
 </script>

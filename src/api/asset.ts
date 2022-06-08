@@ -11,11 +11,21 @@ export function uploadImage(img: File, width: number | null, height: number | nu
   return jsonBackend.post('asset/uploadimg', formData);
 }
 
-export function uploadResource(resouce: File, description: string) {
+export function uploadResource(resource: File, description: string, cost: number, name: string) {
   let formData = new FormData();
-  formData.append('resouce', resouce);
+  formData.append('resource', resource);
   formData.append('description', description);
-  return jsonBackend.post('asset/resouce', formData);
+  formData.append('cost', cost.toString());
+  formData.append('name', name);
+  return jsonBackend.post('asset/resource', formData);
+}
+
+export function purchaseResource(assetID: number) {
+  return backend.post(`asset/buy/${assetID}`);
+}
+
+export function downloadResource(assetID: number) {
+  return backend.get(`asset/${assetID}`, { responseType: 'blob' });
 }
 
 export function getUserResourceList(userID: string, data: { page: number; size: number }) {
