@@ -22,4 +22,9 @@ defineProps<{ articles: Array<ArticleItem>; isLoading: boolean }>();
 const emits = defineEmits(['request-articles']);
 </script>
 
-<style scoped></style>
+<style scoped>
+:deep(.n-divider) {
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+</style>

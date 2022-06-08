@@ -112,6 +112,7 @@ const userInfo = ref<User>({
   coin: 0,
   createTime: '',
   modifyTime: '',
+  isAdmin: false,
 });
 const showCommentBox = ref(false);
 const showSubComments = ref(false);

@@ -26,13 +26,17 @@ const router = useRouter();
 const { signOut } = useAuthStore();
 backend.interceptors.response.use(
   (response) => {
-    if (response.data.status == 102) {
-      signOut();
-      router.push({ name: 'login' });
-    } else if (response.data.status != 0) {
-      window.$message.error(response.data.message);
-      return Promise.reject(response);
-    } else return Promise.resolve(response);
+    if (response.headers['content-type'] == 'json') {
+      if (response.data.status == 102) {
+        signOut();
+        router.push({ name: 'login' });
+      } else if (response.data.status != 0) {
+        window.$message.error(response.data.message);
+        return Promise.reject(response);
+      } else return Promise.resolve(response);
+    } else {
+      return response;
+    }
   },
   (error) => {
     window.$message.error('网络故障, 请检查网络连接');
