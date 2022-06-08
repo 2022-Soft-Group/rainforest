@@ -96,7 +96,7 @@
       <div class="ColumnHomeTitle-line"></div>
     </h3>
     <div class="ColumnHomeRecommendation-cardContainer w-full">
-      <div v-for="item in columnList" class="m-2">
+      <div v-for="item in columnList" class="m-2 flex-auto">
         <column-list-item :column-info="item"></column-list-item>
       </div>
     </div>

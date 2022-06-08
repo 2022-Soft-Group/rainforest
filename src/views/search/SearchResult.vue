@@ -121,8 +121,6 @@ onMounted(reload);
 </script>
 <style>
 .some {
-  border-radius: 10px;
-  border-width: 1px;
   margin: 5px;
 }
 </style>

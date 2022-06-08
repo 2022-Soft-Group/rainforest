@@ -1,23 +1,22 @@
 <template>
-  <n-card class="Cardun"
-    ><router-link class="ColumnHomeColumnCard" :to="'/columns/' + columnInfo.id">
-      <n-avatar :src="columnInfo.img" round></n-avatar>
-      <div class="ColumnHomeColumnCard-info">
-        <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
-        <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
-      </div>
-      <div class="ColumnHomeColumnCard-meta">
-        {{ columnInfo.followerNum }} 人收藏 | {{ columnInfo.articleNum }} 篇文章
-      </div>
-      <n-button
-        class="Button ColumnHomeColumnCard-followButton Button--green"
-        type="primary"
-        :to="'/columns/' + columnInfo.id"
-        target="_blank"
-        >进入专栏</n-button
-      >
-    </router-link></n-card
-  >
+  <div class="text-black">.</div>
+  <router-link class="ColumnHomeColumnCard" :to="'/columns/' + columnInfo.id">
+    <n-avatar :src="columnInfo.img" round class="mt-10px"></n-avatar>
+    <div class="ColumnHomeColumnCard-info">
+      <div class="ColumnHomeColumnCard-title">{{ columnInfo.title }}</div>
+      <div class="ColumnHomeColumnCard-description">{{ columnInfo.description }}</div>
+    </div>
+    <div class="ColumnHomeColumnCard-meta">
+      {{ columnInfo.followerNum }} 人收藏 | {{ columnInfo.articleNum }} 篇文章
+    </div>
+    <n-button
+      class="Button ColumnHomeColumnCard-followButton Button--green mb-10px"
+      type="primary"
+      :to="'/columns/' + columnInfo.id"
+      target="_blank"
+      >进入专栏</n-button
+    >
+  </router-link>
 </template>
 
 <script setup lang="ts">
@@ -42,9 +41,11 @@ const props = defineProps<{ columnInfo: ColumnListItem }>();
 
   display: flex;
   background: #18181c;
+  background-color: rgba(50, 50, 50, 1);
   flex-direction: column;
 
-  width: 150px;
+  width: 200px;
+  height: 250px;
   align-items: center;
 }
 
@@ -92,7 +93,7 @@ a {
   margin-top: 14px;
 }
 .ColumnHomeColumnCard-meta {
-  color: grey;
+  color: #fff;
 }
 .ColumnHomeColumnCard-followButton {
   margin-top: 15px;
