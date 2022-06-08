@@ -28,6 +28,7 @@ declare module 'vue' {
     HoverContainer: typeof import('./src/components/common/HoverContainer.vue')['default']
     MessageDropdown: typeof import('./src/components/common/GlobalHeader/MessageDropdown.vue')['default']
     NaiveProvider: typeof import('./src/components/common/NaiveProvider.vue')['default']
+    NoItem: typeof import('./src/components/common/globalcontent/NoItem.vue')['default']
     QuickGuider: typeof import('./src/components/common/globalcontent/QuickGuider.vue')['default']
     RankingList: typeof import('./src/components/common/globalcontent/RankingList.vue')['default']
     ResourceList: typeof import('./src/components/resources/ResourceList.vue')['default']
