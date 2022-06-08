@@ -6,7 +6,7 @@
       <slot></slot>
       <n-button
         v-if="!showSlider"
-        class="fixed right-10 bottom-35 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        class="fixed right-5 bottom-35 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
         type="primary"
         size="large"
         secondary
@@ -17,7 +17,7 @@
       </n-button>
       <n-button
         v-if="!showSlider"
-        class="fixed right-10 bottom-20 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        class="fixed right-5 bottom-20 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
         type="primary"
         size="large"
         secondary
@@ -26,13 +26,13 @@
       >
         <n-icon><rain-icon /></n-icon>
       </n-button>
-      <glossy-card v-else class="z-400 fixed right-8 bottom-20" @mouseleave="showSlider = false">
+      <glossy-card v-else class="z-400 fixed right-3 bottom-20" @mouseleave="showSlider = false">
         <div class="rain-slider h-30 rounded-md">
           <n-slider vertical @update-value="handleChangeRainAmount" v-model:value="rainAmount" />
         </div>
       </glossy-card>
       <n-button
-        class="fixed left-10 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        class="fixed left-5 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
         type="primary"
         size="large"
         secondary
@@ -42,7 +42,7 @@
         <n-icon><back-icon /></n-icon>
       </n-button>
       <n-button
-        class="fixed right-10 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
+        class="fixed right-5 bottom-5 bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-60"
         type="primary"
         size="large"
         secondary

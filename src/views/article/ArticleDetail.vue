@@ -1,36 +1,7 @@
 <template>
   <div class="flex">
-    <n-space vertical>
-      <n-card class="flex m-auto rounded-md w-230">
-        <template #cover v-if="articleInfo.image != ''">
-          <img class="max-h-400" :src="articleInfo.image" />
-        </template>
-        <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
-        <router-link :to="'/user/' + articleInfo.authorID">
-          <n-thing>
-            <template #avatar>
-              <n-avatar round :src="userInfo.avatar"></n-avatar>
-            </template>
-            <template #header>{{ userInfo.name }}</template>
-            <template #description> {{ userInfo.description }} </template>
-          </n-thing>
-        </router-link>
-        <n-divider />
-        <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
-      </n-card>
-      <div id="like-zone">
-        <n-card class="flex m-auto rounded-md">
-          <article-info-panel :article-info="articleInfo" ref="infoPanel"></article-info-panel>
-        </n-card>
-      </div>
-      <div id="comment-zone">
-        <n-card class="flex m-auto rounded-md">
-          <comment-overview :comment-num="articleInfo.comments"></comment-overview>
-        </n-card>
-      </div>
-    </n-space>
     <div class="w-0">
-      <n-space vertical size="large" class="sticky top-2/3 ml-5">
+      <n-space vertical size="large" class="sticky top-1/4 mr-5">
         <n-tooltip trigger="hover" placement="right">
           <template #trigger>
             <n-badge :value="infoPanel?.likeNum" color="#63e2b7">
@@ -98,6 +69,35 @@
         </n-tooltip>
       </n-space>
     </div>
+    <n-space class="mx-13" vertical>
+      <n-card class="flex rounded-md">
+        <template #cover v-if="articleInfo.image != ''">
+          <img class="max-h-400" :src="articleInfo.image" />
+        </template>
+        <n-h1 class="font-bold">{{ articleInfo.title }}</n-h1>
+        <router-link :to="'/user/' + articleInfo.authorID">
+          <n-thing>
+            <template #avatar>
+              <n-avatar round :src="userInfo.avatar"></n-avatar>
+            </template>
+            <template #header>{{ userInfo.name }}</template>
+            <template #description> {{ userInfo.description }} </template>
+          </n-thing>
+        </router-link>
+        <n-divider />
+        <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
+      </n-card>
+      <div id="like-zone">
+        <n-card class="flex m-auto rounded-md">
+          <article-info-panel :article-info="articleInfo" ref="infoPanel"></article-info-panel>
+        </n-card>
+      </div>
+      <div id="comment-zone">
+        <n-card class="flex m-auto rounded-md">
+          <comment-overview :comment-num="articleInfo.comments"></comment-overview>
+        </n-card>
+      </div>
+    </n-space>
   </div>
 </template>
 <script lang="ts">
@@ -135,6 +135,7 @@ export default defineComponent({
       name: '',
       description: '',
       avatar: '',
+      cover: '',
       id: 0,
       sex: 0,
       email: '',
