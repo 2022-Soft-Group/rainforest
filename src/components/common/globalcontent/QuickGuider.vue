@@ -49,6 +49,6 @@ const handleDraftBox = () => {
 };
 
 const handleUserDirect = (direct: string) => {
-  router.replace({ name: 'userDirect', params: { target: direct } });
+  router.replace({ name: 'userDirect', params: { id: localStorage.getItem('userID'), target: direct } });
 };
 </script>

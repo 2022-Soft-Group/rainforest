@@ -56,7 +56,7 @@
       <n-card :bordered="false" class="my-2 rounded-md shadow-sm">
         <user-follow-num :following="userFeature.followingNum" :followed="userFeature.followedNum" />
       </n-card>
-      <n-card :bordered="false" class="my-2 rounded-md shadow-sm sticky top-16">
+      <n-card v-if="!isLoading" :bordered="false" class="my-2 rounded-md shadow-sm sticky top-16">
         <quick-guider />
       </n-card>
     </div>
@@ -213,6 +213,8 @@ const userListFollowed = ref<Array<UserFeature>>([]);
 watch(
   () => route.params,
   () => {
+    console.log(route.params.target);
+    defaultTabName.value = route.params.target as string;
     reload();
   }
 );

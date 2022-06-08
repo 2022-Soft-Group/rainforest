@@ -82,19 +82,19 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/user',
-    name: 'userHome',
+    name: 'userhome',
     redirect: '/user/' + userID,
     meta: { requiresAuth: true },
-    component: () => import('../views/user/UserHome.vue'),
+    component: () => import('../views/user/index.vue'),
     children: [
+      // {
+      //   path: '',
+      //   name: 'userhome',
+      //   meta: { requiresAuth: true },
+      //   component: () => import('../views/user/UserHome.vue'),
+      // },
       {
-        path: '',
-        name: 'userhome',
-        meta: { requiresAuth: true },
-        component: () => import('../views/user/UserHome.vue'),
-      },
-      {
-        path: 'direct/:target',
+        path: ':id/direct/:target',
         name: 'userDirect',
         component: () => import('../views/user/UserHome.vue'),
       },
