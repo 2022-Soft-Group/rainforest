@@ -1,5 +1,5 @@
 <template>
-  <n-button @click="showModal = true"> 上传资源 </n-button>
+  <n-button @click="showModal = true" type="primary" ghost> 上传资源 </n-button>
   <n-divider></n-divider>
   <n-modal
     v-model:show="showModal"

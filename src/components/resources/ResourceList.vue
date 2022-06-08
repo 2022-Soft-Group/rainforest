@@ -1,5 +1,8 @@
 <template>
-  <resource-upload-button ref="upload" @finish-upload="addNewResource" />
+  <div class="text-right">
+    <resource-upload-button ref="upload" @finish-upload="addNewResource" />
+  </div>
+
   <div v-if="isLoading">
     <div v-for="index of 10" :key="index">
       <n-divider v-if="index != 1"></n-divider>
