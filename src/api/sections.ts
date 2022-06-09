@@ -1,4 +1,4 @@
-import { backend } from './utils/request';
+import { backend, jsonBackend } from './utils/request';
 
 export function getSections() {
   return backend.get('sections');
@@ -23,4 +23,8 @@ export function addTag(tag: TagItem) {
 }
 export function deleteTag(tagID: string) {
   return backend.delete(`/sections/tag/${tagID}`);
+}
+
+export function updateTag(tagID: string, tag: TagUpdate) {
+  return jsonBackend.put(`/sections/tag/${tagID}`, tag);
 }
