@@ -1,5 +1,17 @@
 <template>
-  <n-space vertical>
+  <n-space>
+    <n-tooltip trigger="hover">
+      <template #trigger>
+        <n-button text>
+          <template #icon>
+            <n-icon><alert-icon /></n-icon>
+          </template>
+          添加标签
+        </n-button>
+      </template>
+      回车以添加,最多4个
+    </n-tooltip>
+
     <n-dynamic-tags v-model:value="selectedValue" :max="4">
       <template #input="{ deactivate }">
         <n-select
@@ -14,7 +26,8 @@
           @search="handleSearch"
           @blur="deactivate"
           @keydown.enter="handleFinishSearch"
-        />
+        >
+        </n-select>
       </template>
       <template #trigger="{ activate, disabled }">
         <n-button size="small" type="primary" dashed :disabled="disabled" @click="activate()">
@@ -33,17 +46,15 @@
 import { searchTag } from '@/api/search';
 import { Add as AddIcon } from '@vicons/ionicons5';
 import { ref, watch } from 'vue';
+import { AlertCircleOutline as AlertIcon } from '@vicons/ionicons5';
 const props = defineProps<{ tags: Array<TagItem> }>();
 const isLoading = ref(false);
 const selectedValue = ref<Array<{ label: string; value: string }>>([]);
-
 const newTag = ref('');
 const selectedSet = new Set<string>();
-const multipleSelectValue = ref<Array<Number>>([]);
 const options = ref<Array<{ label: string; value: string }>>([]);
 let tagIdMap = new Map<number, string>();
-defineExpose({ multipleSelectValue });
-const emits = defineEmits(['tag-finish']);
+defineExpose({ selectedValue });
 
 function handleSearch(key: string) {
   if (key != '' && key != null) {

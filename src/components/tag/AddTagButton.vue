@@ -1,7 +1,5 @@
 <template>
-  <n-space class="pt-22">
-    <n-button type="primary" @click="showModal = true" class="ml-30"> 新建标签 </n-button>
-  </n-space>
+  <n-button type="primary" @click="showModal = true"> 新建标签 </n-button>
   <n-modal
     v-model:show="showModal"
     :mask-closable="false"
@@ -16,7 +14,6 @@
   >
     <n-card class="modalCard">
       <n-h1 class="text-center">新建标签</n-h1>
-
       <n-space vertical size="large">
         <n-input v-model:value="newTagTitle" type="text" placeholder="请输入标签名称" class="mt-6" />
         <n-select v-model:value="newTagValue" :options="newTagOptions" class="mt-6" />

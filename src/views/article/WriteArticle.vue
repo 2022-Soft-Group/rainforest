@@ -13,48 +13,56 @@
     </n-card>
 
     <n-card class="flex m-auto mt-4 rounded-md">
-      <n-h2 class="flex m-4 font-semibold">发布选项</n-h2>
-      <n-space justify="space-around">
-        <upload-button class="w-60 h-48 m-4 border-2 border-dashed rounded-md" ref="upload" @change="clickUploadImage">
-          <div v-if="image == ''" class="m-18 text-gray-400">
-            <div>点击发布封面</div>
-            <div>.jpeg/.png/.svg</div>
+      <n-space class="my-3" vertical>
+        <div class="flex justify-between ml-4 mr-12">
+          <article-add-tag ref="addTags" :tags="tags"></article-add-tag>
+          <add-tag-button></add-tag-button>
+        </div>
+
+        <div class="flex justify-between">
+          <upload-button
+            class="w-60 h-48 m-4 border-2 border-dashed rounded-md"
+            ref="upload"
+            @change="clickUploadImage"
+          >
+            <div v-if="image == ''" class="m-18 text-gray-400">
+              <div>点击发布封面</div>
+              <div>.jpeg/.png/.svg</div>
+            </div>
+            <n-image
+              v-else
+              preview-disabled
+              width="240"
+              object-fit="cover"
+              class="h-48 flex-none rounded-md"
+              :src="image"
+            />
+          </upload-button>
+          <div class="flex flex-col justify-between my-5 mx-10">
+            <n-space>
+              <n-tooltip trigger="hover" placement="bottom">
+                <template #trigger>
+                  <n-radio :checked="!isPrivate" @change="isPrivate = !isPrivate"> 公开发布 </n-radio>
+                </template>
+                所有人都能看到你的文章
+              </n-tooltip>
+              <n-tooltip trigger="hover" placement="bottom">
+                <template #trigger>
+                  <n-radio :checked="isPrivate" @change="isPrivate = !isPrivate"> 私有发布 </n-radio>
+                </template>
+                只有你自己能看到你的文章
+              </n-tooltip>
+            </n-space>
+            <n-space>
+              <n-button type="primary" @click="handlePublish">发布文章</n-button>
+              <n-button type="info" @click="handleSave">保存文章</n-button>
+            </n-space>
           </div>
-          <n-image
-            v-else
-            preview-disabled
-            width="240"
-            object-fit="cover"
-            class="h-48 flex-none rounded-md"
-            :src="image"
-          />
-        </upload-button>
-        <n-space vertical class="my-4 mx-10 w-65">
-          <article-add-tag ref="addTags" :tags="tags" @tag-finish="handleFinishTag"></article-add-tag>
-        </n-space>
-        <n-space vertical class="my-4 mx-10">
-          <n-space>
-            <n-tooltip trigger="hover" placement="bottom">
-              <template #trigger>
-                <n-radio :checked="!isPrivate" @change="isPrivate = !isPrivate"> 公开发布 </n-radio>
-              </template>
-              所有人都能看到你的文章
-            </n-tooltip>
-            <n-tooltip trigger="hover" placement="bottom">
-              <template #trigger>
-                <n-radio :checked="isPrivate" @change="isPrivate = !isPrivate"> 私有发布 </n-radio>
-              </template>
-              只有你自己能看到你的文章
-            </n-tooltip>
-          </n-space>
-          <n-space class="pt-30">
-            <n-button type="primary" @click="handlePublish">发布文章</n-button>
-            <n-button type="info" @click="handleSave">保存文章</n-button>
-          </n-space>
-        </n-space>
+        </div>
       </n-space>
     </n-card>
   </n-space>
+
   <article-resource-modal v-model:show="showModal" @finish-resource="handelFinishResource" />
 </template>
 
@@ -95,8 +103,8 @@ const tocSvg =
   '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><rect x="96" y="48" width="320" height="416" rx="48" ry="48" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></rect><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 128h160"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 208h160"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 288h80"></path></svg>';
 
 function handleFinishTag() {
-  addTags.value?.multipleSelectValue.forEach((ele: any) => {
-    articleUpload.value.tags.push(ele);
+  addTags.value?.selectedValue.forEach((ele: any) => {
+    articleUpload.value.tags.push(parseInt(ele.value));
   });
 }
 
@@ -351,6 +359,7 @@ function fullfillArticle() {
     }
     articleUpload.value.image = image.value;
   }
+  handleFinishTag();
 }
 
 const clickUploadImage = () => {
