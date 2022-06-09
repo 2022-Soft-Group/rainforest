@@ -6,7 +6,7 @@ uniform sampler2D iChannel0;
 uniform float rainAmount;
 
 #define S(a, b, t) smoothstep(a, b, t)
-#define CHEAP_NORMALS
+//#define CHEAP_NORMALS
 #define USE_POST_PROCESSING
 
 
