@@ -209,6 +209,7 @@ function renderVditor() {
     cdn: 'http://kurino.top/cdn',
     after: () => {
       isLoading.value = false;
+      loadArticle();
     },
 
     upload: {
@@ -394,8 +395,7 @@ const clickUploadImage = () => {
   upload.value?.clearFile();
 };
 
-onMounted(() => {
-  renderVditor();
+function loadArticle() {
   if (route.params.type != undefined && route.params.id != undefined) {
     let type = route.params.type as string;
     let id = route.params.id as string;
@@ -417,6 +417,8 @@ onMounted(() => {
       });
     }
   }
-});
+}
+
+onMounted(renderVditor);
 </script>
 <style scoped></style>
