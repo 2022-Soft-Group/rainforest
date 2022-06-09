@@ -15,8 +15,11 @@
     <n-card class="modalCard">
       <n-h1 class="text-center">新建标签</n-h1>
       <n-space vertical size="large">
-        <n-input v-model:value="newTagTitle" type="text" placeholder="请输入标签名称" class="mt-6" />
-        <n-select v-model:value="newTagValue" :options="newTagOptions" class="mt-6" />
+        <n-input v-model:value="newTagTitle" type="text" placeholder="请输入标签名称" class="mt-4" />
+        <div class="flex mt-4">
+          <n-h3 class="w-30 mt-1">标签所属板块:</n-h3>
+          <n-select v-model:value="newTagValue" :options="newTagOptions" />
+        </div>
         <n-input
           type="textarea"
           placeholder="请输入一句话介绍"
@@ -24,7 +27,7 @@
           :autosize="{
             minRows: 3,
           }"
-          class="mt-6"
+          class="mt-4"
         />
         <div>
           <upload-button
