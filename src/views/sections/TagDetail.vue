@@ -16,8 +16,19 @@
       </template> -->
 
       <template #description>
-        <div class="text-gray-400">
+        <div class="text-gray-400 h-6">
           {{ tagInfo.description }}
+        </div>
+        <div class="mt-7"></div>
+        <div class="flex">
+          <div v-if="showEditButton">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button size="small" @click="showModal = true" type="error" class="w-20"> 删除 </n-button>
+              </template>
+              删除该专栏
+            </n-tooltip>
+          </div>
         </div>
       </template>
     </n-thing>
@@ -27,10 +38,12 @@
   </n-card>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, defineComponent } from 'vue';
+import { ref, onMounted, defineComponent, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { getTagArticleList, getTagDetail } from '@/api/sections';
 import { Accessibility } from '@vicons/ionicons5';
+import { useAuthStore } from '@/store/auth';
+const { isLogin, isAdmin } = useAuthStore();
 const route = useRoute();
 const isLoading = ref(false);
 let currentPage = 0;
@@ -72,4 +85,10 @@ function handleRequest() {
     }
   });
 }
+//****按钮相关参数
+const showModal = ref(false);
+const showEditButton = computed(() => {
+  return isLogin && isAdmin;
+});
+//****end
 </script>
