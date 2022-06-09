@@ -3,7 +3,7 @@
     <div class="flex-center h-full">
       <n-badge :value="count">
         <n-icon class="cursor-pointer" size="22" @click="handleClickLoad">
-          <notification-icon class="text-gray-300 hover:text-gray-400"></notification-icon>
+          <notification-icon class="text-gray-300 text-gray-400"></notification-icon>
         </n-icon>
       </n-badge>
     </div>
@@ -14,17 +14,13 @@
             <n-scrollbar style="max-height: 240px">
               <n-list v-if="likesList.length != 0">
                 <n-list-item v-for="(item, index) in likesList">
-                  <router-link
-                    :to="'/user/' + item.userID"
-                    class="hover:text-[#63e2b7]"
-                    @click="handleMarkRead(index, 0)"
-                  >
+                  <router-link :to="'/user/' + item.userID" class="text-[#63e2b7]" @click="handleMarkRead(index, 0)">
                     {{ item.userName }}
                   </router-link>
-                  点赞了你的文章
+                  点赞了你的{{ item.actions == 0 ? '文章' : '评论在' }}
                   <router-link
                     :to="'/article/' + item.articleID"
-                    class="hover:text-[#63e2b7]"
+                    class="text-[#63e2b7]"
                     @click="handleMarkRead(index, 0)"
                   >
                     {{ item.articleTitle }}
@@ -40,17 +36,13 @@
             <n-scrollbar style="max-height: 240px">
               <n-list v-if="commentsList.length != 0">
                 <n-list-item v-for="(item, index) in commentsList">
-                  <router-link
-                    :to="'/user/' + item.userID"
-                    class="hover:text-[#63e2b7]"
-                    @click="handleMarkRead(index, 1)"
-                  >
+                  <router-link :to="'/user/' + item.userID" class="text-[#63e2b7]" @click="handleMarkRead(index, 1)">
                     {{ item.userName }}
                   </router-link>
-                  评论了你的文章
+                  评论了你的{{ item.actions == 1 ? '文章' : '评论在' }}
                   <router-link
                     :to="'/article/' + item.articleID"
-                    class="hover:text-[#63e2b7]"
+                    class="text-[#63e2b7]"
                     @click="handleMarkRead(index, 1)"
                   >
                     {{ item.articleTitle }}
@@ -68,7 +60,7 @@
                 <n-list-item v-for="(item, index) in followList">
                   <router-link
                     :to="'/user/' + item.userID"
-                    class="flex hover:text-[#63e2b7]"
+                    class="flex text-[#63e2b7]"
                     @click="handleMarkRead(index, 2)"
                   >
                     <n-avatar :src="item.userAvatar"></n-avatar>
@@ -96,7 +88,6 @@
 </template>
 
 <script setup lang="tsx">
-import { likeComment } from '@/api/article';
 import { markReadMessage } from '@/api/message';
 import { MailOpen as MarkReadIcon, NotificationsSharp as NotificationIcon } from '@vicons/ionicons5';
 import { ref } from 'vue';
@@ -119,9 +110,9 @@ const handleClickLoad = () => {
   commentsList.value.length = 0;
   followList.value.length = 0;
   props.messages.forEach((elm: MessageInfo) => {
-    if (elm.actions == 0) {
+    if (elm.actions == 0 || elm.actions == 4) {
       likesList.value.push(elm);
-    } else if (elm.actions == 1) {
+    } else if (elm.actions == 1 || elm.actions == 3) {
       commentsList.value.push(elm);
     } else if (elm.actions == 2) {
       followList.value.push(elm);

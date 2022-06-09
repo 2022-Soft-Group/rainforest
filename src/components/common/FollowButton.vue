@@ -15,7 +15,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
 import { followUser, cancelFollowUser, getFollowUserStatus } from '@/api/user';
-const props = defineProps<{ targetUserId: number; changeCount: number }>();
+const props = defineProps<{ targetUserId: number; changeCount?: number }>();
 const followed = ref(true);
 const buttonText = ref('已关注');
 const buttonText2 = ref('+ 关注');

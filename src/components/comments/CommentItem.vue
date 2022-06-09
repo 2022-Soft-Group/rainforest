@@ -35,7 +35,7 @@
         <n-space>
           <n-space justify="space-between">
             <div class="mt-1">
-              <n-button text class="text-gray-400" @click="handleLikeComments">
+              <n-button text :class="{ 'text-gray-400': !liked, 'text-green-300': liked }" @click="handleLikeComments">
                 <n-icon size="small"><like-icon /></n-icon>
                 {{ like != 0 ? like : '点赞' }}
               </n-button>
