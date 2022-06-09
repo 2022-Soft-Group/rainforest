@@ -44,7 +44,7 @@
             @change-follow="handleChangeFollow"
           />
         </n-tab-pane>
-        <n-tab-pane tab="粉丝" name="fan" display-directive="show:lazy">
+        <n-tab-pane tab="粉丝" name="fan" display-directive="if">
           <user-list
             :users="userListFollowed"
             :is-loading="userListFollowedIsLoading"
