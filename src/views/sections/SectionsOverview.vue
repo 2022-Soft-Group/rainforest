@@ -3,7 +3,7 @@
     <n-menu :options="sectionInfo" class="Menu" @update:value="handleUpdateValue" />
 
     <div>
-      <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15">
+      <n-card :bordered="false" class="m-4 rounded-md shadow-sm relative right-15 h-full">
         <router-view></router-view>
       </n-card>
     </div>

@@ -39,6 +39,7 @@ type CommentListItem = {
   image: string | null;
   toCommentID: number | null;
   like: number;
+  liked: boolean;
   createTime: string;
   commentID: number;
   toCommentorName: string;

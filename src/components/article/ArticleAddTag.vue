@@ -51,7 +51,6 @@ const props = defineProps<{ tags: Array<TagItem> }>();
 const isLoading = ref(false);
 const selectedValue = ref<Array<{ label: string; value: string }>>([]);
 const newTag = ref('');
-const selectedSet = new Set<string>();
 const options = ref<Array<{ label: string; value: string }>>([]);
 let tagIdMap = new Map<number, string>();
 defineExpose({ selectedValue });
@@ -63,7 +62,6 @@ function handleSearch(key: string) {
       options.value.length = 0;
       res.data.data.tagInfos.forEach((ele: any) => {
         options.value.push({ label: ele.title, value: ele.id });
-        console.log('加入map' + ele.title + ele.id.toString());
         tagIdMap.set(ele.id, ele.title);
       });
       isLoading.value = false;
@@ -72,10 +70,16 @@ function handleSearch(key: string) {
 }
 
 function handleFinishSearch() {
-  if (selectedSet.has(newTag.value)) {
+  let hasTag = false;
+  selectedValue.value.forEach((ele) => {
+    if (ele.value == newTag.value) {
+      hasTag = true;
+      return;
+    }
+  });
+  if (hasTag) {
     window.$message.warning('不可以添加重复的标签');
   } else {
-    selectedSet.add(newTag.value);
     let option = tagIdMap.get(parseInt(newTag.value)) as string;
     selectedValue.value.push({ label: option, value: newTag.value });
   }
@@ -88,7 +92,6 @@ watch(
       let option = { label: ele.title, value: ele.id.toString() };
       selectedValue.value.push(option);
       tagIdMap.set(ele.id, option.label);
-      selectedSet.add(ele.id.toString());
     });
   }
 );

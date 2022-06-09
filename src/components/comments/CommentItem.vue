@@ -13,7 +13,7 @@
       </template>
       <template #header-extra>
         <div class="mt-1">
-          <n-button text class="text-gray-400" @click="showCommentBox = !showCommentBox">
+          <n-button v-if="!comment.deleted" text class="text-gray-400" @click="showCommentBox = !showCommentBox">
             <n-icon size="small"><reply-icon /></n-icon>
             <span v-if="!showCommentBox">回复</span>
             <span v-else>取消回复</span>
@@ -35,7 +35,7 @@
         <n-space>
           <n-space justify="space-between">
             <div class="mt-1">
-              <n-button text class="text-gray-400" @click="handleLikeComments">
+              <n-button text :class="{ 'text-gray-400': !liked, 'text-green-300': liked }" @click="handleLikeComments">
                 <n-icon size="small"><like-icon /></n-icon>
                 {{ like != 0 ? like : '点赞' }}
               </n-button>
@@ -113,23 +113,27 @@ const userInfo = ref<User>({
   createTime: '',
   modifyTime: '',
   isAdmin: false,
+  cover: '',
 });
+
 const showCommentBox = ref(false);
 const showSubComments = ref(false);
 const commentBox = ref<InstanceType<typeof CommentBox> | null>(null);
 const authorID = inject('authorID');
 const like = ref(0);
+const liked = ref(false);
 const isFirstLayer = computed(() => {
   return props.comment.toCommentID == null;
 });
 const subComments = ref<Array<CommentListItem>>([]);
 
 const handleLikeComments = () => {
-  if (like.value) return;
+  if (liked.value) return;
   likeComment(props.articleId, props.comment.commentID).then((res) => {
     if (res.data.status != 0) {
       window.$message.error('点赞评论失败');
     } else {
+      liked.value = true;
       like.value += 1;
     }
   });
@@ -187,6 +191,7 @@ watch(
     });
     handleShowComments();
     like.value = props.comment.like;
+    liked.value = props.comment.liked;
   },
   {
     immediate: true,

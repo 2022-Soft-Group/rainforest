@@ -1,7 +1,7 @@
 <template>
   <n-grid :x-gap="12" :y-gap="8" :cols="vertical ? 1 : 2">
     <n-grid-item v-for="item in tags">
-      <div class="p-2 items-center bg-dark-200 rounded-lg" :class="{ 'w-96': !vertical }">
+      <div class="p-2 items-center bg-dark-200 rounded-lg max-h-25" :class="{ 'w-96': !vertical }">
         <div class="grid-title">
           <router-link :to="'/tag/' + item.id" target="_blank" class="font-bold text-xl hover:text-[#63e2b7] m-2 pl-2">
             {{ item.title }}
@@ -9,7 +9,7 @@
         </div>
         <div class="flex justify-between mx-2 my-2">
           <n-image class="img" :src="item.img" preview-disabled></n-image>
-          <div class="user-info-cont">{{ item.description }}</div>
+          <div class="user-info-cont">{{ item.description.substring(0, 60) }}</div>
         </div>
       </div>
     </n-grid-item>

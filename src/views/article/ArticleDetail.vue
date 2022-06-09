@@ -81,6 +81,7 @@
               <n-avatar round :src="userInfo.avatar"></n-avatar>
             </template>
             <template #header>{{ userInfo.name }}</template>
+            <template #header-extra><follow-button :target-user-id="userInfo.id"></follow-button></template>
             <template #description> {{ userInfo.description }} </template>
           </n-thing>
         </router-link>

@@ -1,5 +1,7 @@
 <template>
-  <tag-list :tags="tags" :vertical="false"></tag-list>
+  <div class="min-w-190">
+    <tag-list :tags="tags" :vertical="false"></tag-list>
+  </div>
 </template>
 
 <script setup lang="tsx">
