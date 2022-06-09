@@ -28,6 +28,15 @@
       草稿箱
       <n-icon><forward-icon /></n-icon>
     </n-button>
+    <n-button class="flex mx-auto w-54" type="primary" tertiary @click="handleSignIn">
+      <div v-if="!isSign" class="animate-pulse">
+        今日未签到
+        <n-icon><forward-icon /></n-icon>
+      </div>
+      <div v-else>
+        今日已签到<n-icon><check-icon /> </n-icon>
+      </div>
+    </n-button>
   </n-space>
 </template>
 <script setup lang="ts">
@@ -36,8 +45,12 @@ import {
   Archive as AssetsIcon,
   ColorWand as ArticleIcon,
   ChevronForwardSharp as ForwardIcon,
+  Checkmark as CheckIcon,
 } from '@vicons/ionicons5';
 import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+import { getSignInStatus, signIn } from '@/api/clock';
+const isSign = ref(false);
 const router = useRouter();
 const handleWriteArticle = () => {
   let routeUrl = router.resolve({ name: 'write' });
@@ -55,4 +68,29 @@ const handleUserDirect = (direct: string) => {
   else {
   }
 };
+
+const handleSignIn = () => {
+  if (isSign.value == true) {
+    window.$message.info('已经签到过了');
+  } else {
+    signIn().then((res) => {
+      if (res.data.status == 0) {
+        isSign.value = true;
+        window.$message.success('+ 10 积分 ！恭喜！');
+      }
+    });
+  }
+};
+
+const setSignInStatus = () => {
+  getSignInStatus().then((res) => {
+    if (res.data.status == 0) {
+      isSign.value = res.data.data.isSignIn;
+    } else {
+      window.$message.error('获取签到状态失败');
+    }
+  });
+};
+
+onMounted(setSignInStatus);
 </script>
