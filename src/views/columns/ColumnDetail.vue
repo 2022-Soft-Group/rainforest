@@ -24,7 +24,113 @@
           {{ columnInfo.description }}
         </div>
         <div class="mt-7"></div>
-        <n-tooltip trigger="hover">
+        <div class="flex">
+          <div v-if="showEditButton">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button size="small" @click="showModal = true" type="error" class="w-20"> 删除 </n-button>
+              </template>
+              删除该专栏
+            </n-tooltip>
+          </div>
+          <n-modal
+            v-model:show="showModal"
+            :mask-closable="false"
+            preset="dialog"
+            title="删除标签"
+            content="是否要删除专栏"
+            positive-text="确认"
+            negative-text="取消"
+            @positive-click="handleClick"
+            @negative-click="onNegativeClick"
+          />
+          <n-tooltip trigger="hover">
+            <template #trigger>
+              <n-button size="small" @click="handleCollect" class="ml-2 w-20" v-if="collected" type="info">
+                已收藏
+              </n-button>
+              <n-button size="small" @click="handleCollect" class="ml-2 w-20" v-else type="info"> 收藏 </n-button>
+            </template>
+            收藏该专栏
+          </n-tooltip>
+          <div v-if="showEditButton">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button size="small" @click="isAdd = !isAdd" class="ml-2 w-20" type="warning"> 收录文章 </n-button>
+              </template>
+              选择要收录的文章
+            </n-tooltip>
+          </div>
+          <div v-if="showEditButton">
+            <n-tooltip trigger="hover">
+              <template #trigger>
+                <n-button size="small" class="ml-2 w-20" type="success" @click="showchange = true"> 修改信息 </n-button>
+              </template>
+              修改专栏信息
+            </n-tooltip>
+          </div>
+          <n-modal
+            v-model:show="showchange"
+            :mask-closable="false"
+            :style="bodyStyle"
+            title="修改专栏信息"
+            size="huge"
+            :bordered="true"
+            positive-text="确定"
+            negative-text="取消"
+            @positive-click=""
+            @negative-click="onNegativeClick"
+          >
+            <n-card class="modalCard">
+              <n-h1 class="text-center">修改专栏信息</n-h1>
+              <n-space vertical size="large">
+                <n-input v-model:value="title" type="text" placeholder="请输入专栏名称" class="mt-6" />
+                <n-input
+                  type="textarea"
+                  placeholder="请输入一句话介绍"
+                  v-model:value="description"
+                  :autosize="{
+                    minRows: 3,
+                  }"
+                  class="mt-10"
+                />
+                <div v-if="description.length > 80" class="text-red-600">请输入少于80个字</div>
+                <div>
+                  <upload-button
+                    class="w-138 h-48 border-2 border-dashed rounded-md"
+                    :show-file-list="false"
+                    ref="upload"
+                    @change="clickUploadImage"
+                    ><div v-if="imgSrc == ''" class="text-center mt-20 text-gray-400">
+                      <div>点击上传封面</div>
+                      <div>.jpeg/.png/.svg</div>
+                    </div>
+                    <n-image
+                      v-else
+                      preview-disabled
+                      width="240"
+                      object-fit="cover"
+                      class="h-48 flex-none rounded-md"
+                      :src="imgSrc"
+                    />
+                  </upload-button>
+                </div>
+              </n-space>
+              <div class="flex-auto mt-10 justify-between">
+                <n-button @click="onNegativeClick" class="w-67 mr-2">取消</n-button>
+                <n-button type="primary" @click="onPositiveClick" class="w-67" v-if="description.length > 80" disabled
+                  >确认修改</n-button
+                >
+                <n-button type="primary" @click="onPositiveClick" class="w-67" v-else>确认修改</n-button>
+              </div>
+            </n-card>
+          </n-modal>
+          <div class="flex mt-2">
+            <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
+            <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
+          </div>
+        </div>
+        <!-- <n-tooltip trigger="hover">
           <template #trigger>
             <n-button size="small" @click="showModal = true" type="error" class="w-20"> 删除 </n-button>
           </template>
@@ -122,7 +228,7 @@
         <div class="flex mt-2">
           <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
           <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
-        </div>
+        </div> -->
       </template>
 
       <n-divider />
@@ -152,7 +258,7 @@
   </n-card>
 </template>
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import {
   deleteColumn,
@@ -170,8 +276,8 @@ import { getArticle, getMyArticle } from '@/api/article';
 import router from '@/router';
 import { uploadImage } from '@/api/asset';
 import type UploadButton from '@/components/common/UploadButton.vue';
+const { isLogin, isAdmin } = useAuthStore();
 
-const { isLogin } = useAuthStore();
 const route = useRoute();
 let currentPage = 0;
 const isLoading = ref(false);
@@ -357,6 +463,11 @@ function onPositiveClick() {
   //   }
   // });
 }
+//
+const showEditButton = computed(() => {
+  const userID = localStorage.getItem('userID');
+  return (isLogin && columnInfo.value.userID.toString() == userID) || isAdmin;
+});
 //
 </script>
 <style>
