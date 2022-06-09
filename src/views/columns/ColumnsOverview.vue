@@ -55,23 +55,23 @@ const carouselItems = ref<Array<ads>>([]);
 const carouselItem = [
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg',
-    id: 15,
-    title: 'iOS到底强在哪里',
+    id: 62,
+    title: 'ios相关知识',
   },
   {
-    imgSrc: 'http://n.sinaimg.cn/finance/transform/55/w550h305/20180528/USaQ-hcaquev2296731.jpg',
-    id: 20,
-    title: '区块链的前世与今生',
+    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg',
+    id: 64,
+    title: '算法学习日记',
   },
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg',
-    id: 15,
-    title: 'iO',
+    id: 59,
+    title: 'Mysql学习笔记',
   },
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg',
-    id: 15,
-    title: 'i',
+    id: 56,
+    title: 'Javascript学习',
   },
 ];
 const handleClick = () => {
