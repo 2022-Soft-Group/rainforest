@@ -59,17 +59,18 @@ const carouselItem = [
     title: 'ios相关知识',
   },
   {
-    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg',
+    imgSrc: 'https://img2.baidu.com/it/u=3782122321,3540650825&fm=253&fmt=auto&app=138&f=JPEG?w=800&h=450',
     id: 64,
     title: '算法学习日记',
   },
   {
-    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg',
+    imgSrc: 'https://img0.baidu.com/it/u=962979750,2538548306&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281',
     id: 59,
     title: 'Mysql学习笔记',
   },
   {
-    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg',
+    imgSrc:
+      'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2Fv2-7611629ee07375f5a14acac9787d68cb_1200x500.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657390385&t=fcf47fa20cb785adbc5e09b4d73dd492',
     id: 56,
     title: 'Javascript学习',
   },
