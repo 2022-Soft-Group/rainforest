@@ -9,10 +9,10 @@
           添加标签
         </n-button>
       </template>
-      回车以添加,最多4个
+      回车以添加,最多3个
     </n-tooltip>
 
-    <n-dynamic-tags v-model:value="selectedValue" :max="4">
+    <n-dynamic-tags v-model:value="selectedValue" :max="3">
       <template #input="{ deactivate }">
         <n-select
           class="w-60"
