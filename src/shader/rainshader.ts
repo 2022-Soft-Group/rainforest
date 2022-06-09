@@ -6,7 +6,7 @@ uniform sampler2D iChannel0;
 uniform float rainAmount;
 
 #define S(a, b, t) smoothstep(a, b, t)
-//#define CHEAP_NORMALS
+#define CHEAP_NORMALS
 #define USE_POST_PROCESSING
 
 
@@ -117,16 +117,14 @@ void main( )
         
     float story = 0.;
     float heart = 0.;
+    float zoom = T > 5.0 * 3.14 ? 1.0 : -cos(T*.2);
+    uv *= .7+zoom*.3;
+    UV = (UV-.68)*(.65+zoom*.1)+0.55;
+    UV.y *= 0.95;
     if(rainAmount < 0.001){
         col = texture2D(iChannel0, UV).rgb; 
     }
     else {
-        float zoom = T > 5.0 * 3.14 ? 1.0 : -cos(T*.2);
-        uv *= .7+zoom*.3;
-        UV = (UV-.68)*(.65+zoom*.1)+0.55;
-        UV.y *= 0.95;
-        
-        
         float staticDrops = S(-.5, 1., rainAmount)*2.;
         float layer1 = S(.25, .75, rainAmount);
         float layer2 = S(.0, .5, rainAmount);

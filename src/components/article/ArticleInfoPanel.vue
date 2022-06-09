@@ -23,6 +23,10 @@
           <n-icon size="small"><collection-icon /></n-icon>
           {{ collectNum }} 次收藏
         </div>
+        <div class="text-gray-400 mt-1">
+          <n-icon size="small"><view-icon /></n-icon>
+          {{ viewNum }} 次观看
+        </div>
       </n-space>
       <div class="text-gray-400">
         <n-space class="ml-2">
@@ -73,6 +77,7 @@ import {
   ChatboxEllipses as CommentIcon,
   ColorWand as ChangeIcon,
   Close as DeleteIcon,
+  Eye as ViewIcon,
 } from '@vicons/ionicons5';
 import { computed } from '@vue/reactivity';
 
@@ -83,6 +88,7 @@ const collected = ref(false);
 const likeNum = ref(0);
 const collectNum = ref(0);
 const commentNum = ref(0);
+const viewNum = ref(0);
 const router = useRouter();
 const route = useRoute();
 const showModal = ref(false);
@@ -174,6 +180,7 @@ function reload() {
   likeNum.value = props.articleInfo.like;
   collectNum.value = props.articleInfo.collection;
   commentNum.value = props.articleInfo.comments;
+  viewNum.value = props.articleInfo.view;
   if (props.articleInfo.articleID == 0) return;
   if (isLogin) {
     getUserArticleStatus(props.articleInfo.articleID).then((res) => {

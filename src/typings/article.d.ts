@@ -12,6 +12,8 @@ type ArticleItem = {
   articleID: number;
   thumbnail: string | null;
   deleted: boolean;
+  modifyTime: string;
+  createTime: string;
 };
 
 type DraftItem = {

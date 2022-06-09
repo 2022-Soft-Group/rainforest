@@ -9,7 +9,7 @@
         </div>
         <div class="flex justify-between mx-2 my-2">
           <n-image class="img" :src="item.img" preview-disabled></n-image>
-          <div class="user-info-cont">{{ item.description.substring(0, 60) }}</div>
+          <div class="user-info-cont">{{ item.description.substring(0, 40) }}</div>
         </div>
       </div>
     </n-grid-item>
@@ -20,7 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { Accessibility, ArrowRedo } from '@vicons/ionicons5';
 defineProps<{ tags: Array<TagItem>; vertical: boolean }>();
 </script>
 

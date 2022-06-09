@@ -20,10 +20,7 @@
     </n-carousel>
     <div>
       <n-button quaternary class="main-descript">
-        <div
-          class="font-bold text-xl hover:text-[#63e2b7]"
-          @click="router.push({ path: `/columns/${carouselItem[index].id}` })"
-        >
+        <div class="font-bold text-xl hover:text-[#63e2b7]" @click="handleClick">
           {{ currentTitle }}
         </div></n-button
       >
@@ -48,38 +45,43 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useRouter, RouterLink } from 'vue-router';
-import { addColumn, getColumnListRecommand } from '@/api/columns';
+import { addColumn, getColumnListRecommand, getDevHot } from '@/api/columns';
 import type UploadButton from '@/components/common/UploadButton.vue';
 import { uploadImage } from '@/api/asset';
 const index = ref(0);
 const router = useRouter();
 const columnList = ref<Array<ColumnListItem>>([]);
+const carouselItems = ref<Array<ads>>([]);
 const carouselItem = [
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel2.jpeg',
-    id: 15,
-    title: 'iOS到底强在哪里',
+    id: 62,
+    title: 'ios相关知识',
   },
   {
-    imgSrc: 'http://n.sinaimg.cn/finance/transform/55/w550h305/20180528/USaQ-hcaquev2296731.jpg',
-    id: 20,
-    title: '区块链的前世与今生',
+    imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel1.jpeg',
+    id: 64,
+    title: '算法学习日记',
   },
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg',
-    id: 15,
-    title: 'iO',
+    id: 59,
+    title: 'Mysql学习笔记',
   },
   {
     imgSrc: 'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg',
-    id: 15,
-    title: 'i',
+    id: 56,
+    title: 'Javascript学习',
   },
 ];
+const handleClick = () => {
+  window.open(`/columns/${carouselItem[index.value].id}`);
+};
 let currentPage = 0;
 const currentTitle = computed(() => {
   return carouselItem[index.value].title;
 });
+// const currentTitle = carouselItems.value[index.value].title;
 function handleCurrentIndex(currentIndex: number, lastIndex: number) {
   index.value = currentIndex;
 }
@@ -92,9 +94,16 @@ function reload() {
       window.$message.error('获取推荐列表失败');
     }
   });
+  getDevHot({ size: 4, page: currentPage }).then((res) => {
+    if (res.data.status == 0) {
+      carouselItems.value = res.data.data.ads as Array<ads>;
+    } else {
+      window.$message.error('获取推荐列表失败');
+    }
+  });
 }
 function handleRequest() {
-  getColumnListRecommand({ size: 10, page: ++currentPage }).then((res) => {
+  getColumnListRecommand({ size: 4, page: ++currentPage }).then((res) => {
     if (res.data.status == 0) {
       res.data.data.columnInfos.forEach((element: any) => {
         columnList.value.push(element);

@@ -20,3 +20,9 @@ type ColumnUpdate = {
   description: string;
   columnID: string;
 };
+type ads = {
+  title: string;
+  url: string;
+  img: string;
+  id: number;
+};

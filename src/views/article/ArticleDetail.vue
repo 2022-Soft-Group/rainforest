@@ -86,7 +86,21 @@
           </n-thing>
         </router-link>
         <n-divider />
+        <div class="text-gray-400">
+          {{
+            '文章发布于' +
+            articleInfo.createTime +
+            '，全文' +
+            articleContent.length +
+            '字，约花费' +
+            Math.ceil(articleContent.length / 1000) +
+            '分钟阅读'
+          }}
+        </div>
+        <n-divider />
         <markdown-it-vue class="markdown" :content="articleContent" :options="options" />
+        <n-divider />
+        <div class="text-gray-400">{{ '最后修改于' + articleInfo.modifyTime }}</div>
       </n-card>
       <div id="like-zone">
         <n-card class="flex m-auto rounded-md">
@@ -161,6 +175,8 @@ export default defineComponent({
       articleID: 0,
       thumbnail: '',
       deleted: false,
+      modifyTime: '',
+      createTime: '',
     });
 
     const options = {
