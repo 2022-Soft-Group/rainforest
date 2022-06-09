@@ -44,7 +44,7 @@ const handleFollowUser = () => {
 };
 
 watch(
-  () => [followed.value, props.changeCount],
+  () => [followed.value, props],
   () => {
     getFollowUserStatus(props.targetUserId.toString()).then((res) => {
       if (res.data.status == 0) {
