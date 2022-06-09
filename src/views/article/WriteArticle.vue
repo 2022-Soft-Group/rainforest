@@ -30,11 +30,7 @@
           />
         </upload-button>
         <n-space vertical class="my-4 mx-10 w-65">
-          <n-space>
-            <n-radio :checked="!isPubTag" @change="isPubTag = !isPubTag"> 不关联到标签 </n-radio>
-            <n-radio :checked="isPubTag" @change="isPubTag = !isPubTag"> 关联到标签 </n-radio>
-          </n-space>
-          <article-add-tag :is-tag="isPubTag" ref="addTags" @tag-finish="handleFinishTag"></article-add-tag>
+          <article-add-tag ref="addTags" :tags="tags" @tag-finish="handleFinishTag"></article-add-tag>
         </n-space>
         <n-space vertical class="my-4 mx-10">
           <n-space>
@@ -87,7 +83,7 @@ const articleUpload = ref<ArticleUpload>({
   tags: [],
   private: false,
 });
-const isPubTag = ref(false);
+
 const isPrivate = ref(false);
 const isLoading = ref(false);
 const router = useRouter();
@@ -337,7 +333,9 @@ function fullfillArticle() {
     .substring(0, 120);
   articleUpload.value.private = isPrivate.value;
   if (image.value != '') {
-    articleUpload.value.imageID = imageID;
+    if (imageID != 0) {
+      articleUpload.value.imageID = imageID;
+    }
     articleUpload.value.image = image.value;
   }
 }
@@ -365,12 +363,17 @@ onMounted(() => {
         if (res.data.status == 0) {
           title.value = res.data.data.draftInfo.title;
           vditor.value?.setValue(res.data.data.draftContent);
-          image.value = res.data.data.draftInfo.thumbnail;
-          tags.value = res.data.dara.draftInfo.tags;
+          image.value = res.data.data.draftInfo.thumbnail == '' ? null : res.data.data.draftInfo.thumbnail;
+          tags.value = res.data.data.draftInfo.tags;
         }
       });
     } else if (type == 'article') {
-      getArticle(id);
+      getArticle(id).then((res) => {
+        title.value = res.data.data.articleInfo.title;
+        vditor.value?.setValue(res.data.data.articleContent);
+        image.value = res.data.data.articleInfo.thumbnail == '' ? null : res.data.data.articleInfo.thumbnail;
+        tags.value = res.data.data.articleInfo.tags;
+      });
     }
   }
 });

@@ -1,24 +1,36 @@
 <template>
-  <n-select
-    v-model:value="multipleSelectValue"
-    v-if="isTag"
-    filterable
-    multiple
-    tag
-    :fallback-option="false"
-    :options="options"
-    clearable
-    :consistent-menu-width="false"
-    @blur="emits('tag-finish')"
-  />
+  <n-space vertical>
+    <n-space>
+      <n-radio :checked="!isPubTag" @change="isPubTag = !isPubTag"> 不关联到标签 </n-radio>
+      <n-radio :checked="isPubTag" @change="isPubTag = !isPubTag"> 关联到标签 </n-radio>
+    </n-space>
+    <n-select
+      class="w-full"
+      v-model:value="multipleSelectValue"
+      :default-value="defaultValue"
+      v-if="isPubTag && !isLoading"
+      filterable
+      multiple
+      max-tag-count="responsive"
+      tag
+      remote
+      :fallback-option="false"
+      :options="options"
+      clearable
+      :consistent-menu-width="false"
+      @blur="emits('tag-finish')"
+    />
+  </n-space>
 </template>
 <script setup lang="ts">
 import { getSections, getTags } from '@/api/sections';
 import type { SelectOption } from 'naive-ui';
-import { onMounted, ref } from 'vue';
-const props = defineProps<{ isTag: boolean }>();
-
-const multipleSelectValue = ref([]);
+import { onMounted, ref, watch } from 'vue';
+const props = defineProps<{ tags: Array<TagItem> }>();
+const isPubTag = ref(false);
+const multipleSelectValue = ref<Array<Number>>([]);
+const isLoading = ref(false);
+const defaultValue = ref<Array<{ label: string; value: number }>>([]);
 defineExpose({ multipleSelectValue });
 const emits = defineEmits(['tag-finish']);
 const options: { label: string; value: string; type: 'group'; children: Array<SelectOption> }[] = [];
@@ -53,6 +65,20 @@ function reload() {
   });
 }
 onMounted(() => {
+  isLoading.value = true;
   reload();
 });
+
+watch(
+  () => props.tags,
+  () => {
+    if (props.tags.length != 0) {
+      props.tags.forEach((ele) => {
+        multipleSelectValue.value.push(ele.id);
+      });
+      isPubTag.value = true;
+      isLoading.value = false;
+    }
+  }
+);
 </script>

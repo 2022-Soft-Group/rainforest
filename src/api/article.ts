@@ -35,12 +35,20 @@ export function addArticle(article: ArticleUpload) {
   return jsonBackend.post(`article`, article);
 }
 
+export function deleteArticle(artcicleID: number) {
+  return backend.delete(`article/${artcicleID}`);
+}
+
 export function getDraft(draftID: string) {
   return backend.get(`article/draft/${draftID}`);
 }
 
 export function addDraft(article: ArticleUpload) {
   return jsonBackend.post(`article/draft`, article);
+}
+
+export function deleteDraft(draftID: number) {
+  return backend.delete(`article/draft/${draftID}`);
 }
 
 export function modifyArticle(article: ArticleUpload, artcicleID: number) {

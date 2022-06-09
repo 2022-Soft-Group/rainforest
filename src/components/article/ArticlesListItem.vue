@@ -21,7 +21,10 @@
         <router-link :to="articleDirection"><n-button type="primary" text>查看全文</n-button></router-link>
       </div>
     </div>
-    <article-info-panel :article-info="articleInfo"></article-info-panel>
+    <article-info-panel
+      :article-info="articleInfo"
+      @article-deleted="(id: number)=>emits('delete', id)"
+    ></article-info-panel>
   </div>
 </template>
 
@@ -30,4 +33,5 @@ import { ref } from 'vue';
 
 const props = defineProps<{ isLoading: boolean; articleInfo: ArticleItem }>();
 const articleDirection = ref('/article/' + props.articleInfo.articleID);
+const emits = defineEmits(['delete']);
 </script>

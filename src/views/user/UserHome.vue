@@ -20,7 +20,12 @@
     <n-card :bordered="false" class="basis-5/7 m-2 rounded-md shadow-sm">
       <n-tabs v-if="!isLoading" v-model:value="defaultTabName" type="line" size="large" class="mb-6" animated>
         <n-tab-pane tab="文章" name="article">
-          <articles-list :articles="articles" :is-loading="isLoading" @request-articles="handleRequest" />
+          <articles-list
+            :articles="articles"
+            :is-loading="isLoading"
+            @request-articles="handleRequest"
+            @reload-articles="loadUserArticle"
+          />
         </n-tab-pane>
         <n-tab-pane tab="专栏" name="column">
           <div class="flex flex-wrap">
@@ -195,6 +200,19 @@ function loadCollectColumn() {
       loadingBar.finish();
     } else {
       window.$message.error('获取收藏专栏失败');
+    }
+  });
+}
+
+function loadUserArticle() {
+  loadingBar.start();
+  getUserArticleList({ size: 10, page: 0 }, userID.value).then((res) => {
+    if (res.data.status == 0) {
+      articles.value = res.data.data.articleInfos as Array<ArticleItem>;
+      isLoading.value = false;
+      loadingBar.finish();
+    } else {
+      window.$message.error('获取推荐列表失败');
     }
   });
 }

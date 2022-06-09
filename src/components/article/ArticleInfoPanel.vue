@@ -35,26 +35,36 @@
         </n-space>
       </div>
     </n-space>
-    <div class="flex text-gray-400 space-x-4 float-right">
-      <n-button circle size="small" @click="">
+    <div v-if="showEditButton" class="flex text-gray-400 space-x-4 float-right">
+      <n-button circle size="small" @click="handleChange">
         <template #icon>
           <change-icon />
         </template>
       </n-button>
-      <n-button circle size="small" @click="">
+      <n-button circle size="small" @click="showModal = true">
         <template #icon>
           <delete-icon />
         </template>
       </n-button>
     </div>
   </div>
+  <n-modal
+    v-model:show="showModal"
+    preset="dialog"
+    title="删除文章"
+    content="确认要删除这篇文章吗"
+    positive-text="确认"
+    negative-text="取消"
+    @positive-click="handleDelete"
+  >
+  </n-modal>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import { useRouter, RouterLink } from 'vue-router';
+import { useRouter, RouterLink, useRoute } from 'vue-router';
 import { useAuthStore } from '@/store/auth';
-import { collectArticle, dislikeArticle, getUserArticleStatus, likeArticle } from '@/api/article';
+import { collectArticle, deleteArticle, dislikeArticle, getUserArticleStatus, likeArticle } from '@/api/article';
 import {
   CaretUpOutline as LikeIcon,
   CaretDownOutline as DislikeIcon,
@@ -64,6 +74,7 @@ import {
   ColorWand as ChangeIcon,
   Close as DeleteIcon,
 } from '@vicons/ionicons5';
+import { computed } from '@vue/reactivity';
 
 const props = defineProps<{ articleInfo: ArticleItem }>();
 const liked = ref(false);
@@ -73,7 +84,20 @@ const likeNum = ref(0);
 const collectNum = ref(0);
 const commentNum = ref(0);
 const router = useRouter();
-const { isLogin } = useAuthStore();
+const route = useRoute();
+const showModal = ref(false);
+const { isLogin, isAdmin } = useAuthStore();
+const emits = defineEmits(['article-deleted']);
+
+const showEditButton = computed(() => {
+  const userID = localStorage.getItem('userID');
+  return (
+    (isLogin &&
+      props.articleInfo.authorID.toString() == userID &&
+      (route.name == 'userhome' || route.name == 'userDirect')) ||
+    isAdmin
+  );
+});
 
 const handleLike = () => {
   if (isLogin) {
@@ -123,6 +147,26 @@ const handleCollect = () => {
     });
   } else {
     router.push({ name: 'login' });
+  }
+};
+
+const handleDelete = () => {
+  if (isLogin) {
+    deleteArticle(props.articleInfo.articleID).then((res) => {
+      if (res.data.status == 0) {
+        window.$message.info('文章已成功删除');
+        emits('article-deleted', props.articleInfo.articleID);
+      } else {
+        window.$message.info('现在不能删除文章');
+      }
+    });
+  }
+};
+
+const handleChange = () => {
+  if (isLogin) {
+    let routerUrl = router.resolve({ name: 'modify', params: { type: 'article', id: props.articleInfo.articleID } });
+    window.open(routerUrl.href);
   }
 };
 
