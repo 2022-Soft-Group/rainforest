@@ -2,9 +2,11 @@
   <n-carousel autoplay draggable class="h-40">
     <n-carousel-item v-for="item in carouselItem">
       <div class="absolute w-25 left-3 font-bold text-light-500">{{ item.title }}</div>
-      <!-- <n-image object-fit="cover" class="max-h-40 rounded-md" :src="(img as string)" /> -->
-      <img
-        class="carousel-img cursor-pointer rounded-lg"
+      <!-- < object-fit="cover" class=" rounded-md" :src="(img as string)" /> -->
+      <n-image
+        class="cursor-pointer max-h-40 rounded-lg"
+        object-fit="cover"
+        preview-disabled
         :src="item.imgSrc"
         @click="router.push({ path: `/columns/${item.id}` })"
         :title="item.title"
@@ -37,7 +39,7 @@ const carouselItem = [
     title: '算法学习日记',
   },
   {
-    imgSrc: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrBscv5Buj4UAsq1dZDOO-DPY473VFaW4LJA&usqp=CAU',
+    imgSrc: 'https://pic4.zhimg.com/v2-36a4e3cdc19f0a2ab31e91b7d136c3e7_b.jpg',
     id: 59,
     title: 'Mysql学习笔记',
   },
