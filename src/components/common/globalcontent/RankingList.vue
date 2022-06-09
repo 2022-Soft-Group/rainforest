@@ -29,7 +29,7 @@ import { getUserRankList } from '@/api/user';
 
 import { onMounted, ref } from 'vue';
 const hotUsers = ref<Array<UserFeature>>([]);
-const size = 5;
+const size = 6;
 onMounted(() => {
   getUserRankList({ size }).then((res) => {
     if (res.data.status == 0) {
