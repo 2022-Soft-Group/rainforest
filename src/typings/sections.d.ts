@@ -11,3 +11,8 @@ type TagItem = {
   description: string;
   id: number;
 };
+type TagUpdate = {
+  title: string;
+  img: string;
+  description: string;
+};
