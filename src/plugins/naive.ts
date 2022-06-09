@@ -70,6 +70,7 @@ import {
   NRate,
   NSlider,
   NResult,
+  NDynamicTags,
 } from 'naive-ui';
 
 /** 按需引入naiveUI */
@@ -147,6 +148,7 @@ export default function setupNaiveUI(app: App) {
       NCarousel,
       NCarouselItem,
       NResult,
+      NDynamicTags,
     ],
   });
   app.use(naive);

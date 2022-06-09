@@ -11,7 +11,7 @@ type ArticleItem = {
   image: string | undefined;
   articleID: number;
   thumbnail: string | null;
-  columns: ColumnListItem[]; //只是在这里加了，还没有全面加
+  deleted: boolean;
 };
 
 type DraftItem = {

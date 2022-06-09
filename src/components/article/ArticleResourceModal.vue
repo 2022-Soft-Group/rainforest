@@ -21,7 +21,7 @@ const props = defineProps<{ show: boolean }>();
 const options: { label: string; value: number }[] = [];
 const selectedResourceId = ref();
 const selectedResourceLabel = ref('');
-let resourceNameMap = new Map<number, string>();
+let resourceNameMap = new Map<number, { name: string; description: string }>();
 const emits = defineEmits(['finish-resource']);
 
 const submitCallback = () => {
@@ -36,11 +36,13 @@ function getUrl() {
   return (
     '::: info\n' +
     '[' +
-    resourceNameMap.get(selectedResourceId.value) +
+    resourceNameMap.get(selectedResourceId.value)?.name +
     ']' +
     '(http://kurino.top/resource/' +
     selectedResourceId.value +
     ')\n' +
+    resourceNameMap.get(selectedResourceId.value)?.description +
+    '\n' +
     ':::\n'
   );
 }
@@ -53,7 +55,7 @@ onMounted(() => {
           label: ele.fileName,
           value: ele.assetID,
         });
-        resourceNameMap.set(ele.assetID, ele.fileName);
+        resourceNameMap.set(ele.assetID, { name: ele.fileName, description: ele.description });
       });
     }
   });

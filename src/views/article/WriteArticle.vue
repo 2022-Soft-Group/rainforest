@@ -253,6 +253,8 @@ const handleSave = () => {
   let id = parseInt(route.params.id as string);
   if (type == 'draft') {
     changeDraft(id);
+  } else if (type == 'article') {
+    saveArticle(id);
   } else {
     uploadDraft();
   }
@@ -264,7 +266,7 @@ function changeArticle(id: number) {
   modifyArticle(articleUpload.value, id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章修改成功');
-      router.push({ name: 'homepage' });
+      router.push({ name: 'userhome' });
     } else {
       window.$message.error('文章修改失败');
     }
@@ -281,7 +283,7 @@ function changeDraft(id: number) {
   });
 }
 
-// 从写文章和修改文章而来，点击保存文章
+// 从写文章而来，点击保存文章
 function uploadDraft() {
   fullfillArticle();
   addDraft(articleUpload.value).then((res) => {
@@ -294,13 +296,25 @@ function uploadDraft() {
   });
 }
 
+function saveArticle(id: number) {
+  fullfillArticle();
+  modifyArticle(articleUpload.value, id).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('修改已保存');
+      router.push({ name: 'userhome' });
+    } else {
+      window.$message.error('修改保存失败');
+    }
+  });
+}
+
 // 从草稿箱而来，点击发布文章
 function publishDraftToArticle(id: number) {
   fullfillArticle();
   publishDraft(id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章发布成功');
-      router.push({ name: 'homepage' });
+      router.push({ name: 'userhome' });
     }
   });
 }
@@ -308,11 +322,10 @@ function publishDraftToArticle(id: number) {
 // 从写文章而来，点击发布文章
 function uploadArticle() {
   fullfillArticle();
-  console.log('upload');
   addArticle(articleUpload.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章发布成功');
-      router.push({ name: 'homepage' });
+      router.push({ name: 'userhome' });
     } else {
       window.$message.error('文章发布失败');
     }
