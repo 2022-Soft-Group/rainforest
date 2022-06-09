@@ -35,6 +35,8 @@ backend.interceptors.response.use(
       if (response.data.status == 102) {
         signOut();
         router.push({ name: 'login' });
+      } else if (response.data.status == 501) {
+        router.push({ name: 'error' });
       } else if (response.data.status != 0) {
         window.$message.error(response.data.message);
         return Promise.reject(response);

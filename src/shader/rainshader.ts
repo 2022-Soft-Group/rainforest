@@ -109,46 +109,41 @@ void main( )
     M.y = 1.0 - M.y;
     float T = iTime;
     
-    float t = T*.2;
-    
-    float maxBlur = mix(3., 6., rainAmount);
-    float minBlur = 0.0;
-    
-    float story = 0.;
-    float heart = 0.;
-    
-    
-    float zoom = T > 5.0 * 3.14 ? 1.0 : -cos(T*.2);
-    uv *= .7+zoom*.3;
-    UV = (UV-.68)*(.65+zoom*.1)+0.55;
-    UV.y *= 0.95;
-    
-    
-    float staticDrops = S(-.5, 1., rainAmount)*2.;
-    float layer1 = S(.25, .75, rainAmount);
-    float layer2 = S(.0, .5, rainAmount);
-    
-    
-    vec2 c = Drops(uv, t, staticDrops, layer1, layer2);
-   #ifdef CHEAP_NORMALS
-    	vec2 n = vec2(dFdx(c.x), dFdy(c.x));// cheap normals (3x cheaper, but 2 times shittier ;))
-    #else
-    	vec2 e = vec2(.001, 0.);
-    	float cx = Drops(uv+e, t, staticDrops, layer1, layer2).x;
-    	float cy = Drops(uv+e.yx, t, staticDrops, layer1, layer2).x;
-    	vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals
-    #endif
+    float t = T*.2;    
     
     vec3 col;
-    if(rainAmount > 0.001){
-        float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
-        col = texture2DLodEXT(iChannel0, UV+n, focus).rgb;
-    }
-    else {
+    float maxBlur = mix(3., 6., rainAmount);
+    float minBlur = 0.0;
+        
+    float story = 0.;
+    float heart = 0.;
+    if(rainAmount < 0.001){
         col = texture2D(iChannel0, UV).rgb; 
     }
-    
-    
+    else {
+        float zoom = T > 5.0 * 3.14 ? 1.0 : -cos(T*.2);
+        uv *= .7+zoom*.3;
+        UV = (UV-.68)*(.65+zoom*.1)+0.55;
+        UV.y *= 0.95;
+        
+        
+        float staticDrops = S(-.5, 1., rainAmount)*2.;
+        float layer1 = S(.25, .75, rainAmount);
+        float layer2 = S(.0, .5, rainAmount);
+        
+        
+        vec2 c = Drops(uv, t, staticDrops, layer1, layer2);
+        #ifdef CHEAP_NORMALS
+            vec2 n = vec2(dFdx(c.x), dFdy(c.x));// cheap normals (3x cheaper, but 2 times shittier ;))
+        #else
+            vec2 e = vec2(.001, 0.);
+            float cx = Drops(uv+e, t, staticDrops, layer1, layer2).x;
+            float cy = Drops(uv+e.yx, t, staticDrops, layer1, layer2).x;
+            vec2 n = vec2(cx-c.x, cy-c.x);		// expensive normals
+        #endif
+        float focus = mix(maxBlur-c.y, minBlur, S(.1, .2, c.x));
+        col = texture2DLodEXT(iChannel0, UV+n, focus).rgb;
+    }  
 
     
     #ifdef USE_POST_PROCESSING
