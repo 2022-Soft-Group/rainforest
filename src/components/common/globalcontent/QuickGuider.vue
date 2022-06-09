@@ -73,9 +73,9 @@ const handleUserDirect = (direct: string) => {
 };
 
 const handleSignIn = () => {
-  if (isLogin == true) {
+  if (isLogin) {
     if (isSign.value == true) {
-      window.$message.info('已经签到过了');
+      window.$message.info('今天已经签到');
     } else {
       signIn().then((res) => {
         if (res.data.status == 0) {
