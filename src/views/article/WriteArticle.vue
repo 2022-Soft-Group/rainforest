@@ -72,7 +72,16 @@ import Vditor from 'vditor';
 import type UploadButton from '@/components/common/UploadButton.vue';
 import 'vditor/src/assets/scss/index.scss';
 import { uploadImage } from '@/api/asset';
-import { addArticle, addDraft, getArticle, getDraft, modifyArticle, modifyDraft, publishDraft } from '@/api/article';
+import {
+  addArticle,
+  addDraft,
+  getArticle,
+  getDraft,
+  modifyArticle,
+  modifyDraft,
+  publishDraft,
+  setArticleTags,
+} from '@/api/article';
 import { useRoute, useRouter } from 'vue-router';
 import type ArticleAddTag from '@/components/article/ArticleAddTag.vue';
 
@@ -88,9 +97,9 @@ const articleUpload = ref<ArticleUpload>({
   title: '',
   content: '',
   description: '',
-  tags: [],
   private: false,
 });
+const selectedTags = ref<Array<number>>([]);
 
 const isPrivate = ref(false);
 const isLoading = ref(false);
@@ -101,12 +110,6 @@ const resourceSvg =
   '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><path d="M479.66 268.7l-32-151.81C441.48 83.77 417.68 64 384 64H128c-16.8 0-31 4.69-42.1 13.94s-18.37 22.31-21.58 38.89l-32 151.87A16.65 16.65 0 0 0 32 272v112a64 64 0 0 0 64 64h320a64 64 0 0 0 64-64V272a16.65 16.65 0 0 0-.34-3.3zm-384-145.4v-.28c3.55-18.43 13.81-27 32.29-27H384c18.61 0 28.87 8.55 32.27 26.91c0 .13.05.26.07.39l26.93 127.88a4 4 0 0 1-3.92 4.82H320a15.92 15.92 0 0 0-16 15.82a48 48 0 1 1-96 0A15.92 15.92 0 0 0 192 256H72.65a4 4 0 0 1-3.92-4.82z" fill="currentColor"></path><path d="M368 160H144a16 16 0 0 1 0-32h224a16 16 0 0 1 0 32z" fill="currentColor"></path><path d="M384 224H128a16 16 0 0 1 0-32h256a16 16 0 0 1 0 32z" fill="currentColor"></path></svg>';
 const tocSvg =
   '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"><rect x="96" y="48" width="320" height="416" rx="48" ry="48" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></rect><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 128h160"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 208h160"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 288h80"></path></svg>';
-
-function handleFinishTag() {
-  addTags.value?.selectedValue.forEach((ele: any) => {
-    articleUpload.value.tags.push(parseInt(ele.value));
-  });
-}
 
 const handelFinishResource = (url: string) => {
   let content = vditor.value?.getValue();
@@ -260,7 +263,7 @@ const handleSave = () => {
   let type = route.params.type as string;
   let id = parseInt(route.params.id as string);
   if (type == 'draft') {
-    changeDraft(id);
+    saveDraft(id);
   } else if (type == 'article') {
     saveArticle(id);
   } else {
@@ -274,6 +277,7 @@ function changeArticle(id: number) {
   modifyArticle(articleUpload.value, id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章修改成功');
+      setTags(id);
       router.push({ name: 'userhome' });
     } else {
       window.$message.error('文章修改失败');
@@ -282,11 +286,14 @@ function changeArticle(id: number) {
 }
 
 // 从草稿箱而来，点击保存文章
-function changeDraft(id: number) {
+function saveDraft(id: number) {
   fullfillArticle();
   modifyDraft(articleUpload.value, id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章保存成功');
+      setTags(id);
+    } else {
+      window.$message.error('文章保存失败');
     }
   });
 }
@@ -297,6 +304,7 @@ function uploadDraft() {
   addDraft(articleUpload.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章已保存至草稿箱');
+      setTags(res.data.data.draftID);
       router.push({ name: 'draft' });
     } else {
       window.$message.error('文章保存失败');
@@ -318,7 +326,7 @@ function saveArticle(id: number) {
 
 // 从草稿箱而来，点击发布文章
 function publishDraftToArticle(id: number) {
-  fullfillArticle();
+  saveDraft(id);
   publishDraft(id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章发布成功');
@@ -333,6 +341,7 @@ function uploadArticle() {
   addArticle(articleUpload.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章发布成功');
+      setTags(res.data.data.articleID);
       router.push({ name: 'userhome' });
     } else {
       window.$message.error('文章发布失败');
@@ -359,7 +368,17 @@ function fullfillArticle() {
     }
     articleUpload.value.image = image.value;
   }
-  handleFinishTag();
+}
+
+function setTags(articleID: number) {
+  addTags.value?.selectedValue.forEach((ele: { label: string; value: string }) => {
+    selectedTags.value.push(parseInt(ele.value));
+  });
+  setArticleTags(articleID, selectedTags.value).then((res) => {
+    if (res.data.status != 0) {
+      window.$message.error('标签关联失败');
+    }
+  });
 }
 
 const clickUploadImage = () => {

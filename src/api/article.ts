@@ -35,6 +35,10 @@ export function addArticle(article: ArticleUpload) {
   return jsonBackend.post(`article`, article);
 }
 
+export function setArticleTags(articleID: number, tags: Array<number>) {
+  return jsonBackend.post(`article/${articleID}/tag`, { tags: tags });
+}
+
 export function deleteArticle(artcicleID: number) {
   return backend.delete(`article/${artcicleID}`);
 }

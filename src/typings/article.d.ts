@@ -29,7 +29,6 @@ type ArticleUpload = {
   content: string;
   description: string;
   image?: string;
-  tags: Arrary<number>;
   private: boolean;
   imageID?: number;
 };
