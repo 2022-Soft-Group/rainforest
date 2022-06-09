@@ -64,7 +64,8 @@ const carouselItem = [
     title: '算法学习日记',
   },
   {
-    imgSrc: 'https://img0.baidu.com/it/u=962979750,2538548306&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281',
+    imgSrc:
+      'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fcdn.jikewenku.com%2Fwp-content%2Fuploads%2F2018%2F08%2F2018081912070473-800x450.jpg&refer=http%3A%2F%2Fcdn.jikewenku.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1657390682&t=da3604c1e0b27d18b4902fc0dc8bb756',
     id: 59,
     title: 'Mysql学习笔记',
   },
