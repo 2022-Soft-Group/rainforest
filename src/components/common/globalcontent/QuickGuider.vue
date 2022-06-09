@@ -50,9 +50,11 @@ import {
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { getSignInStatus, signIn } from '@/api/clock';
+import { useAuthStore } from '@/store/auth';
 const isSign = ref(false);
 const coinGet = ref(0);
 const router = useRouter();
+const { isLogin } = useAuthStore();
 const handleWriteArticle = () => {
   let routeUrl = router.resolve({ name: 'write' });
   window.open(routeUrl.href, '_blank');
@@ -71,27 +73,34 @@ const handleUserDirect = (direct: string) => {
 };
 
 const handleSignIn = () => {
-  if (isSign.value == true) {
-    window.$message.info('已经签到过了');
+  if (isLogin == true) {
+    if (isSign.value == true) {
+      window.$message.info('已经签到过了');
+    } else {
+      signIn().then((res) => {
+        if (res.data.status == 0) {
+          isSign.value = true;
+          coinGet.value = res.data.data.getCoin;
+          window.$message.success('+ ' + coinGet.value + ' 积分 ！恭喜！');
+        }
+      });
+    }
   } else {
-    signIn().then((res) => {
-      if (res.data.status == 0) {
-        isSign.value = true;
-        coinGet.value = res.data.data.getCoin;
-        window.$message.success('+ ' + coinGet.value + ' 积分 ！恭喜！');
-      }
-    });
+    window.$message.info('签到前请先登录');
+    router.push({ name: 'login' });
   }
 };
 
 const setSignInStatus = () => {
-  getSignInStatus().then((res) => {
-    if (res.data.status == 0) {
-      isSign.value = res.data.data.isSignIn;
-    } else {
-      window.$message.error('获取签到状态失败');
-    }
-  });
+  if (isLogin == true) {
+    getSignInStatus().then((res) => {
+      if (res.data.status == 0) {
+        isSign.value = res.data.data.isSignIn;
+      } else {
+        window.$message.error('获取签到状态失败');
+      }
+    });
+  }
 };
 
 onMounted(setSignInStatus);
