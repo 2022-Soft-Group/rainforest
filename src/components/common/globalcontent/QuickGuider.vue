@@ -51,6 +51,7 @@ import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import { getSignInStatus, signIn } from '@/api/clock';
 const isSign = ref(false);
+const coinGet = ref(0);
 const router = useRouter();
 const handleWriteArticle = () => {
   let routeUrl = router.resolve({ name: 'write' });
@@ -76,7 +77,8 @@ const handleSignIn = () => {
     signIn().then((res) => {
       if (res.data.status == 0) {
         isSign.value = true;
-        window.$message.success('+ 10 积分 ！恭喜！');
+        coinGet.value = res.data.data.getCoin;
+        window.$message.success('+ ' + coinGet.value + ' 积分 ！恭喜！');
       }
     });
   }
