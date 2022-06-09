@@ -7,13 +7,6 @@
       <template #header>
         <n-h1>{{ tagInfo.title }}</n-h1>
       </template>
-      <!-- <template #header-extra>
-        <n-button circle size="small">
-          <template #icon>
-            <Accessibility />
-          </template>
-        </n-button>
-      </template> -->
 
       <template #description>
         <div class="text-gray-400 h-6">
@@ -29,6 +22,17 @@
               删除该专栏
             </n-tooltip>
           </div>
+          <n-modal
+            v-model:show="showModal"
+            :mask-closable="false"
+            preset="dialog"
+            title="删除标签"
+            content="是否要删除标签"
+            positive-text="确认"
+            negative-text="取消"
+            @positive-click="handleClick"
+            @negative-click="onNegativeClick"
+          />
         </div>
       </template>
     </n-thing>
@@ -40,7 +44,7 @@
 <script setup lang="ts">
 import { ref, onMounted, defineComponent, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { getTagArticleList, getTagDetail } from '@/api/sections';
+import { deleteTag, getTagArticleList, getTagDetail } from '@/api/sections';
 import { Accessibility } from '@vicons/ionicons5';
 import { useAuthStore } from '@/store/auth';
 const { isLogin, isAdmin } = useAuthStore();
@@ -90,5 +94,18 @@ const showModal = ref(false);
 const showEditButton = computed(() => {
   return isLogin && isAdmin;
 });
+function onNegativeClick() {
+  showModal.value = false;
+}
+const handleClick = () => {
+  deleteTag(route.params.id as string).then((res) => {
+    if (res.data.status != 0) {
+      window.$message.error('删除标签失败');
+    } else {
+      window.location.replace('/sections/计算机');
+      window.$message.info('删除标签成功');
+    }
+  });
+};
 //****end
 </script>

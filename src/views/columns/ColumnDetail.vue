@@ -37,7 +37,7 @@
             v-model:show="showModal"
             :mask-closable="false"
             preset="dialog"
-            title="删除标签"
+            title="删除专栏"
             content="是否要删除专栏"
             positive-text="确认"
             negative-text="取消"
@@ -78,7 +78,7 @@
             :bordered="true"
             positive-text="确定"
             negative-text="取消"
-            @positive-click=""
+            @positive-click="onPositiveClick"
             @negative-click="onNegativeClick"
           >
             <n-card class="modalCard">
@@ -125,10 +125,10 @@
               </div>
             </n-card>
           </n-modal>
-          <div class="flex mt-2">
-            <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
-            <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
-          </div>
+        </div>
+        <div class="flex mt-2">
+          <n-select v-model:value="value" :options="options" v-if="isAdd" class="w-120" />
+          <n-button size="small" @click="handlePutin" class="ml-2 mt-1" v-if="isAdd"> 确认收录 </n-button>
         </div>
         <!-- <n-tooltip trigger="hover">
           <template #trigger>
@@ -441,27 +441,24 @@ const clickUploadImage = () => {
 };
 //
 const columnChan = ref<ColumnUpload>({
-  cover: '',
-  title: '',
-  description: '',
+  cover: columnInfo.value.img,
+  title: columnInfo.value.title,
+  description: columnInfo.value.description,
   private: 0,
 });
 //
 function onPositiveClick() {
-  if (title.value == '') {
-    window.$message.warning('标题不能为空');
-  }
-  columnChan.value.title = title.value;
-  columnChan.value.description = description.value;
-  columnChan.value.cover = imgSrc.value;
+  columnChan.value.title = title.value == '' ? columnInfo.value.title : title.value;
+  columnChan.value.description = description.value == '' ? columnInfo.value.description : description.value;
+  columnChan.value.cover = imgSrc.value == '' ? columnInfo.value.img : imgSrc.value;
   showchange.value = false;
-  // addColumn(column.value).then((res) => {
-  //   if (res.data.status == 0) {
-  //     window.$message.info('创建专栏成功');
-  //   } else {
-  //     window.$message.error('创建专栏失败');
-  //   }
-  // });
+  updateColumn(columnInfo.value.id as unknown as string, columnChan.value).then((res) => {
+    if (res.data.status == 0) {
+      window.$message.info('修改成功');
+    } else {
+      window.$message.error('修改失败');
+    }
+  });
 }
 //
 const showEditButton = computed(() => {

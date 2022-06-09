@@ -21,3 +21,6 @@ export function getTagArticleList(data: { size: number; page: number; id: number
 export function addTag(tag: TagItem) {
   return backend.post(`/sections/tag`, tag);
 }
+export function deleteTag(tagID: string) {
+  return backend.delete(`/sections/tag/${tagID}`);
+}
