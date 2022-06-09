@@ -159,7 +159,7 @@ export default defineComponent({
       image: '',
       articleID: 0,
       thumbnail: '',
-      columns: [],
+      deleted: false,
     });
 
     const options = {
