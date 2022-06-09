@@ -23,6 +23,9 @@ export function getColumnArticleList(data: { size: number; page: number; columnI
 export function getMyColumns(data: { size: number; page: number }) {
   return backend.get(`column/list`, { params: data });
 }
+export function getDevHot(data: { size: number; page: number }) {
+  return backend.get(`/adv/hot`, { params: data });
+}
 
 export function getUserColumns(userID: number, data: { size: number; page: number }) {
   return backend.get(`column/list/${userID}`, { params: data });
