@@ -94,7 +94,7 @@ function reload() {
   });
 }
 function handleRequest() {
-  getColumnListRecommand({ size: 10, page: ++currentPage }).then((res) => {
+  getColumnListRecommand({ size: 4, page: ++currentPage }).then((res) => {
     if (res.data.status == 0) {
       res.data.data.columnInfos.forEach((element: any) => {
         columnList.value.push(element);

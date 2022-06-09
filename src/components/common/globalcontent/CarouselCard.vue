@@ -1,7 +1,7 @@
 <template>
   <n-carousel autoplay draggable>
-    <n-carousel-item v-for="img in imgs">
-      <div class="absolute w-25 left-3 font-bold text-light-500">这是文章标题</div>
+    <n-carousel-item v-for="(img, index) in imgs">
+      <div class="absolute w-25 left-3 font-bold text-light-500"></div>
       <n-image object-fit="cover" class="max-h-40 rounded-md" :src="(img as string)" />
     </n-carousel-item>
   </n-carousel>
@@ -16,4 +16,6 @@ const imgs = ref<Array<String>>([
   'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel3.jpeg',
   'https://naive-ui.oss-cn-beijing.aliyuncs.com/carousel-img/carousel4.jpeg',
 ]);
+
+const name = ref<Array<String>>([]);
 </script>
