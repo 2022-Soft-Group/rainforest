@@ -38,7 +38,7 @@ backend.interceptors.response.use(
       } else if (response.data.status == 501) {
         router.push({ name: 'error' });
       } else if (response.data.status != 0) {
-        //window.$message.error(response.data.message);
+        window.$message.error(response.data.message);
         return Promise.reject(response);
       } else return Promise.resolve(response);
     } else {
@@ -46,7 +46,6 @@ backend.interceptors.response.use(
     }
   },
   (error) => {
-    window.$message.error('网络故障, 请检查网络连接');
     return Promise.reject(error);
   }
 );

@@ -7,7 +7,6 @@
       <n-input v-model:value="model.passwd" type="password" show-password-on="click" placeholder="请输入密码" />
     </n-form-item>
     <n-space :vertical="true" :size="24">
-      <n-button :text="true" @click="">忘记密码？</n-button>
       <n-button type="primary" size="large" :block="true" :round="true" @click="handleLogin"> 确定 </n-button>
     </n-space>
   </n-form>
