@@ -6,7 +6,7 @@
     positive-text="确认"
     negative-text="取消"
     @positive-click="submitCallback"
-    @negative-click="emits('finish-resource', '')"
+    @negative-click="emits('cancel')"
   >
     <n-select v-model:value="selectedResourceId" v-model:label="selectedResourceLabel" :options="options"> </n-select>
   </n-modal>
@@ -23,7 +23,7 @@ const options: { label: string; value: number }[] = [];
 const selectedResourceId = ref();
 const selectedResourceLabel = ref('');
 let resourceNameMap = new Map<number, { name: string; description: string }>();
-const emits = defineEmits(['finish-resource']);
+const emits = defineEmits(['finish-resource', 'cancel']);
 
 const submitCallback = () => {
   if (selectedResourceId.value != null) {

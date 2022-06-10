@@ -11,11 +11,11 @@
       <n-scrollbar style="max-height: 240px">
         <n-list v-if="trends.length != 0">
           <n-list-item v-for="(item, index) in trends">
-            <router-link :to="'/user/' + item.authorID" target="_blank" class="hover:text-[#63e2b7]">
+            <router-link :to="'/user/' + item.authorID" target="_blank" class="text-[#63e2b7]">
               {{ item.author }}
             </router-link>
             发布了文章
-            <router-link :to="'/article/' + item.articleID" target="_blank" class="hover:text-[#63e2b7]">
+            <router-link :to="'/article/' + item.articleID" target="_blank" class="text-[#63e2b7]">
               {{ item.title }}
             </router-link>
           </n-list-item>

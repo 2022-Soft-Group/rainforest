@@ -63,7 +63,11 @@
     </n-card>
   </n-space>
 
-  <article-resource-modal v-model:show="showModal" @finish-resource="handelFinishResource" />
+  <article-resource-modal
+    v-model:show="showModal"
+    @finish-resource="handelFinishResource"
+    @cancel="showModal = false"
+  />
 </template>
 
 <script setup lang="ts">
