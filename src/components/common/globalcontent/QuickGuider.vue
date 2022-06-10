@@ -48,9 +48,10 @@ import {
   Checkmark as CheckIcon,
 } from '@vicons/ionicons5';
 import { useRouter } from 'vue-router';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { getSignInStatus, signIn } from '@/api/clock';
 import { useAuthStore } from '@/store/auth';
+
 const isSign = ref(false);
 const coinGet = ref(0);
 const router = useRouter();
