@@ -54,8 +54,8 @@
               </n-tooltip>
             </n-space>
             <n-space>
+              <n-button v-if="!isModifyArticle" type="info" @click="handleSave">保存文章</n-button>
               <n-button type="primary" @click="handlePublish">发布文章</n-button>
-              <n-button type="info" @click="handleSave">保存文章</n-button>
             </n-space>
           </div>
         </div>
@@ -84,6 +84,7 @@ import {
 } from '@/api/article';
 import { useRoute, useRouter } from 'vue-router';
 import type ArticleAddTag from '@/components/article/ArticleAddTag.vue';
+import { computed } from '@vue/reactivity';
 
 const vditor = ref<Vditor>();
 const domRef = ref<HTMLElement>();
@@ -100,6 +101,9 @@ const articleUpload = ref<ArticleUpload>({
   private: false,
 });
 const selectedTags = ref<Array<number>>([]);
+const isModifyArticle = computed(() => {
+  return (route.params.type as string) == 'article';
+});
 
 const isPrivate = ref(false);
 const isLoading = ref(false);
@@ -265,8 +269,6 @@ const handleSave = () => {
   let id = parseInt(route.params.id as string);
   if (type == 'draft') {
     saveDraft(id);
-  } else if (type == 'article') {
-    saveArticle(id);
   } else {
     uploadDraft();
   }
@@ -292,7 +294,8 @@ function saveDraft(id: number) {
   modifyDraft(articleUpload.value, id).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章保存成功');
-      setTags(id);
+      //setTags(id);
+      router.push({ name: 'draft' });
     } else {
       window.$message.error('文章保存失败');
     }
@@ -305,22 +308,10 @@ function uploadDraft() {
   addDraft(articleUpload.value).then((res) => {
     if (res.data.status == 0) {
       window.$message.info('文章已保存至草稿箱');
-      setTags(res.data.data.draftID);
+      //setTags(res.data.data.draftID);
       router.push({ name: 'draft' });
     } else {
       window.$message.error('文章保存失败');
-    }
-  });
-}
-
-function saveArticle(id: number) {
-  fullfillArticle();
-  modifyArticle(articleUpload.value, id).then((res) => {
-    if (res.data.status == 0) {
-      window.$message.info('修改已保存');
-      router.push({ name: 'userhome' });
-    } else {
-      window.$message.error('修改保存失败');
     }
   });
 }
