@@ -10,8 +10,10 @@
       @update-current-index="handleCurrentIndex"
     >
       <n-carousel-item :style="{ width: '60%' }" v-for="item in carouselItem">
-        <img
+        <n-image
           class="carousel-img cursor-pointer rounded-lg"
+          object-fit="cover"
+          preview-disabled
           :src="item.imgSrc"
           @click="router.push({ path: `/columns/${item.id}` })"
           :title="item.title"

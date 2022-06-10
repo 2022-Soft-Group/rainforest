@@ -87,12 +87,11 @@ const handleSignIn = () => {
     }
   } else {
     window.$message.info('签到前请先登录');
-    router.push({ name: 'login' });
   }
 };
 
 const setSignInStatus = () => {
-  if (isLogin == true) {
+  if (isLogin) {
     getSignInStatus().then((res) => {
       if (res.data.status == 0) {
         isSign.value = res.data.data.isSignIn;

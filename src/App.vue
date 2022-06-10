@@ -38,7 +38,7 @@ backend.interceptors.response.use(
       } else if (response.data.status == 501) {
         router.push({ name: 'error' });
       } else if (response.data.status != 0) {
-        window.$message.error(response.data.message);
+        //window.$message.error(response.data.message);
         return Promise.reject(response);
       } else return Promise.resolve(response);
     } else {

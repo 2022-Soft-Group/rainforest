@@ -6,6 +6,7 @@
     positive-text="确认"
     negative-text="取消"
     @positive-click="submitCallback"
+    @negative-click="emits('finish-resource', '')"
   >
     <n-select v-model:value="selectedResourceId" v-model:label="selectedResourceLabel" :options="options"> </n-select>
   </n-modal>

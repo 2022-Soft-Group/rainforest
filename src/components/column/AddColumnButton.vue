@@ -1,5 +1,5 @@
 <template>
-  <n-button strong type="primary" @click="showModal = true" class="main"> 申请开通专栏 </n-button>
+  <n-button strong type="primary" @click="showModal = true" class="main"> 开通我的专栏 </n-button>
   <n-modal
     v-model:show="showModal"
     :mask-closable="false"
