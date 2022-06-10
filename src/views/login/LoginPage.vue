@@ -55,7 +55,6 @@ backend.interceptors.response.use(
     } else return Promise.resolve(response);
   },
   (error) => {
-    window.$message.error('网络故障, 请检查网络连接');
     return Promise.reject(error);
   }
 );
